@@ -193,6 +193,8 @@
   .volrow .top .c{font-family:"Spline Sans Mono";color:var(--acid)}
   .volbar{height:10px;background:var(--panel2);border-radius:6px;overflow:hidden}
   .volbar i{display:block;height:100%;background:var(--acid);border-radius:6px}
+  .bodymini{width:118px;flex:none;align-self:center}
+  .bodysvg{width:100%;height:auto;display:block}
 </style>
 </head>
 <body>
@@ -422,6 +424,7 @@ function renderEditor(){
           <div style="margin-top:8px;display:flex;gap:14px">
             <a class="vid" href="${yt(e.q||e.name)}" target="_blank" rel="noopener">▶ Video</a>
             <button class="hist" data-hist="${it.exId}">📈 Verlauf</button>
+            <button class="hist" data-mus="${it.exId}">🧍 Muskeln</button>
           </div>
         </div>
         <button class="x" data-del="${it.iid}" title="Entfernen">🗑</button></div>`;});
@@ -440,6 +443,7 @@ function renderEditor(){
   document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{s.items=s.items.filter(x=>x.iid!==b.dataset.del);saveSetups();renderEditor();});
   document.querySelectorAll("[data-mv]").forEach(b=>b.onclick=()=>{const[iid,dir]=b.dataset.mv.split("|");const i=s.items.findIndex(x=>x.iid===iid);const j=i+parseInt(dir);if(j<0||j>=s.items.length)return;[s.items[i],s.items[j]]=[s.items[j],s.items[i]];saveSetups();renderEditor();});
   document.querySelectorAll("[data-hist]").forEach(b=>b.onclick=()=>openHistory(b.dataset.hist));
+  document.querySelectorAll("[data-mus]").forEach(b=>b.onclick=()=>openMuscles(b.dataset.mus));
   document.getElementById("train").onclick=()=>{if(s.items.length){state.view="train";render();}};
   document.getElementById("printS").onclick=()=>window.print();
   document.getElementById("dupS").onclick=()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.name=s.name+" (Kopie)";c.items.forEach(it=>it.iid=uid());setups.push(c);saveSetups();state.curId=c.id;renderEditor();};
@@ -455,7 +459,8 @@ function renderTrain(){
     h+=`<div class="ex" style="align-items:stretch"><div class="ex-body">
       <div class="ex-name">${esc(e.name||"?")}
         <a class="vid" href="${yt(e.q||e.name)}" target="_blank" rel="noopener">▶ Video</a>
-        <button class="hist" data-hist="${it.exId}">📈</button></div>
+        <button class="hist" data-hist="${it.exId}">📈</button>
+        <button class="hist" data-mus="${it.exId}">🧍</button></div>
       <div class="ex-musc"><b>Ziel:</b> ${esc(e.musc||"")}</div>
       <div style="color:var(--mut);font-size:13px;font-weight:600;margin-top:5px">${esc(it.scheme)}</div>
       <div class="sugg ${sg.cls}">${esc(sg.line)}</div>`;
@@ -488,6 +493,7 @@ function renderTrain(){
   const leave=()=>stopRest(false);
   document.getElementById("back").onclick=()=>{leave();state.view="edit";render();};
   document.querySelectorAll("[data-hist]").forEach(b=>b.onclick=()=>openHistory(b.dataset.hist));
+  document.querySelectorAll("[data-mus]").forEach(b=>b.onclick=()=>openMuscles(b.dataset.mus));
   document.querySelectorAll("[data-rest]").forEach(b=>b.onclick=()=>startRest(restTimer.dur));
   const rpeWrap=document.getElementById("rpe");
   rpeWrap.querySelectorAll("[data-rpe]").forEach(b=>b.onclick=()=>{sess.rpe=parseInt(b.dataset.rpe);rpeWrap.querySelectorAll("button").forEach(x=>x.classList.remove("on"));b.classList.add("on");});
@@ -651,17 +657,92 @@ function importData(file){
   }catch(e){toast("Import fehlgeschlagen – ungültige Datei");}};
   r.readAsText(file);
 }
+const MUS={
+ fk:{p:["quads"],s:["glutes","abs","lowerback"]},gob:{p:["quads"],s:["glutes","adductors","abs"]},
+ rdl:{p:["hamstrings"],s:["glutes","lowerback"]},kh:{p:["hamstrings","glutes"],s:["lowerback","back","quads","traps","forearms"]},
+ sumo:{p:["glutes","adductors"],s:["hamstrings","quads","lowerback","forearms"]},gm:{p:["hamstrings"],s:["glutes","lowerback"]},
+ ht:{p:["glutes"],s:["hamstrings"]},bss:{p:["quads","glutes"],s:["adductors","abs"]},rl:{p:["quads","glutes"],s:["hamstrings"]},
+ wl:{p:["quads","glutes"],s:["hamstrings","calves"]},su:{p:["quads","glutes"],s:["hamstrings"]},spsq:{p:["quads"],s:[]},
+ stepd:{p:["quads"],s:["glutes"]},tke:{p:["quads"],s:[]},wsit:{p:["quads"],s:[]},trxlc:{p:["hamstrings"],s:["glutes","calves"]},
+ wst:{p:["calves"],s:[]},wsi:{p:["calves"],s:[]},web:{p:["calves"],s:[]},esel:{p:["calves"],s:[]},tib:{p:["tibialis"],s:[]},pogo:{p:["calves"],s:[]},
+ monster:{p:["glutes"],s:["quads"]},clam:{p:["glutes"],s:[]},sidelift:{p:["glutes"],s:[]},btke:{p:["quads"],s:[]},bleg:{p:["quads"],s:[]},
+ plantar:{p:["calves"],s:[]},dorsi:{p:["tibialis"],s:[]},invev:{p:["calves"],s:["tibialis"]},
+ sb:{p:["chest","shoulders"],s:["triceps"]},flach:{p:["chest"],s:["shoulders","triceps"]},sd:{p:["shoulders"],s:["triceps","traps"]},
+ kbpr:{p:["shoulders"],s:["triceps","abs","obliques"]},arn:{p:["shoulders"],s:["triceps"]},sh:{p:["shoulders"],s:[]},
+ dip:{p:["chest","triceps"],s:["shoulders"]},trxp:{p:["chest"],s:["shoulders","triceps","abs"]},tri:{p:["triceps"],s:[]},
+ trxr:{p:["back"],s:["biceps","traps","shoulders"]},lhr:{p:["back"],s:["biceps","traps","lowerback","shoulders"]},lz:{p:["back"],s:["biceps"]},
+ kr:{p:["back"],s:["biceps","obliques"]},pull:{p:["back"],s:["biceps","forearms"]},face:{p:["shoulders","traps"],s:["back"]},
+ rfly:{p:["shoulders"],s:["traps","back"]},curl:{p:["biceps"],s:["forearms"]},ham:{p:["biceps","forearms"],s:[]},shr:{p:["traps"],s:["forearms"]},
+ pp:{p:["obliques","abs"],s:[]},db:{p:["abs"],s:[]},khz:{p:["abs"],s:[]},hlr:{p:["abs"],s:[]},pl:{p:["abs"],s:["obliques","shoulders"]},
+ sp:{p:["obliques"],s:["abs","shoulders"]},hollow:{p:["abs"],s:[]},chop:{p:["obliques"],s:["abs","shoulders"]},rt:{p:["obliques"],s:["abs"]},
+ sc:{p:["obliques"],s:["forearms","traps"]},bd:{p:["lowerback","glutes"],s:["abs"]},
+ sw:{p:["glutes","hamstrings"],s:["lowerback","back","shoulders"]},clp:{p:["shoulders","glutes"],s:["quads","back","abs"]},
+ thr:{p:["quads","shoulders"],s:["glutes","triceps"]},fc:{p:["forearms","traps"],s:["abs","obliques"]},mc:{p:["abs"],s:["shoulders","quads"]},
+ rudi:{p:["back","quads"],s:["hamstrings","biceps","shoulders"]},ruds:{p:["back","quads"],s:["hamstrings","biceps","shoulders"]},
+};
+const muscleLabel={chest:"Brust",shoulders:"Schultern",biceps:"Bizeps",triceps:"Trizeps",forearms:"Unterarme",abs:"Bauch",obliques:"seitl. Bauch",quads:"vord. Oberschenkel",hamstrings:"hint. Oberschenkel",glutes:"Gesäß",calves:"Wade",tibialis:"Schienbein",back:"Rücken / Lat",traps:"Trapez",lowerback:"unt. Rücken",adductors:"Adduktoren"};
+function musFor(id){const m=MUS[id];if(m)return m;const e=exById(id);const map={"Beine (vorne)":"quads","Beine (hinten)":"hamstrings","Gesäß":"glutes","Wade":"calves","Brust":"chest","Schultern":"shoulders","Rücken":"back","Bizeps":"biceps","Trizeps":"triceps","Bauch/Rumpf":"abs"};const k=e&&map[e.mg];return{p:k?[k]:[],s:[]};}
+function bodyDiagram(pa,sa){
+  const p=new Set(pa),s=new Set(sa),B="#2a2f23";
+  const C=k=>p.has(k)?"#c4f73e":s.has(k)?"rgba(196,247,62,.32)":"#3a4031";
+  return `<svg viewBox="0 0 220 210" class="bodysvg" xmlns="http://www.w3.org/2000/svg">
+  <g>
+   <circle cx="50" cy="13" r="8" fill="${B}"/><rect x="46" y="20" width="8" height="6" rx="3" fill="${B}"/>
+   <ellipse cx="33" cy="32" rx="9" ry="7" fill="${C('shoulders')}"/><ellipse cx="67" cy="32" rx="9" ry="7" fill="${C('shoulders')}"/>
+   <ellipse cx="42" cy="42" rx="8" ry="6" fill="${C('chest')}"/><ellipse cx="58" cy="42" rx="8" ry="6" fill="${C('chest')}"/>
+   <ellipse cx="26" cy="51" rx="5" ry="9" fill="${C('biceps')}"/><ellipse cx="74" cy="51" rx="5" ry="9" fill="${C('biceps')}"/>
+   <ellipse cx="22" cy="71" rx="4" ry="9" fill="${C('forearms')}"/><ellipse cx="78" cy="71" rx="4" ry="9" fill="${C('forearms')}"/>
+   <circle cx="20" cy="84" r="3" fill="${B}"/><circle cx="80" cy="84" r="3" fill="${B}"/>
+   <rect x="44" y="50" width="12" height="34" rx="5" fill="${C('abs')}"/>
+   <rect x="37" y="54" width="5" height="26" rx="2.5" fill="${C('obliques')}"/><rect x="58" y="54" width="5" height="26" rx="2.5" fill="${C('obliques')}"/>
+   <rect x="46" y="92" width="8" height="22" rx="3" fill="${C('adductors')}"/>
+   <rect x="36" y="90" width="11" height="40" rx="5" fill="${C('quads')}"/><rect x="53" y="90" width="11" height="40" rx="5" fill="${C('quads')}"/>
+   <circle cx="41.5" cy="134" r="4" fill="${B}"/><circle cx="58.5" cy="134" r="4" fill="${B}"/>
+   <rect x="37" y="140" width="8" height="32" rx="4" fill="${C('tibialis')}"/><rect x="55" y="140" width="8" height="32" rx="4" fill="${C('tibialis')}"/>
+   <ellipse cx="41" cy="178" rx="5" ry="3" fill="${B}"/><ellipse cx="59" cy="178" rx="5" ry="3" fill="${B}"/>
+   <text x="50" y="198" fill="#8b9180" font-size="11" text-anchor="middle">Vorne</text>
+  </g>
+  <g transform="translate(120,0)">
+   <circle cx="50" cy="13" r="8" fill="${B}"/><rect x="46" y="20" width="8" height="6" rx="3" fill="${B}"/>
+   <path d="M40 27 Q50 22 60 27 L57 37 Q50 33 43 37 Z" fill="${C('traps')}"/>
+   <ellipse cx="33" cy="33" rx="8" ry="6" fill="${C('shoulders')}"/><ellipse cx="67" cy="33" rx="8" ry="6" fill="${C('shoulders')}"/>
+   <rect x="38" y="38" width="24" height="30" rx="7" fill="${C('back')}"/>
+   <ellipse cx="26" cy="51" rx="5" ry="9" fill="${C('triceps')}"/><ellipse cx="74" cy="51" rx="5" ry="9" fill="${C('triceps')}"/>
+   <ellipse cx="22" cy="71" rx="4" ry="9" fill="${C('forearms')}"/><ellipse cx="78" cy="71" rx="4" ry="9" fill="${C('forearms')}"/>
+   <circle cx="20" cy="84" r="3" fill="${B}"/><circle cx="80" cy="84" r="3" fill="${B}"/>
+   <rect x="42" y="70" width="16" height="16" rx="5" fill="${C('lowerback')}"/>
+   <ellipse cx="43" cy="96" rx="8" ry="7" fill="${C('glutes')}"/><ellipse cx="57" cy="96" rx="8" ry="7" fill="${C('glutes')}"/>
+   <rect x="36" y="105" width="11" height="29" rx="5" fill="${C('hamstrings')}"/><rect x="53" y="105" width="11" height="29" rx="5" fill="${C('hamstrings')}"/>
+   <circle cx="41.5" cy="138" r="4" fill="${B}"/><circle cx="58.5" cy="138" r="4" fill="${B}"/>
+   <rect x="37" y="144" width="8" height="30" rx="4" fill="${C('calves')}"/><rect x="55" y="144" width="8" height="30" rx="4" fill="${C('calves')}"/>
+   <ellipse cx="41" cy="178" rx="5" ry="3" fill="${B}"/><ellipse cx="59" cy="178" rx="5" ry="3" fill="${B}"/>
+   <text x="50" y="198" fill="#8b9180" font-size="11" text-anchor="middle">Hinten</text>
+  </g>
+ </svg>`;
+}
+function openMuscles(exId){
+  const e=exById(exId)||{};const m=musFor(exId);const lab=k=>muscleLabel[k]||k;
+  const prim=m.p.map(lab).join(", ")||"–";const sec=m.s.map(lab).join(", ")||"–";
+  const html=`<div style="padding:14px 16px">
+    <div style="max-width:280px;margin:0 auto">${bodyDiagram(m.p,m.s)}</div>
+    <div style="margin-top:14px;font-size:13.5px;line-height:1.6">
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px"><span style="flex:none;width:14px;height:14px;border-radius:4px;background:#c4f73e;margin-top:3px"></span><span><b>Voll beansprucht:</b> ${esc(prim)}</span></div>
+      <div style="display:flex;align-items:flex-start;gap:8px"><span style="flex:none;width:14px;height:14px;border-radius:4px;background:rgba(196,247,62,.32);margin-top:3px"></span><span><b>Teilweise:</b> ${esc(sec)}</span></div>
+    </div></div>`;
+  openSheet("Muskeln · "+(e.name||""),html);
+}
 function renderLibrary(){
   let h=`<h2 class="sec">Übungsbibliothek · ${EX.length} Übungen</h2>`;
   CATS.forEach(cat=>{const list=EX.filter(e=>e.cat===cat);if(!list.length)return;
     h+=`<div class="catlabel" style="padding-left:2px">${esc(cat)}</div><div class="card">`;
-    list.forEach(e=>{h+=`<div class="lib-ex"><div class="info">
+    list.forEach(e=>{const m=musFor(e.id);h+=`<div class="lib-ex"><div class="info">
       <b>${esc(e.name)}</b>
       <div class="m"><b>Ziel:</b> ${esc(e.musc)}</div>
-      <small>${esc(e.scheme)} · ${esc(e.load)}</small></div>
-      <a class="vid" href="${yt(e.q)}" target="_blank" rel="noopener">▶ Video</a></div>`;});
+      <small>${esc(e.scheme)} · ${esc(e.load)}</small>
+      <div style="margin-top:6px"><a class="vid" href="${yt(e.q)}" target="_blank" rel="noopener">▶ Video</a></div></div>
+      <div class="bodymini">${bodyDiagram(m.p,m.s)}</div></div>`;});
     h+=`</div><div style="height:10px"></div>`;});
-  h+=`<p class="hint">Übungen fügst du im Editor eines Setups über „＋ Übung hinzufügen“ ein.</p>`;
+  h+=`<p class="hint">Grün = voll beansprucht, blass = teilweise. Übungen fügst du im Editor eines Setups über „＋ Übung hinzufügen“ ein.</p>`;
   app.innerHTML=h;
 }
 
