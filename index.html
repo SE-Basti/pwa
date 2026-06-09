@@ -152,6 +152,7 @@
   @media print{
     body{background:#fff;color:#000}header,.tabs,.ord,.x,.additem,.foot-actions,.back,.vid,.hist,.hint,.sugg,body::before{display:none!important}
     .card{border:1px solid #ccc}.ex-name,.ex-cat,.ex-musc,.ex-musc b{color:#000}
+  }
   .mform{display:flex;gap:8px;flex-wrap:wrap;padding:16px}
   .mfield{display:flex;flex-direction:column;gap:4px}
   .mfield label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
@@ -313,6 +314,8 @@ const EX=[
  {id:"mc",cat:"Kondition",mg:"Bauch/Rumpf",name:"Mountain Climbers",musc:"Rumpf, Hüftbeuger, Kondition",scheme:"3 × 40 Sek.",load:"KG",q:"mountain climbers technik",note:"Hüfte tief, gleichmäßiges Tempo."},
  {id:"rudi",cat:"Kondition",mg:"Ganzkörper",name:"Rudergerät – Intervalle",musc:"Ganzkörper-Ausdauer",scheme:"6 × 30 Sek.",load:"—",q:"ruderergometer intervall",note:"30 Sek. zügig / 30 Sek. locker."},
  {id:"ruds",cat:"Kondition",mg:"Ganzkörper",name:"Rudergerät – Dauer (steady)",musc:"Ganzkörper-Ausdauer, Fettverbrennung",scheme:"1 × 15–20 Min.",load:"—",q:"ruderergometer technik ausdauer",note:"Gleichmäßiges Tempo, saubere Zugtechnik."},
+ {id:"lauf",cat:"Kondition",mg:"Ganzkörper",name:"Laufen / Joggen",musc:"Ganzkörper-Ausdauer, Beine",scheme:"1 × 20–30 Min.",load:"—",q:"laufen joggen technik anfänger",note:"Lockeres Tempo. Wegen Achilles/Knie auf weichem Untergrund starten und Umfang langsam steigern."},
+ {id:"laufint",cat:"Kondition",mg:"Ganzkörper",name:"Lauf-Intervalle",musc:"Ganzkörper-Ausdauer, Beine",scheme:"6 × 1 Min.",load:"—",q:"lauf intervalle training",note:"1 Min. zügig / 1–2 Min. locker. Erst aufnehmen, wenn Dauerläufe schmerzfrei sind."},
 ];
 const exById=id=>EX.find(e=>e.id===id);
 const CATS=["Beine/Knie","Wade","Reha (Band)","Drücken","Ziehen","Core","Kondition"];
@@ -335,6 +338,12 @@ if(!store.read("tb_rehaSeeded",false)){
   const items=ids.map(id=>{const e=exById(id);return e?{iid:uid(),exId:id,scheme:e.scheme,load:e.load}:null;}).filter(Boolean);
   setups.push({id:uid(),name:"Knie- & Achilles-Reha",items});
   saveSetups();store.write("tb_rehaSeeded",true);
+}
+if(!store.read("tb_cardioSeeded",false)){
+  const ids=["ruds","lauf","monster","clam","plantar","dorsi","invev","web"];
+  const items=ids.map(id=>{const e=exById(id);return e?{iid:uid(),exId:id,scheme:e.scheme,load:e.load}:null;}).filter(Boolean);
+  setups.push({id:uid(),name:"Cardio & Reha (Ausgleichstag)",items});
+  saveSetups();store.write("tb_cardioSeeded",true);
 }
 let history=store.read("tb_history",{});
 let body=store.read("tb_body",[]);
@@ -679,6 +688,7 @@ const MUS={
  sw:{p:["glutes","hamstrings"],s:["lowerback","back","shoulders"]},clp:{p:["shoulders","glutes"],s:["quads","back","abs"]},
  thr:{p:["quads","shoulders"],s:["glutes","triceps"]},fc:{p:["forearms","traps"],s:["abs","obliques"]},mc:{p:["abs"],s:["shoulders","quads"]},
  rudi:{p:["back","quads"],s:["hamstrings","biceps","shoulders"]},ruds:{p:["back","quads"],s:["hamstrings","biceps","shoulders"]},
+ lauf:{p:["quads","calves"],s:["hamstrings","glutes"]},laufint:{p:["quads","calves"],s:["hamstrings","glutes"]},
 };
 const muscleLabel={chest:"Brust",shoulders:"Schultern",biceps:"Bizeps",triceps:"Trizeps",forearms:"Unterarme",abs:"Bauch",obliques:"seitl. Bauch",quads:"vord. Oberschenkel",hamstrings:"hint. Oberschenkel",glutes:"Gesäß",calves:"Wade",tibialis:"Schienbein",back:"Rücken / Lat",traps:"Trapez",lowerback:"unt. Rücken",adductors:"Adduktoren"};
 function musFor(id){const m=MUS[id];if(m)return m;const e=exById(id);const map={"Beine (vorne)":"quads","Beine (hinten)":"hamstrings","Gesäß":"glutes","Wade":"calves","Brust":"chest","Schultern":"shoulders","Rücken":"back","Bizeps":"biceps","Trizeps":"triceps","Bauch/Rumpf":"abs"};const k=e&&map[e.mg];return{p:k?[k]:[],s:[]};}
