@@ -767,8 +767,10 @@ function parseBodyImport(text){
   const g=re=>{const m=s.match(re);return m?parseFloat(m[1]):null;};
   const res={};
   res.weight=g(/(?:gewicht|gew|kg)\s*[:=]?\s*(\d{2,3}(?:\.\d+)?)/i); if(res.weight==null)res.weight=g(/(\d{2,3}(?:\.\d+)?)\s*kg/i);
-  res.bf=g(/(?:kfa|k\u00f6rperfett|koerperfett|fett|bodyfat|bf)\s*[:=]?\s*(\d{1,2}(?:\.\d+)?)/i); if(res.bf==null)res.bf=g(/(\d{1,2}(?:\.\d+)?)\s*%/);
-  res.waist=g(/(?:taille|bauch|waist|umfang)\s*[:=]?\s*(\d{2,3}(?:\.\d+)?)/i); if(res.waist==null)res.waist=g(/(\d{2,3}(?:\.\d+)?)\s*cm/i);
+  res.bf=g(/(?:kfa|k\u00f6rperfett|koerperfett|bodyfat|kf)\s*[:=]?\s*(\d{1,2}(?:\.\d+)?)/i);
+  res.muscle=g(/(?:muskel\w*|muscle)\s*[:=]?\s*(\d{1,2}(?:\.\d+)?)/i);
+  res.waist=g(/(?:bauch\w*|taille|waist)\s*[:=]?\s*(\d{2,3}(?:\.\d+)?)/i);
+  res.chest=g(/(?:brust\w*|chest)\s*[:=]?\s*(\d{2,3}(?:\.\d+)?)/i);
   const iso=s.match(/(\d{4}-\d{2}-\d{2})/); const de=s.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
   if(iso)res.date=iso[1]; else if(de)res.date=de[3]+"-"+de[2].padStart(2,"0")+"-"+de[1].padStart(2,"0");
   return res;
@@ -781,12 +783,15 @@ function renderBody(){
   h+=`<div class="card"><div class="mform">
       <div class="mfield date"><label>Datum</label><input type="date" id="bD" value="${todayISO()}"></div>
       <div class="mfield"><label>Gewicht (kg)</label><input id="bW" inputmode="decimal" placeholder="z. B. 88"></div>
-      <div class="mfield"><label>KFA (%)</label><input id="bF" inputmode="decimal" placeholder="optional"></div>
-      <div class="mfield"><label>Taille (cm)</label><input id="bT" inputmode="decimal" placeholder="optional"></div>
+      <div class="mfield"><label>K\u00f6rperfett (%)</label><input id="bF" inputmode="decimal" placeholder="optional"></div>
+      <div class="mfield"><label>Muskelanteil (%)</label><input id="bM" inputmode="decimal" placeholder="optional"></div>
+      <div class="mfield"><label>Bauchumfang (cm)</label><input id="bT" inputmode="decimal" placeholder="optional"></div>
+      <div class="mfield"><label>Brustumfang (cm)</label><input id="bC" inputmode="decimal" placeholder="optional"></div>
+      <div class="mfield"><label>Viszeralfett</label><input id="bV" inputmode="decimal" placeholder="optional"></div>
     </div><div class="additem"><button class="btn acid" id="bSave" style="flex:1">\uff0b Messung speichern</button></div></div>`;
   h+=`<div class="card" style="margin-top:12px"><div style="padding:14px 16px">
       <div style="font-weight:800;margin-bottom:6px">Foto-Import</div>
-      <div style="color:var(--mut);font-size:12.5px;line-height:1.5;margin-bottom:8px">Foto der Waage im Chat schicken \u2013 ich gebe dir eine Zeile wie: <span style="color:var(--ink)">Gewicht 87.5 | KFA 22 | Taille 90</span> zum Einf\u00fcgen.</div>
+      <div style="color:var(--mut);font-size:12.5px;line-height:1.5;margin-bottom:8px">Foto der Waage im Chat schicken \u2013 ich gebe dir eine Zeile wie: <span style="color:var(--ink)">Gewicht 85.4 | KFA 22 | Muskeln 40 | Bauch 90 | Brust 104</span> zum Einf\u00fcgen.</div>
       <textarea id="bImp" class="libsearch" style="min-height:52px;resize:vertical;font-family:inherit" placeholder="Gewicht .. | KFA .. | Taille .."></textarea>
       <div class="foot-actions" style="margin-top:8px"><button class="btn acid block" id="bImpBtn">Werte \u00fcbernehmen</button></div>
     </div></div>`;
@@ -805,12 +810,18 @@ function renderBody(){
   }
   const series=sorted.filter(e=>e[bodyMetric]!=null).map(e=>({d:e.d,v:e[bodyMetric]}));
   h+=`<div class="card" style="margin-top:12px">
-      <div class="seg"><button id="segW" class="${bodyMetric==='weight'?'on':''}">Gewicht</button><button id="segF" class="${bodyMetric==='bf'?'on':''}">K\u00f6rperfett</button></div>
+      <div class="seg" style="flex-wrap:wrap">
+        <button data-metric="weight" class="${bodyMetric==='weight'?'on':''}">Gewicht</button>
+        <button data-metric="bf" class="${bodyMetric==='bf'?'on':''}">KFA</button>
+        <button data-metric="muscle" class="${bodyMetric==='muscle'?'on':''}">Muskeln</button>
+        <button data-metric="waist" class="${bodyMetric==='waist'?'on':''}">Bauch</button>
+        <button data-metric="chest" class="${bodyMetric==='chest'?'on':''}">Brust</button>
+      </div>
       <div class="chartwrap">${chartSVG(series)}</div></div>`;
   if(sorted.length){
     h+=`<div class="card" style="margin-top:12px">`;
     sorted.slice().reverse().forEach(e=>{
-      const parts=[];if(e.weight!=null)parts.push(fmt(e.weight)+' kg');if(e.bf!=null)parts.push(fmt(e.bf)+' % KFA');if(e.waist!=null)parts.push(fmt(e.waist)+' cm');
+      const parts=[];if(e.weight!=null)parts.push(fmt(e.weight)+' kg');if(e.bf!=null)parts.push(fmt(e.bf)+' % KFA');if(e.muscle!=null)parts.push(fmt(e.muscle)+' % Mus');if(e.waist!=null)parts.push('Bauch '+fmt(e.waist));if(e.chest!=null)parts.push('Brust '+fmt(e.chest));
       h+=`<div class="brow"><span class="d">${dFull(e.d)}</span><span class="vals">${parts.join(' \u00b7 ')||'\u2013'}</span><button class="x" data-bdel="${e.id}">\ud83d\uddd1</button></div>`;
     });
     h+=`</div>`;
@@ -824,21 +835,20 @@ function renderBody(){
   app.innerHTML=h;
   document.getElementById("bSave").onclick=()=>{
     const d=document.getElementById("bD").value||todayISO();
-    const w=num(document.getElementById("bW").value),f=num(document.getElementById("bF").value),t=num(document.getElementById("bT").value);
-    if(w==null&&f==null&&t==null){toast("Bitte mindestens einen Wert eintragen");return;}
-    body.push({id:uid(),d,weight:w,bf:f,waist:t});saveBody();toast("Messung gespeichert");renderBody();
+    const gv=id=>{const el=document.getElementById(id);return el?num(el.value):null;};
+    const w=gv("bW"),f=gv("bF"),m=gv("bM"),t=gv("bT"),c=gv("bC"),v=gv("bV");
+    if(w==null&&f==null&&m==null&&t==null&&c==null&&v==null){toast("Bitte mindestens einen Wert eintragen");return;}
+    body.push({id:uid(),d,weight:w,bf:f,muscle:m,waist:t,chest:c,visceral:v});saveBody();toast("Messung gespeichert");renderBody();
   };
   const bImpBtn=document.getElementById("bImpBtn");
   if(bImpBtn)bImpBtn.onclick=()=>{const r=parseBodyImport(document.getElementById("bImp").value);
-    if(r.weight==null&&r.bf==null&&r.waist==null){toast("Keine Werte erkannt");return;}
-    if(r.weight!=null)document.getElementById("bW").value=r.weight;
-    if(r.bf!=null)document.getElementById("bF").value=r.bf;
-    if(r.waist!=null)document.getElementById("bT").value=r.waist;
+    if(r.weight==null&&r.bf==null&&r.muscle==null&&r.waist==null&&r.chest==null){toast("Keine Werte erkannt");return;}
+    const setv=(id,val)=>{const el=document.getElementById(id);if(el&&val!=null)el.value=val;};
+    setv("bW",r.weight);setv("bF",r.bf);setv("bM",r.muscle);setv("bT",r.waist);setv("bC",r.chest);
     if(r.date)document.getElementById("bD").value=r.date;
     toast("Werte \u00fcbernommen \u2013 pr\u00fcfen & speichern");};
   const bGoal=document.getElementById("bGoal");if(bGoal)bGoal.onchange=()=>{const g=num(bGoal.value);goal=g!=null?{weight:g}:{};saveGoal();renderBody();};
-  document.getElementById("segW").onclick=()=>{bodyMetric="weight";renderBody();};
-  document.getElementById("segF").onclick=()=>{bodyMetric="bf";renderBody();};
+  document.querySelectorAll("[data-metric]").forEach(b=>b.onclick=()=>{bodyMetric=b.dataset.metric;renderBody();});
   document.querySelectorAll("[data-bdel]").forEach(b=>b.onclick=()=>{body=body.filter(x=>x.id!==b.dataset.bdel);saveBody();renderBody();});
   document.getElementById("expBtn").onclick=exportData;
   document.getElementById("impBtn").onclick=()=>document.getElementById("importFile").click();
@@ -1091,7 +1101,12 @@ function bestBoard(){
 function renderFood(){
   const t=dayTotals(foodDay);const gk=nutriGoal.kcal,gp=nutriGoal.prot;const w=lastWeightVal();const td=tdeeVal();
   let h=`<h2 class="sec">Ern\u00e4hrung</h2>`;
-  h+=`<div class="card"><div class="mform"><div class="mfield date"><label>Tag</label><input type="date" id="fDay" value="${foodDay}"></div></div></div>`;
+  h+=`<div class="card"><div style="display:flex;align-items:center;gap:8px;padding:12px 14px">
+      <button class="rb-adj" id="fPrev">\u2039</button>
+      <input type="date" id="fDay" value="${foodDay}" style="flex:1;min-width:0;font:inherit;font-size:14px;font-weight:600;background:var(--bg);border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:9px 10px">
+      <button class="rb-adj" id="fNext">\u203a</button>
+      <button class="btn sm" id="fToday">Heute</button>
+    </div></div>`;
   h+=`<div class="card" style="margin-top:12px"><div style="padding:14px 16px">
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><b>Tagesbilanz</b><span style="color:var(--mut);font-size:12px">${dDot(foodDay)}</span></div>
       ${nutriBar("Kalorien",t.kcal,gk,"kcal")}${nutriBar("Eiwei\u00df",t.prot,gp,"g")}`;
@@ -1151,6 +1166,9 @@ function renderFood(){
   h+=`<p class="hint">Werte je 100 g aus deiner Lebensmittel-Datenbank (${foods.length} Eintr\u00e4ge). Eigene Lebensmittel/Rezepte einfach erg\u00e4nzen. Alles bleibt lokal und ist im JSON-Export enthalten.</p>`;
   app.innerHTML=h;
   document.getElementById("fDay").onchange=e=>{foodDay=e.target.value||foodDay;renderFood();};
+  document.getElementById("fPrev").onclick=()=>{foodDay=dateShift(foodDay,-1);renderFood();};
+  document.getElementById("fNext").onclick=()=>{foodDay=dateShift(foodDay,1);renderFood();};
+  document.getElementById("fToday").onclick=()=>{foodDay=(new Date()).toISOString().slice(0,10);renderFood();};
   const gk2=document.getElementById("gKcal"),gp2=document.getElementById("gProt");
   gk2.onchange=()=>{nutriGoal.kcal=num(gk2.value);saveNutri();renderFood();};
   gp2.onchange=()=>{nutriGoal.prot=num(gp2.value);saveNutri();renderFood();};
