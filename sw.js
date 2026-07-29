@@ -1,5 +1,5 @@
 /* Trainings-Baukasten – Service Worker */
-const CACHE = "tb-v7";
+const CACHE = "tb-v13";
 const CORE = [
   "./",
   "./index.html",
