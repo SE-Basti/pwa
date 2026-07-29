@@ -1,5 +1,5 @@
 /* Trainings-Baukasten – Service Worker */
-const CACHE = "tb-v19";
+const CACHE = "tb-v20";
 const CORE = [
   "./","./index.html","./manifest.webmanifest",
   "./icons/icon-192.png","./icons/icon-512.png",
