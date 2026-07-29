@@ -238,12 +238,12 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="brand"><b>Trainings<em>·</em>Baukasten</b></div>
-    <button class="btn sm acid" id="installBtn" style="display:none;margin-top:10px">⤓ Als App installieren</button>
+    <div class="brand"><b>Trainings<em>&#183;</em>Baukasten</b></div>
+    <button class="btn sm acid" id="installBtn" style="display:none;margin-top:10px">&#10515; Als App installieren</button>
     <div class="tabs">
       <button class="tab on" id="tabList">Setups</button>
-      <button class="tab" id="tabLib">Übungen</button>
-      <button class="tab" id="tabBody">Körper</button>
+      <button class="tab" id="tabLib">&#220;bungen</button>
+      <button class="tab" id="tabBody">K&#246;rper</button>
       <button class="tab" id="tabAnalyse">Analyse</button>
       <button class="tab" id="tabFood">Essen</button>
     </div>
@@ -252,7 +252,7 @@
 </div>
 
 <div class="ov" id="ov"><div class="sheet">
-  <div class="sheet-head"><b id="ovTitle">Übung</b><button class="x" id="ovClose" style="font-size:24px">×</button></div>
+  <div class="sheet-head"><b id="ovTitle">&#220;bung</b><button class="x" id="ovClose" style="font-size:24px">&#215;</button></div>
   <div class="sheet-body" id="sheetBody"></div>
 </div></div>
 <div class="toast" id="toast"></div>
@@ -273,157 +273,157 @@ const setCount=s=>{const m=String(s).match(/^\s*(\d+)/);return m?Math.min(parseI
 const parseNum=v=>{const n=parseFloat(String(v==null?"":v).replace(",","."));return isNaN(n)?NaN:n;};
 const fmt=n=>String(n).replace(".",",");
 const round5=x=>Math.round(x*2)/2;
-function repTop(scheme){const part=String(scheme).split("×")[1]||String(scheme);const nums=(part.match(/\d+/g)||[]).map(Number);return nums.length?Math.max(...nums):10;}
+function repTop(scheme){const part=String(scheme).split("\u00d7")[1]||String(scheme);const nums=(part.match(/\d+/g)||[]).map(Number);return nums.length?Math.max(...nums):10;}
 function todayISO(){return new Date().toISOString().slice(0,10);}
 function dDot(iso){const p=String(iso).split("-");return p.length===3?`${p[2]}.${p[1]}.`:iso;}
 function dFull(iso){const p=String(iso).split("-");return p.length===3?`${p[2]}.${p[1]}.${p[0]}`:iso;}
 
-/* ---------- Übungsbibliothek (mit Zielmuskulatur) ---------- */
+/* ---------- \u00dcbungsbibliothek (mit Zielmuskulatur) ---------- */
 const EX=[
  // Beine / Knie
- {id:"fk",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Langhantel",name:"Frontkniebeuge",musc:"Quadrizeps, Gesäß, Rumpf",scheme:"4 × 6–8",load:"40 kg",q:"front squat technik richtig",note:"Ellbogen hoch, Knie in Zehenrichtung."},
- {id:"gob",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Goblet Squat (KB)",musc:"Quadrizeps, Gesäß, Adduktoren",scheme:"3 × 10–12",load:"10 kg",q:"goblet squat technik",note:"KB vor der Brust, aufrechter Oberkörper."},
- {id:"rdl",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Langhantel",name:"Rumänisches Kreuzheben",musc:"Hintere Oberschenkel, Gesäß, unterer Rücken",scheme:"4 × 6–8",load:"40–50 kg",q:"rumänisches kreuzheben technik",note:"Hüfte nach hinten, Rücken gerade."},
- {id:"kh",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Langhantel",name:"Kreuzheben konventionell",musc:"Gesamte hintere Kette, Rücken, Beine",scheme:"3 × 5",load:"55–60 kg",q:"kreuzheben technik richtig",note:"Stange eng am Körper, neutraler Rücken."},
- {id:"sumo",cat:"Beine/Knie",mg:"Gesäß",equip:"Langhantel",name:"Sumo-Kreuzheben",musc:"Gesäß, Adduktoren, hintere Kette",scheme:"3 × 6",load:"50–60 kg",q:"sumo kreuzheben technik",note:"Breiter Stand, Knie nach außen."},
- {id:"gm",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Langhantel",name:"Good Morning",musc:"Hintere Oberschenkel, Rückenstrecker, Gesäß",scheme:"3 × 8–10",load:"25–35 kg",q:"good morning übung langhantel",note:"Leichte Last, Hüfte nach hinten."},
- {id:"ht",cat:"Beine/Knie",mg:"Gesäß",equip:"Langhantel",name:"Hip Thrust (LH)",musc:"Gesäß, hintere Oberschenkel",scheme:"3 × 8–12",load:"40–60 kg",q:"hip thrust technik",note:"Schulter auf Bank, oben Gesäß fest anspannen."},
- {id:"bss",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Bulgarian Split Squat",musc:"Quadrizeps, Gesäß (einbeinig)",scheme:"3 × 8–10 / Bein",load:"KG / 8–10 kg",q:"bulgarian split squat technik",note:"Schwache Seite zuerst, Knie über Mittelfuß."},
- {id:"rl",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Rückwärts-Ausfallschritt",musc:"Quadrizeps, Gesäß",scheme:"3 × 10 / Bein",load:"8–10 kg",q:"rückwärts ausfallschritt kurzhantel",note:"Knieschonend, über vordere Ferse zurück."},
- {id:"wl",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Walking Lunge",musc:"Quadrizeps, Gesäß",scheme:"3 × 12 / Bein",load:"KG / 8–10 kg",q:"walking lunge technik",note:"Kontrollierte Schritte, Oberkörper aufrecht."},
- {id:"su",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Step-ups",musc:"Quadrizeps, Gesäß",scheme:"3 × 10 / Bein",load:"8–10 kg",q:"step up übung technik",note:"Bein oben voll strecken, 3 Sek. absenken."},
- {id:"spsq",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Band",name:"Spanische Kniebeuge (Band am Rack)",musc:"Quadrizeps (VMO), knieschonend",scheme:"3 × 12–15",load:"KG",q:"spanish squat band knie",note:"Band hinter Knie am Rack, sehr kniefreundlich."},
- {id:"stepd",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Step",name:"Step-down (exzentrisch)",musc:"Quadrizeps (VMO), Knieführung",scheme:"3 × 8 / Bein",load:"KG",q:"step down übung knie",note:"Langsam (3–4 Sek.) von Step absenken, Ferse antippen."},
- {id:"tke",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Seilzug",name:"TKE – Knieendstreckung (Seilzug)",musc:"Quadrizeps (VMO), Knieführung",scheme:"3 × 15 / Bein",load:"5–10 kg",q:"terminal knee extension übung",note:"VMO bewusst anspannen, kein Schwung."},
- {id:"wsit",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Körpergewicht",name:"Wandsitz (Wall Sit)",musc:"Quadrizeps (isometrisch), knieschonend",scheme:"3 × 40 Sek.",load:"KG",q:"wall sit wandsitz übung",note:"Knie 90°, Rücken an der Wand, halten."},
- {id:"trxlc",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"TRX",name:"TRX Beinbeuger (Leg Curl)",musc:"Hintere Oberschenkel",scheme:"3 × 10–12",load:"KG",q:"trx leg curl hamstring",note:"Fersen in die Schlaufen, Hüfte oben halten."},
+ {id:"fk",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Langhantel",name:"Frontkniebeuge",musc:"Quadrizeps, Ges\u00e4\u00df, Rumpf",scheme:"4 \u00d7 6\u20138",load:"40 kg",q:"front squat technik richtig",note:"Ellbogen hoch, Knie in Zehenrichtung."},
+ {id:"gob",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Goblet Squat (KB)",musc:"Quadrizeps, Ges\u00e4\u00df, Adduktoren",scheme:"3 \u00d7 10\u201312",load:"10 kg",q:"goblet squat technik",note:"KB vor der Brust, aufrechter Oberk\u00f6rper."},
+ {id:"rdl",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Langhantel",name:"Rum\u00e4nisches Kreuzheben",musc:"Hintere Oberschenkel, Ges\u00e4\u00df, unterer R\u00fccken",scheme:"4 \u00d7 6\u20138",load:"40\u201350 kg",q:"rum\u00e4nisches kreuzheben technik",note:"H\u00fcfte nach hinten, R\u00fccken gerade."},
+ {id:"kh",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Langhantel",name:"Kreuzheben konventionell",musc:"Gesamte hintere Kette, R\u00fccken, Beine",scheme:"3 \u00d7 5",load:"55\u201360 kg",q:"kreuzheben technik richtig",note:"Stange eng am K\u00f6rper, neutraler R\u00fccken."},
+ {id:"sumo",cat:"Beine/Knie",mg:"Ges\u00e4\u00df",equip:"Langhantel",name:"Sumo-Kreuzheben",musc:"Ges\u00e4\u00df, Adduktoren, hintere Kette",scheme:"3 \u00d7 6",load:"50\u201360 kg",q:"sumo kreuzheben technik",note:"Breiter Stand, Knie nach au\u00dfen."},
+ {id:"gm",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Langhantel",name:"Good Morning",musc:"Hintere Oberschenkel, R\u00fcckenstrecker, Ges\u00e4\u00df",scheme:"3 \u00d7 8\u201310",load:"25\u201335 kg",q:"good morning \u00fcbung langhantel",note:"Leichte Last, H\u00fcfte nach hinten."},
+ {id:"ht",cat:"Beine/Knie",mg:"Ges\u00e4\u00df",equip:"Langhantel",name:"Hip Thrust (LH)",musc:"Ges\u00e4\u00df, hintere Oberschenkel",scheme:"3 \u00d7 8\u201312",load:"40\u201360 kg",q:"hip thrust technik",note:"Schulter auf Bank, oben Ges\u00e4\u00df fest anspannen."},
+ {id:"bss",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Bulgarian Split Squat",musc:"Quadrizeps, Ges\u00e4\u00df (einbeinig)",scheme:"3 \u00d7 8\u201310 / Bein",load:"KG / 8\u201310 kg",q:"bulgarian split squat technik",note:"Schwache Seite zuerst, Knie \u00fcber Mittelfu\u00df."},
+ {id:"rl",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"R\u00fcckw\u00e4rts-Ausfallschritt",musc:"Quadrizeps, Ges\u00e4\u00df",scheme:"3 \u00d7 10 / Bein",load:"8\u201310 kg",q:"r\u00fcckw\u00e4rts ausfallschritt kurzhantel",note:"Knieschonend, \u00fcber vordere Ferse zur\u00fcck."},
+ {id:"wl",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Walking Lunge",musc:"Quadrizeps, Ges\u00e4\u00df",scheme:"3 \u00d7 12 / Bein",load:"KG / 8\u201310 kg",q:"walking lunge technik",note:"Kontrollierte Schritte, Oberk\u00f6rper aufrecht."},
+ {id:"su",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Step-ups",musc:"Quadrizeps, Ges\u00e4\u00df",scheme:"3 \u00d7 10 / Bein",load:"8\u201310 kg",q:"step up \u00fcbung technik",note:"Bein oben voll strecken, 3 Sek. absenken."},
+ {id:"spsq",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Band",name:"Spanische Kniebeuge (Band am Rack)",musc:"Quadrizeps (VMO), knieschonend",scheme:"3 \u00d7 12\u201315",load:"KG",q:"spanish squat band knie",note:"Band hinter Knie am Rack, sehr kniefreundlich."},
+ {id:"stepd",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Step",name:"Step-down (exzentrisch)",musc:"Quadrizeps (VMO), Knief\u00fchrung",scheme:"3 \u00d7 8 / Bein",load:"KG",q:"step down \u00fcbung knie",note:"Langsam (3\u20134 Sek.) von Step absenken, Ferse antippen."},
+ {id:"tke",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Seilzug",name:"TKE \u2013 Knieendstreckung (Seilzug)",musc:"Quadrizeps (VMO), Knief\u00fchrung",scheme:"3 \u00d7 15 / Bein",load:"5\u201310 kg",q:"terminal knee extension \u00fcbung",note:"VMO bewusst anspannen, kein Schwung."},
+ {id:"wsit",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"K\u00f6rpergewicht",name:"Wandsitz (Wall Sit)",musc:"Quadrizeps (isometrisch), knieschonend",scheme:"3 \u00d7 40 Sek.",load:"KG",q:"wall sit wandsitz \u00fcbung",note:"Knie 90\u00b0, R\u00fccken an der Wand, halten."},
+ {id:"trxlc",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"TRX",name:"TRX Beinbeuger (Leg Curl)",musc:"Hintere Oberschenkel",scheme:"3 \u00d7 10\u201312",load:"KG",q:"trx leg curl hamstring",note:"Fersen in die Schlaufen, H\u00fcfte oben halten."},
  // Wade
- {id:"wst",cat:"Wade",mg:"Wade",equip:"Kettlebell",name:"Stehendes Wadenheben (Step)",musc:"Wade – Gastrocnemius (gerades Knie)",scheme:"4 × 12–15",load:"KG → 10 kg",q:"stehendes wadenheben technik",note:"3 Sek. runter, volle Dehnung."},
- {id:"wsi",cat:"Wade",mg:"Wade",equip:"Kettlebell",name:"Sitzendes Wadenheben",musc:"Wade – Soleus (gebeugtes Knie)",scheme:"4 × 15–20",load:"10 kg",q:"sitzendes wadenheben technik",note:"Zentral für die Achillessehne."},
- {id:"web",cat:"Wade",mg:"Wade",equip:"Körpergewicht",name:"Einbeiniges Wadenheben (Step)",musc:"Wade einbeinig (Achillessehne re.)",scheme:"3 × 12–15 / Bein",load:"KG → 6–10 kg",q:"einbeiniges wadenheben technik",note:"Rechte Seite gezielt, langsame Exzentrik."},
- {id:"esel",cat:"Wade",mg:"Wade",equip:"Körpergewicht",name:"Eselwadenheben (Donkey)",musc:"Wade – Gastrocnemius (gedehnt)",scheme:"3 × 15",load:"KG / Partner",q:"donkey calf raise eselwadenheben",note:"Hüfte gebeugt, starke Dehnung der Wade."},
- {id:"tib",cat:"Wade",mg:"Wade",equip:"Körpergewicht",name:"Tibialis-Heben (Zehen heben)",musc:"Schienbeinmuskel (Tibialis anterior)",scheme:"3 × 15–20",load:"KG",q:"tibialis raises übung",note:"Ferse am Boden, Zehen heben – schützt Sprunggelenk."},
- {id:"pogo",cat:"Wade",mg:"Wade",equip:"Körpergewicht",name:"Pogo Hops (kleine Sprünge)",musc:"Wade reaktiv, Achillessehne",scheme:"3 × 20",load:"KG",q:"pogo hops calf plyometric",note:"Nur wenn schmerzfrei – kurze, federnde Sprünge."},
+ {id:"wst",cat:"Wade",mg:"Wade",equip:"Kettlebell",name:"Stehendes Wadenheben (Step)",musc:"Wade \u2013 Gastrocnemius (gerades Knie)",scheme:"4 \u00d7 12\u201315",load:"KG \u2192 10 kg",q:"stehendes wadenheben technik",note:"3 Sek. runter, volle Dehnung."},
+ {id:"wsi",cat:"Wade",mg:"Wade",equip:"Kettlebell",name:"Sitzendes Wadenheben",musc:"Wade \u2013 Soleus (gebeugtes Knie)",scheme:"4 \u00d7 15\u201320",load:"10 kg",q:"sitzendes wadenheben technik",note:"Zentral f\u00fcr die Achillessehne."},
+ {id:"web",cat:"Wade",mg:"Wade",equip:"K\u00f6rpergewicht",name:"Einbeiniges Wadenheben (Step)",musc:"Wade einbeinig (Achillessehne re.)",scheme:"3 \u00d7 12\u201315 / Bein",load:"KG \u2192 6\u201310 kg",q:"einbeiniges wadenheben technik",note:"Rechte Seite gezielt, langsame Exzentrik."},
+ {id:"esel",cat:"Wade",mg:"Wade",equip:"K\u00f6rpergewicht",name:"Eselwadenheben (Donkey)",musc:"Wade \u2013 Gastrocnemius (gedehnt)",scheme:"3 \u00d7 15",load:"KG / Partner",q:"donkey calf raise eselwadenheben",note:"H\u00fcfte gebeugt, starke Dehnung der Wade."},
+ {id:"tib",cat:"Wade",mg:"Wade",equip:"K\u00f6rpergewicht",name:"Tibialis-Heben (Zehen heben)",musc:"Schienbeinmuskel (Tibialis anterior)",scheme:"3 \u00d7 15\u201320",load:"KG",q:"tibialis raises \u00fcbung",note:"Ferse am Boden, Zehen heben \u2013 sch\u00fctzt Sprunggelenk."},
+ {id:"pogo",cat:"Wade",mg:"Wade",equip:"K\u00f6rpergewicht",name:"Pogo Hops (kleine Spr\u00fcnge)",musc:"Wade reaktiv, Achillessehne",scheme:"3 \u00d7 20",load:"KG",q:"pogo hops calf plyometric",note:"Nur wenn schmerzfrei \u2013 kurze, federnde Spr\u00fcnge."},
  // Reha (Band)
- {id:"monster",cat:"Reha (Band)",mg:"Gesäß",equip:"Band",name:"Monster Walks (Mini-Band)",musc:"Gesäß, Hüftabduktoren (Knieführung)",scheme:"3 × 12 Schritte",load:"Mini-Band",q:"monster walks mini band technik",note:"Band über den Knien, leichte Kniebeuge, seitlich gehen – Knie nicht nach innen."},
- {id:"clam",cat:"Reha (Band)",mg:"Gesäß",equip:"Band",name:"Clamshells / Muschel (Mini-Band)",musc:"Gluteus medius (Kniestabilität)",scheme:"3 × 15 / Seite",load:"Mini-Band",q:"clamshell muschel übung mini band",note:"Seitlage, Knie öffnen, Becken stabil halten."},
- {id:"sidelift",cat:"Reha (Band)",mg:"Gesäß",equip:"Band",name:"Seitliches Beinheben (Band)",musc:"Hüftabduktoren",scheme:"3 × 15 / Seite",load:"Mini-Band",q:"seitliches beinheben band hip abduction",note:"Kontrolliert anheben, Oberkörper ruhig."},
- {id:"btke",cat:"Reha (Band)",mg:"Beine (vorne)",equip:"Band",name:"Theraband-Knieendstreckung (TKE)",musc:"Quadrizeps (VMO), Knieführung",scheme:"3 × 15 / Bein",load:"Band",q:"banded terminal knee extension TKE",note:"Band hinter die Kniekehle am Rack, Knie voll durchstrecken."},
- {id:"bleg",cat:"Reha (Band)",mg:"Beine (vorne)",equip:"Band",name:"Beinstrecker sitzend (Band)",musc:"Quadrizeps",scheme:"3 × 15 / Bein",load:"Band",q:"banded seated leg extension knie",note:"Band um den Knöchel, Knie gegen Widerstand strecken."},
- {id:"plantar",cat:"Reha (Band)",mg:"Wade",equip:"Band",name:"Plantarflexion mit Band",musc:"Wade, Achillessehne",scheme:"3 × 20",load:"Band",q:"ankle plantarflexion theraband übung",note:"Fuß gegen den Bandzug strecken (Gas geben), langsam zurück."},
- {id:"dorsi",cat:"Reha (Band)",mg:"Wade",equip:"Band",name:"Dorsalflexion mit Band",musc:"Schienbeinmuskel (Tibialis anterior)",scheme:"3 × 20",load:"Band",q:"ankle dorsiflexion theraband übung",note:"Fußspitze gegen das Band zum Körper ziehen."},
- {id:"invev",cat:"Reha (Band)",mg:"Wade",equip:"Band",name:"Inversion & Eversion (Band)",musc:"Seitliche Sprunggelenkstabilität (Peroneus)",scheme:"3 × 15 / Richtung",load:"Band",q:"ankle inversion eversion theraband",note:"Fuß nach innen und außen gegen das Band – seitliche Stabilität."},
- // Drücken
- {id:"sb",cat:"Drücken",mg:"Brust",equip:"Langhantel",name:"Schrägbankdrücken",musc:"Obere Brust, vordere Schulter, Trizeps",scheme:"3 × 8–10",load:"30–35 kg",q:"schrägbankdrücken langhantel technik",note:"Bank ~30°, Ellbogen ~45°."},
- {id:"flach",cat:"Drücken",mg:"Brust",equip:"Langhantel",name:"Bankdrücken flach (LH)",musc:"Brust, Trizeps, vordere Schulter",scheme:"4 × 6–10",load:"40–50 kg",q:"bankdrücken technik langhantel",note:"Schulterblätter zusammen, Bahn zur Brustmitte."},
- {id:"sd",cat:"Drücken",mg:"Schultern",equip:"Langhantel",name:"Schulterdrücken stehend",musc:"Schultern, Trizeps",scheme:"3 × 8–10",load:"15–20 kg",q:"schulterdrücken langhantel stehend technik",note:"Rumpf fest, kein Hohlkreuz."},
- {id:"kbpr",cat:"Drücken",mg:"Schultern",equip:"Kettlebell",name:"KB-Drücken einarmig (Overhead)",musc:"Schulter, Trizeps, Rumpf",scheme:"3 × 8 / Seite",load:"8–10 kg",q:"kettlebell overhead press einarmig",note:"Rumpf gegen die Seitneigung stabil."},
- {id:"arn",cat:"Drücken",mg:"Schultern",equip:"Kettlebell",name:"Arnold Press (KB)",musc:"Schultern (alle Köpfe)",scheme:"3 × 10",load:"8–10 kg",q:"arnold press kurzhantel",note:"Drehung der Handflächen während des Drückens."},
- {id:"sh",cat:"Drücken",mg:"Schultern",equip:"Kettlebell",name:"Seitheben (KB)",musc:"Seitliche Schulter",scheme:"3 × 12–15",load:"6–8 kg",q:"seitheben kurzhantel technik",note:"Leicht, kontrolliert, kein Schwung."},
- {id:"dip",cat:"Drücken",mg:"Brust",equip:"Körpergewicht",name:"Dips (am Rack/Bank)",musc:"Untere Brust, Trizeps",scheme:"3 × 8–12",load:"KG",q:"dips technik trizeps brust",note:"Schultern unten halten, Tiefe schmerzfrei."},
- {id:"trxp",cat:"Drücken",mg:"Brust",equip:"TRX",name:"TRX-Brustpresse",musc:"Brust, Trizeps, vordere Schulter",scheme:"3 × 10–12",load:"KG",q:"trx chest press technik",note:"Körper gerade, Schwierigkeit über Fußstand."},
- {id:"tri",cat:"Drücken",mg:"Trizeps",equip:"Seilzug",name:"Trizepsdrücken am Seilzug",musc:"Trizeps",scheme:"3 × 12–15",load:"15–25 kg",q:"trizepsdrücken seilzug technik",note:"Ellbogen am Körper fixiert."},
+ {id:"monster",cat:"Reha (Band)",mg:"Ges\u00e4\u00df",equip:"Band",name:"Monster Walks (Mini-Band)",musc:"Ges\u00e4\u00df, H\u00fcftabduktoren (Knief\u00fchrung)",scheme:"3 \u00d7 12 Schritte",load:"Mini-Band",q:"monster walks mini band technik",note:"Band \u00fcber den Knien, leichte Kniebeuge, seitlich gehen \u2013 Knie nicht nach innen."},
+ {id:"clam",cat:"Reha (Band)",mg:"Ges\u00e4\u00df",equip:"Band",name:"Clamshells / Muschel (Mini-Band)",musc:"Gluteus medius (Kniestabilit\u00e4t)",scheme:"3 \u00d7 15 / Seite",load:"Mini-Band",q:"clamshell muschel \u00fcbung mini band",note:"Seitlage, Knie \u00f6ffnen, Becken stabil halten."},
+ {id:"sidelift",cat:"Reha (Band)",mg:"Ges\u00e4\u00df",equip:"Band",name:"Seitliches Beinheben (Band)",musc:"H\u00fcftabduktoren",scheme:"3 \u00d7 15 / Seite",load:"Mini-Band",q:"seitliches beinheben band hip abduction",note:"Kontrolliert anheben, Oberk\u00f6rper ruhig."},
+ {id:"btke",cat:"Reha (Band)",mg:"Beine (vorne)",equip:"Band",name:"Theraband-Knieendstreckung (TKE)",musc:"Quadrizeps (VMO), Knief\u00fchrung",scheme:"3 \u00d7 15 / Bein",load:"Band",q:"banded terminal knee extension TKE",note:"Band hinter die Kniekehle am Rack, Knie voll durchstrecken."},
+ {id:"bleg",cat:"Reha (Band)",mg:"Beine (vorne)",equip:"Band",name:"Beinstrecker sitzend (Band)",musc:"Quadrizeps",scheme:"3 \u00d7 15 / Bein",load:"Band",q:"banded seated leg extension knie",note:"Band um den Kn\u00f6chel, Knie gegen Widerstand strecken."},
+ {id:"plantar",cat:"Reha (Band)",mg:"Wade",equip:"Band",name:"Plantarflexion mit Band",musc:"Wade, Achillessehne",scheme:"3 \u00d7 20",load:"Band",q:"ankle plantarflexion theraband \u00fcbung",note:"Fu\u00df gegen den Bandzug strecken (Gas geben), langsam zur\u00fcck."},
+ {id:"dorsi",cat:"Reha (Band)",mg:"Wade",equip:"Band",name:"Dorsalflexion mit Band",musc:"Schienbeinmuskel (Tibialis anterior)",scheme:"3 \u00d7 20",load:"Band",q:"ankle dorsiflexion theraband \u00fcbung",note:"Fu\u00dfspitze gegen das Band zum K\u00f6rper ziehen."},
+ {id:"invev",cat:"Reha (Band)",mg:"Wade",equip:"Band",name:"Inversion & Eversion (Band)",musc:"Seitliche Sprunggelenkstabilit\u00e4t (Peroneus)",scheme:"3 \u00d7 15 / Richtung",load:"Band",q:"ankle inversion eversion theraband",note:"Fu\u00df nach innen und au\u00dfen gegen das Band \u2013 seitliche Stabilit\u00e4t."},
+ // Dr\u00fccken
+ {id:"sb",cat:"Dr\u00fccken",mg:"Brust",equip:"Langhantel",name:"Schr\u00e4gbankdr\u00fccken",musc:"Obere Brust, vordere Schulter, Trizeps",scheme:"3 \u00d7 8\u201310",load:"30\u201335 kg",q:"schr\u00e4gbankdr\u00fccken langhantel technik",note:"Bank ~30\u00b0, Ellbogen ~45\u00b0."},
+ {id:"flach",cat:"Dr\u00fccken",mg:"Brust",equip:"Langhantel",name:"Bankdr\u00fccken flach (LH)",musc:"Brust, Trizeps, vordere Schulter",scheme:"4 \u00d7 6\u201310",load:"40\u201350 kg",q:"bankdr\u00fccken technik langhantel",note:"Schulterbl\u00e4tter zusammen, Bahn zur Brustmitte."},
+ {id:"sd",cat:"Dr\u00fccken",mg:"Schultern",equip:"Langhantel",name:"Schulterdr\u00fccken stehend",musc:"Schultern, Trizeps",scheme:"3 \u00d7 8\u201310",load:"15\u201320 kg",q:"schulterdr\u00fccken langhantel stehend technik",note:"Rumpf fest, kein Hohlkreuz."},
+ {id:"kbpr",cat:"Dr\u00fccken",mg:"Schultern",equip:"Kettlebell",name:"KB-Dr\u00fccken einarmig (Overhead)",musc:"Schulter, Trizeps, Rumpf",scheme:"3 \u00d7 8 / Seite",load:"8\u201310 kg",q:"kettlebell overhead press einarmig",note:"Rumpf gegen die Seitneigung stabil."},
+ {id:"arn",cat:"Dr\u00fccken",mg:"Schultern",equip:"Kettlebell",name:"Arnold Press (KB)",musc:"Schultern (alle K\u00f6pfe)",scheme:"3 \u00d7 10",load:"8\u201310 kg",q:"arnold press kurzhantel",note:"Drehung der Handfl\u00e4chen w\u00e4hrend des Dr\u00fcckens."},
+ {id:"sh",cat:"Dr\u00fccken",mg:"Schultern",equip:"Kettlebell",name:"Seitheben (KB)",musc:"Seitliche Schulter",scheme:"3 \u00d7 12\u201315",load:"6\u20138 kg",q:"seitheben kurzhantel technik",note:"Leicht, kontrolliert, kein Schwung."},
+ {id:"dip",cat:"Dr\u00fccken",mg:"Brust",equip:"K\u00f6rpergewicht",name:"Dips (am Rack/Bank)",musc:"Untere Brust, Trizeps",scheme:"3 \u00d7 8\u201312",load:"KG",q:"dips technik trizeps brust",note:"Schultern unten halten, Tiefe schmerzfrei."},
+ {id:"trxp",cat:"Dr\u00fccken",mg:"Brust",equip:"TRX",name:"TRX-Brustpresse",musc:"Brust, Trizeps, vordere Schulter",scheme:"3 \u00d7 10\u201312",load:"KG",q:"trx chest press technik",note:"K\u00f6rper gerade, Schwierigkeit \u00fcber Fu\u00dfstand."},
+ {id:"tri",cat:"Dr\u00fccken",mg:"Trizeps",equip:"Seilzug",name:"Trizepsdr\u00fccken am Seilzug",musc:"Trizeps",scheme:"3 \u00d7 12\u201315",load:"15\u201325 kg",q:"trizepsdr\u00fccken seilzug technik",note:"Ellbogen am K\u00f6rper fixiert."},
  // Ziehen
- {id:"trxr",cat:"Ziehen",mg:"Rücken",equip:"TRX",name:"TRX-Ruderzug",musc:"Oberer Rücken, Latissimus, Bizeps",scheme:"3 × 10–12",load:"Körpergew.",q:"trx row rudern technik",note:"Schwierigkeit über Fußstellung."},
- {id:"lhr",cat:"Ziehen",mg:"Rücken",equip:"Langhantel",name:"Langhantelrudern vorgebeugt",musc:"Latissimus, Rhomboiden, hintere Schulter, Bizeps",scheme:"4 × 8–10",load:"35–45 kg",q:"langhantelrudern vorgebeugt technik",note:"Rücken parallel zum Boden, zum Bauchnabel ziehen."},
- {id:"lz",cat:"Ziehen",mg:"Rücken",equip:"Seilzug",name:"Latzug / Überzug (Seilzug)",musc:"Latissimus, oberer Rücken",scheme:"3 × 10–12",load:"30–40 / 15–20 kg",q:"latzug kabelzug technik",note:"Zum oberen Brustbein ziehen."},
- {id:"kr",cat:"Ziehen",mg:"Rücken",equip:"Seilzug",name:"Seilzug-Ruderzug einarmig",musc:"Rücken, Latissimus, Bizeps",scheme:"3 × 12 / Seite",load:"15–25 kg",q:"einarmiges kabelrudern technik",note:"Rumpf gegen die Rotation stabil."},
- {id:"pull",cat:"Ziehen",mg:"Rücken",equip:"Klimmzugstange",name:"Klimmzüge (Rack-Stange)",musc:"Latissimus, oberer Rücken, Bizeps",scheme:"3 × max",load:"KG",q:"klimmzüge technik",note:"Falls Klimmzugstange am Rack; sonst Latzug."},
- {id:"face",cat:"Ziehen",mg:"Rücken",equip:"Seilzug",name:"Face Pull am Seilzug",musc:"Hintere Schulter, Rotatorenmanschette, oberer Rücken",scheme:"3 × 15",load:"15–20 kg",q:"face pull seilzug technik",note:"Top für Haltung & gesunde Schultern."},
- {id:"rfly",cat:"Ziehen",mg:"Schultern",equip:"Kettlebell",name:"Reverse Fly (KB/TRX)",musc:"Hintere Schulter, oberer Rücken",scheme:"3 × 12–15",load:"6–8 kg",q:"reverse fly hintere schulter",note:"Leicht, Schulterblätter zusammen."},
- {id:"curl",cat:"Ziehen",mg:"Bizeps",equip:"Kettlebell",name:"Bizeps-Curls (KB)",musc:"Bizeps",scheme:"3 × 10–12",load:"8–10 kg",q:"bizeps curls kurzhantel technik",note:"Ellbogen fixiert, kein Schwung."},
- {id:"ham",cat:"Ziehen",mg:"Bizeps",equip:"Kettlebell",name:"Hammer Curls (KB)",musc:"Bizeps, Brachialis, Unterarm",scheme:"3 × 10–12",load:"8–10 kg",q:"hammer curls technik",note:"Neutraler Griff, kontrolliert."},
- {id:"shr",cat:"Ziehen",mg:"Rücken",equip:"Kettlebell",name:"Shrugs (KB)",musc:"Trapezmuskel (oberer)",scheme:"3 × 15",load:"2× 10 kg",q:"shrugs schulterheben technik",note:"Oben kurz halten, nicht rollen."},
+ {id:"trxr",cat:"Ziehen",mg:"R\u00fccken",equip:"TRX",name:"TRX-Ruderzug",musc:"Oberer R\u00fccken, Latissimus, Bizeps",scheme:"3 \u00d7 10\u201312",load:"K\u00f6rpergew.",q:"trx row rudern technik",note:"Schwierigkeit \u00fcber Fu\u00dfstellung."},
+ {id:"lhr",cat:"Ziehen",mg:"R\u00fccken",equip:"Langhantel",name:"Langhantelrudern vorgebeugt",musc:"Latissimus, Rhomboiden, hintere Schulter, Bizeps",scheme:"4 \u00d7 8\u201310",load:"35\u201345 kg",q:"langhantelrudern vorgebeugt technik",note:"R\u00fccken parallel zum Boden, zum Bauchnabel ziehen."},
+ {id:"lz",cat:"Ziehen",mg:"R\u00fccken",equip:"Seilzug",name:"Latzug / \u00dcberzug (Seilzug)",musc:"Latissimus, oberer R\u00fccken",scheme:"3 \u00d7 10\u201312",load:"30\u201340 / 15\u201320 kg",q:"latzug kabelzug technik",note:"Zum oberen Brustbein ziehen."},
+ {id:"kr",cat:"Ziehen",mg:"R\u00fccken",equip:"Seilzug",name:"Seilzug-Ruderzug einarmig",musc:"R\u00fccken, Latissimus, Bizeps",scheme:"3 \u00d7 12 / Seite",load:"15\u201325 kg",q:"einarmiges kabelrudern technik",note:"Rumpf gegen die Rotation stabil."},
+ {id:"pull",cat:"Ziehen",mg:"R\u00fccken",equip:"Klimmzugstange",name:"Klimmz\u00fcge (Rack-Stange)",musc:"Latissimus, oberer R\u00fccken, Bizeps",scheme:"3 \u00d7 max",load:"KG",q:"klimmz\u00fcge technik",note:"Falls Klimmzugstange am Rack; sonst Latzug."},
+ {id:"face",cat:"Ziehen",mg:"R\u00fccken",equip:"Seilzug",name:"Face Pull am Seilzug",musc:"Hintere Schulter, Rotatorenmanschette, oberer R\u00fccken",scheme:"3 \u00d7 15",load:"15\u201320 kg",q:"face pull seilzug technik",note:"Top f\u00fcr Haltung & gesunde Schultern."},
+ {id:"rfly",cat:"Ziehen",mg:"Schultern",equip:"Kettlebell",name:"Reverse Fly (KB/TRX)",musc:"Hintere Schulter, oberer R\u00fccken",scheme:"3 \u00d7 12\u201315",load:"6\u20138 kg",q:"reverse fly hintere schulter",note:"Leicht, Schulterbl\u00e4tter zusammen."},
+ {id:"curl",cat:"Ziehen",mg:"Bizeps",equip:"Kettlebell",name:"Bizeps-Curls (KB)",musc:"Bizeps",scheme:"3 \u00d7 10\u201312",load:"8\u201310 kg",q:"bizeps curls kurzhantel technik",note:"Ellbogen fixiert, kein Schwung."},
+ {id:"ham",cat:"Ziehen",mg:"Bizeps",equip:"Kettlebell",name:"Hammer Curls (KB)",musc:"Bizeps, Brachialis, Unterarm",scheme:"3 \u00d7 10\u201312",load:"8\u201310 kg",q:"hammer curls technik",note:"Neutraler Griff, kontrolliert."},
+ {id:"shr",cat:"Ziehen",mg:"R\u00fccken",equip:"Kettlebell",name:"Shrugs (KB)",musc:"Trapezmuskel (oberer)",scheme:"3 \u00d7 15",load:"2\u00d7 10 kg",q:"shrugs schulterheben technik",note:"Oben kurz halten, nicht rollen."},
  // Core
- {id:"pp",cat:"Core",mg:"Bauch/Rumpf",equip:"Seilzug",name:"Pallof Press",musc:"Rumpf (Anti-Rotation), schräge Bauchmuskeln",scheme:"3 × 12 / Seite",load:"10–15 kg",q:"pallof press übung",note:"Arme vorstrecken und halten."},
- {id:"db",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Dead Bug",musc:"Tiefe Rumpfmuskulatur (Anti-Streckung)",scheme:"3 × 12",load:"Körpergew.",q:"dead bug übung technik",note:"Unterer Rücken bleibt am Boden."},
- {id:"khz",cat:"Core",mg:"Bauch/Rumpf",equip:"TRX",name:"TRX / Hängendes Knieheben",musc:"Untere/gerade Bauchmuskeln, Hüftbeuger",scheme:"3 × 12",load:"Körpergew.",q:"hängendes knieheben technik",note:"Kontrolliert, nicht schwingen."},
- {id:"hlr",cat:"Core",mg:"Bauch/Rumpf",equip:"Klimmzugstange",name:"Hängendes Beinheben",musc:"Gerade & untere Bauchmuskeln",scheme:"3 × 10",load:"Körpergew.",q:"hängendes beinheben technik",note:"Becken bewusst aufrollen."},
- {id:"pl",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Plank / Unterarmstütz",musc:"Gesamte Rumpfmuskulatur",scheme:"3 × 40 Sek.",load:"Körpergew.",q:"unterarmstütz plank technik",note:"Maximal anspannen, nicht durchhängen."},
- {id:"sp",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Side Plank",musc:"Schräge Bauchmuskeln, seitlicher Rumpf",scheme:"3 × 30 Sek. / Seite",load:"Körpergew.",q:"side plank seitstütz technik",note:"Anti-Seitneigung."},
- {id:"hollow",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Hollow Hold",musc:"Gerade Bauchmuskeln, tiefe Rumpfmuskulatur",scheme:"3 × 30 Sek.",load:"Körpergew.",q:"hollow hold übung",note:"Unterer Rücken am Boden, Spannung halten."},
- {id:"chop",cat:"Core",mg:"Bauch/Rumpf",equip:"Seilzug",name:"Cable Woodchop (Seilzug)",musc:"Schräge Bauchmuskeln, Rumpf-Rotation",scheme:"3 × 12 / Seite",load:"10–15 kg",q:"cable woodchop technik",note:"Drehung aus dem Rumpf, Arme bleiben lang."},
- {id:"rt",cat:"Core",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"Russian Twist (KB)",musc:"Schräge Bauchmuskeln",scheme:"3 × 16",load:"6–8 kg",q:"russian twist technik",note:"Brust hoch, kontrollierte Rotation."},
- {id:"sc",cat:"Core",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"Suitcase Carry (KB einseitig)",musc:"Schräge Bauchmuskeln (Anti-Seitneigung)",scheme:"3 × 30 m / Seite",load:"10 kg",q:"suitcase carry übung",note:"Gerade bleiben, nicht zur Seite kippen."},
- {id:"bd",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Bird Dog",musc:"Rumpfstabilität, Rückenstrecker, Gesäß",scheme:"3 × 10 / Seite",load:"Körpergew.",q:"bird dog übung technik",note:"Arm + gegengleiches Bein, Becken stabil."},
+ {id:"pp",cat:"Core",mg:"Bauch/Rumpf",equip:"Seilzug",name:"Pallof Press",musc:"Rumpf (Anti-Rotation), schr\u00e4ge Bauchmuskeln",scheme:"3 \u00d7 12 / Seite",load:"10\u201315 kg",q:"pallof press \u00fcbung",note:"Arme vorstrecken und halten."},
+ {id:"db",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Dead Bug",musc:"Tiefe Rumpfmuskulatur (Anti-Streckung)",scheme:"3 \u00d7 12",load:"K\u00f6rpergew.",q:"dead bug \u00fcbung technik",note:"Unterer R\u00fccken bleibt am Boden."},
+ {id:"khz",cat:"Core",mg:"Bauch/Rumpf",equip:"TRX",name:"TRX / H\u00e4ngendes Knieheben",musc:"Untere/gerade Bauchmuskeln, H\u00fcftbeuger",scheme:"3 \u00d7 12",load:"K\u00f6rpergew.",q:"h\u00e4ngendes knieheben technik",note:"Kontrolliert, nicht schwingen."},
+ {id:"hlr",cat:"Core",mg:"Bauch/Rumpf",equip:"Klimmzugstange",name:"H\u00e4ngendes Beinheben",musc:"Gerade & untere Bauchmuskeln",scheme:"3 \u00d7 10",load:"K\u00f6rpergew.",q:"h\u00e4ngendes beinheben technik",note:"Becken bewusst aufrollen."},
+ {id:"pl",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Plank / Unterarmst\u00fctz",musc:"Gesamte Rumpfmuskulatur",scheme:"3 \u00d7 40 Sek.",load:"K\u00f6rpergew.",q:"unterarmst\u00fctz plank technik",note:"Maximal anspannen, nicht durchh\u00e4ngen."},
+ {id:"sp",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Side Plank",musc:"Schr\u00e4ge Bauchmuskeln, seitlicher Rumpf",scheme:"3 \u00d7 30 Sek. / Seite",load:"K\u00f6rpergew.",q:"side plank seitst\u00fctz technik",note:"Anti-Seitneigung."},
+ {id:"hollow",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Hollow Hold",musc:"Gerade Bauchmuskeln, tiefe Rumpfmuskulatur",scheme:"3 \u00d7 30 Sek.",load:"K\u00f6rpergew.",q:"hollow hold \u00fcbung",note:"Unterer R\u00fccken am Boden, Spannung halten."},
+ {id:"chop",cat:"Core",mg:"Bauch/Rumpf",equip:"Seilzug",name:"Cable Woodchop (Seilzug)",musc:"Schr\u00e4ge Bauchmuskeln, Rumpf-Rotation",scheme:"3 \u00d7 12 / Seite",load:"10\u201315 kg",q:"cable woodchop technik",note:"Drehung aus dem Rumpf, Arme bleiben lang."},
+ {id:"rt",cat:"Core",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"Russian Twist (KB)",musc:"Schr\u00e4ge Bauchmuskeln",scheme:"3 \u00d7 16",load:"6\u20138 kg",q:"russian twist technik",note:"Brust hoch, kontrollierte Rotation."},
+ {id:"sc",cat:"Core",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"Suitcase Carry (KB einseitig)",musc:"Schr\u00e4ge Bauchmuskeln (Anti-Seitneigung)",scheme:"3 \u00d7 30 m / Seite",load:"10 kg",q:"suitcase carry \u00fcbung",note:"Gerade bleiben, nicht zur Seite kippen."},
+ {id:"bd",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Bird Dog",musc:"Rumpfstabilit\u00e4t, R\u00fcckenstrecker, Ges\u00e4\u00df",scheme:"3 \u00d7 10 / Seite",load:"K\u00f6rpergew.",q:"bird dog \u00fcbung technik",note:"Arm + gegengleiches Bein, Becken stabil."},
  // Kondition
- {id:"sw",cat:"Kondition",mg:"Gesäß",equip:"Kettlebell",name:"Kettlebell Swing",musc:"Gesäß, hintere Oberschenkel, Rumpf",scheme:"4 × 12–15",load:"10 kg",q:"kettlebell swing technik",note:"Hüftdominant, explosive Streckung."},
- {id:"clp",cat:"Kondition",mg:"Ganzkörper",equip:"Kettlebell",name:"KB Clean & Press",musc:"Ganzkörper (Beine, Schulter, Rumpf)",scheme:"3 × 8 / Seite",load:"8–10 kg",q:"kettlebell clean and press technik",note:"Sauber zur Schulter, dann drücken."},
- {id:"thr",cat:"Kondition",mg:"Ganzkörper",equip:"Kettlebell",name:"Thrusters (KB)",musc:"Ganzkörper (Beine + Schultern)",scheme:"3 × 10",load:"2× 8–10 kg",q:"kettlebell thruster technik",note:"Kniebeuge in den Druck übergehen."},
- {id:"fc",cat:"Kondition",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"Farmer's Carry",musc:"Rumpf, Griff, Trapez, Haltung",scheme:"3 × 40 m",load:"2× 10 kg",q:"farmers carry übung",note:"Aufrecht, Schultern hinten."},
- {id:"mc",cat:"Kondition",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Mountain Climbers",musc:"Rumpf, Hüftbeuger, Kondition",scheme:"3 × 40 Sek.",load:"KG",q:"mountain climbers technik",note:"Hüfte tief, gleichmäßiges Tempo."},
- {id:"rudi",cat:"Kondition",mg:"Ganzkörper",equip:"Rudergerät",name:"Rudergerät – Intervalle",musc:"Ganzkörper-Ausdauer",scheme:"6 × 30 Sek.",load:"—",q:"ruderergometer intervall",note:"30 Sek. zügig / 30 Sek. locker."},
- {id:"ruds",cat:"Kondition",mg:"Ganzkörper",equip:"Rudergerät",name:"Rudergerät – Dauer (steady)",musc:"Ganzkörper-Ausdauer, Fettverbrennung",scheme:"1 × 15–20 Min.",load:"—",q:"ruderergometer technik ausdauer",note:"Gleichmäßiges Tempo, saubere Zugtechnik."},
- {id:"lauf",cat:"Kondition",mg:"Ganzkörper",equip:"Körpergewicht",name:"Laufen / Joggen",musc:"Ganzkörper-Ausdauer, Beine",scheme:"1 × 20–30 Min.",load:"—",q:"laufen joggen technik anfänger",note:"Lockeres Tempo. Wegen Achilles/Knie auf weichem Untergrund starten und Umfang langsam steigern."},
- {id:"laufint",cat:"Kondition",mg:"Ganzkörper",equip:"Körpergewicht",name:"Lauf-Intervalle",musc:"Ganzkörper-Ausdauer, Beine",scheme:"6 × 1 Min.",load:"—",q:"lauf intervalle training",note:"1 Min. zügig / 1–2 Min. locker. Erst aufnehmen, wenn Dauerläufe schmerzfrei sind."},
- {id:"backsq",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Langhantel",name:"Kniebeuge (hinten, Langhantel)",musc:"Quadrizeps, Gesäß, Rumpf",scheme:"4 × 6–8",load:"50–70 kg",q:"kniebeuge langhantel technik",note:"Stange am oberen Rücken, Tiefe schmerzfrei, Knie in Zehenrichtung."},
- {id:"boxsq",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Langhantel",name:"Box Squat",musc:"Quadrizeps, Gesäß",scheme:"4 × 5",load:"45–65 kg",q:"box squat technik",note:"Auf Box absetzen, kurz halten, explosiv hoch – knieschonend."},
- {id:"pausesq",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Langhantel",name:"Pausen-Kniebeuge",musc:"Quadrizeps, Gesäß",scheme:"4 × 4",load:"45–60 kg",q:"pause squat technik",note:"2 Sek. in der Tiefe halten, dann hoch."},
- {id:"frontlunge",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Ausfallschritt vorwärts (KB)",musc:"Quadrizeps, Gesäß",scheme:"3 × 10 / Bein",load:"8–10 kg",q:"ausfallschritt vorwärts technik",note:"Kontrolliert nach vorn, Knie über Mittelfuß."},
- {id:"walklunge",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Gehende Ausfallschritte (KB)",musc:"Quadrizeps, Gesäß",scheme:"3 × 12 / Bein",load:"2× 8–10 kg",q:"gehende ausfallschritte technik",note:"Fließend gehen, Oberkörper aufrecht."},
- {id:"curtsy",cat:"Beine/Knie",mg:"Gesäß",equip:"Kettlebell",name:"Curtsy Lunge",musc:"Gesäß (medius), Quadrizeps",scheme:"3 × 10 / Bein",load:"KG / 8 kg",q:"curtsy lunge technik",note:"Hinteres Bein diagonal kreuzen, Hüfte stabil."},
- {id:"pistoltrx",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"TRX",name:"Pistol Squat (TRX-assistiert)",musc:"Quadrizeps, Gesäß (einbeinig)",scheme:"3 × 6 / Bein",load:"Körpergew.",q:"trx pistol squat technik",note:"An den Bändern abstützen, einbeinig tief, kontrolliert."},
- {id:"kbdl",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Kettlebell",name:"Kettlebell-Kreuzheben",musc:"Hintere Oberschenkel, Gesäß",scheme:"3 × 10",load:"10 kg",q:"kettlebell kreuzheben technik",note:"KB zwischen den Füßen, Hüfte nach hinten, Rücken gerade."},
- {id:"singledl",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Kettlebell",name:"Einbeiniges Kreuzheben (KB)",musc:"Hintere Oberschenkel, Gesäß, Balance",scheme:"3 × 8 / Bein",load:"8–10 kg",q:"einbeiniges kreuzheben kettlebell",note:"Standbein leicht gebeugt, Hüfte kippt, Rücken neutral."},
- {id:"hipthrust1",cat:"Beine/Knie",mg:"Gesäß",equip:"Kettlebell",name:"Einbeiniger Hip Thrust",musc:"Gesäß, hintere Oberschenkel",scheme:"3 × 10 / Bein",load:"KG / 8 kg",q:"einbeiniger hip thrust technik",note:"Schulter auf Bank, oben Gesäß fest anspannen."},
- {id:"gluteb",cat:"Beine/Knie",mg:"Gesäß",equip:"Kettlebell",name:"Glute Bridge (KB)",musc:"Gesäß, hintere Oberschenkel",scheme:"3 × 15",load:"10 kg",q:"glute bridge kettlebell technik",note:"Am Boden, KB auf der Hüfte, oben kurz halten."},
- {id:"cablepull",cat:"Beine/Knie",mg:"Gesäß",equip:"Seilzug",name:"Cable Pull-Through",musc:"Gesäß, hintere Oberschenkel",scheme:"3 × 12",load:"20–30 kg",q:"cable pull through technik",note:"Seil zwischen den Beinen, Hüftstreckung, Rücken gerade."},
- {id:"sissy",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Körpergewicht",name:"Sissy Squat",musc:"Quadrizeps (unterer Anteil)",scheme:"3 × 10",load:"Körpergew.",q:"sissy squat technik",note:"Knie nach vorn, zurücklehnen, Fersen ggf. erhöht. Nur schmerzfrei."},
- {id:"calfrack",cat:"Wade",mg:"Wade",equip:"Langhantel",name:"Wadenheben schwer (Rack, Langhantel)",musc:"Wade – Gastrocnemius",scheme:"4 × 10–12",load:"40–60 kg",q:"wadenheben langhantel stehend",note:"Stange am Rücken, Fußballen auf Step, volle Bewegung, 3 Sek. runter."},
- {id:"jumprope",cat:"Wade",mg:"Wade",equip:"Springseil",name:"Seilspringen",musc:"Wade, Sprunggelenk, Kondition",scheme:"5 × 60 Sek.",load:"—",q:"seilspringen technik anfänger",note:"Leise, kleine Sprünge, weich landen. Reaktiv für die Wade."},
- {id:"anklehops",cat:"Wade",mg:"Wade",equip:"Körpergewicht",name:"Ankle Hops / Fußgelenk-Sprünge",musc:"Wade reaktiv, Achillessehne",scheme:"3 × 20",load:"Körpergew.",q:"ankle hops übung",note:"Nur aus dem Sprunggelenk, Knie fast gestreckt. Nur schmerzfrei."},
- {id:"bandsquat",cat:"Reha (Band)",mg:"Gesäß",equip:"Band",name:"Band-Kniebeuge (Aktivierung)",musc:"Gesäß, Hüftabduktoren, Quadrizeps",scheme:"3 × 15",load:"Mini-Band",q:"banded squat aktivierung",note:"Band über den Knien, Knie aktiv nach außen drücken."},
- {id:"glutebridgeband",cat:"Reha (Band)",mg:"Gesäß",equip:"Band",name:"Glute Bridge mit Mini-Band",musc:"Gesäß (medius/maximus)",scheme:"3 × 15",load:"Mini-Band",q:"glute bridge mini band",note:"Oben Knie gegen das Band nach außen drücken."},
- {id:"singlelegbalance",cat:"Reha (Band)",mg:"Wade",equip:"Körpergewicht",name:"Einbeinstand (Balance)",musc:"Sprunggelenk-Stabilität, Propriozeption",scheme:"3 × 30 Sek. / Bein",load:"Körpergew.",q:"einbeinstand balance übung",note:"Auf einem Bein stehen, ggf. Augen zu – Knie/Sprunggelenk-Reha."},
- {id:"ankleabc",cat:"Reha (Band)",mg:"Wade",equip:"Körpergewicht",name:"Sprunggelenk-ABC",musc:"Sprunggelenk-Mobilität",scheme:"2 × / Fuß",load:"Körpergew.",q:"sprunggelenk mobilisation abc",note:"Mit den Zehen das Alphabet in die Luft schreiben."},
- {id:"benchclose",cat:"Drücken",mg:"Trizeps",equip:"Langhantel",name:"Enges Bankdrücken",musc:"Trizeps, Brust",scheme:"3 × 8–10",load:"30–40 kg",q:"enges bankdrücken technik",note:"Griff schulterbreit, Ellbogen eng am Körper."},
- {id:"floorpresslh",cat:"Drücken",mg:"Brust",equip:"Langhantel",name:"Floor Press (Langhantel)",musc:"Brust, Trizeps",scheme:"3 × 8",load:"35–45 kg",q:"floor press langhantel technik",note:"Am Boden, Ellbogen kurz ablegen – schulterschonend."},
- {id:"pushup",cat:"Drücken",mg:"Brust",equip:"Körpergewicht",name:"Liegestütze",musc:"Brust, Trizeps, vordere Schulter",scheme:"3 × max",load:"Körpergew.",q:"liegestütze technik",note:"Körper in einer Linie, Rumpf fest."},
- {id:"pushupdecline",cat:"Drücken",mg:"Brust",equip:"Step",name:"Liegestütze erhöht (Füße auf Step)",musc:"Obere Brust, Schulter, Trizeps",scheme:"3 × 12",load:"Körpergew.",q:"decline push up technik",note:"Füße erhöht – mehr Fokus obere Brust."},
- {id:"diamondpush",cat:"Drücken",mg:"Trizeps",equip:"Körpergewicht",name:"Diamant-Liegestütze",musc:"Trizeps, Brust",scheme:"3 × 10",load:"Körpergew.",q:"diamant liegestütze technik",note:"Hände unter der Brust zum Dreieck."},
- {id:"pikepush",cat:"Drücken",mg:"Schultern",equip:"Körpergewicht",name:"Pike Push-ups",musc:"Schultern, Trizeps",scheme:"3 × 8–10",load:"Körpergew.",q:"pike push ups technik",note:"Hüfte hoch (V), Kopf Richtung Boden senken."},
- {id:"kbfloorpress",cat:"Drücken",mg:"Brust",equip:"Kettlebell",name:"Kettlebell Floor Press",musc:"Brust, Trizeps",scheme:"3 × 10",load:"2× 8–10 kg",q:"kettlebell floor press",note:"Am Boden, Ellbogen kurz ablegen."},
- {id:"kbpushpress",cat:"Drücken",mg:"Schultern",equip:"Kettlebell",name:"Kettlebell Push Press",musc:"Schultern, Trizeps, Beine",scheme:"3 × 8 / Seite",load:"10 kg",q:"kettlebell push press technik",note:"Leichter Impuls aus den Knien, dann über Kopf."},
- {id:"cablefly",cat:"Drücken",mg:"Brust",equip:"Seilzug",name:"Kabel-Fly",musc:"Brust",scheme:"3 × 12–15",load:"10–15 kg",q:"cable fly technik",note:"Leicht gebeugte Arme, Brust bewusst zusammenführen."},
- {id:"frontraise",cat:"Drücken",mg:"Schultern",equip:"Kettlebell",name:"Frontheben (KB)",musc:"Vordere Schulter",scheme:"3 × 12",load:"6–8 kg",q:"frontheben technik",note:"Kontrolliert bis Schulterhöhe, kein Schwung."},
- {id:"pendlay",cat:"Ziehen",mg:"Rücken",equip:"Langhantel",name:"Pendlay Row",musc:"Latissimus, oberer Rücken, hintere Schulter",scheme:"4 × 6–8",load:"35–45 kg",q:"pendlay row technik",note:"Rücken parallel, Stange vom Boden explosiv zum Bauch."},
- {id:"kbrow",cat:"Ziehen",mg:"Rücken",equip:"Kettlebell",name:"Kettlebell-Rudern einarmig",musc:"Latissimus, oberer Rücken, Bizeps",scheme:"3 × 10 / Seite",load:"10 kg",q:"kettlebell rudern einarmig",note:"Eine Hand auf der Bank, KB zur Hüfte ziehen."},
- {id:"chinup",cat:"Ziehen",mg:"Rücken",equip:"Klimmzugstange",name:"Klimmzüge Untergriff (Chin-ups)",musc:"Latissimus, Bizeps",scheme:"3 × max",load:"Körpergew.",q:"chin ups untergriff technik",note:"Untergriff, Brust zur Stange, kontrolliert ab."},
- {id:"pullneg",cat:"Ziehen",mg:"Rücken",equip:"Klimmzugstange",name:"Negative Klimmzüge",musc:"Latissimus, Bizeps",scheme:"3 × 5",load:"Körpergew.",q:"negative klimmzüge technik",note:"Oben starten, 3–5 Sek. langsam ablassen – Aufbau zum Klimmzug."},
- {id:"invrow",cat:"Ziehen",mg:"Rücken",equip:"Langhantel",name:"Invertiertes Rudern (Rack)",musc:"Oberer Rücken, Latissimus, Bizeps",scheme:"3 × 10–12",load:"Körpergew.",q:"invertiertes rudern rack technik",note:"Stange im Rack tief, Körper gerade, Brust zur Stange."},
- {id:"reardeltcable",cat:"Ziehen",mg:"Schultern",equip:"Seilzug",name:"Reverse Fly am Seilzug",musc:"Hintere Schulter, oberer Rücken",scheme:"3 × 15",load:"10 kg",q:"reverse fly kabel technik",note:"Über Kreuz, Arme leicht gebeugt öffnen."},
- {id:"bicepscable",cat:"Ziehen",mg:"Bizeps",equip:"Seilzug",name:"Bizeps-Curls am Seilzug",musc:"Bizeps",scheme:"3 × 12",load:"15–20 kg",q:"bizeps curls kabel technik",note:"Ellbogen fixiert, konstante Spannung."},
- {id:"concentration",cat:"Ziehen",mg:"Bizeps",equip:"Kettlebell",name:"Konzentrations-Curls (KB)",musc:"Bizeps (Peak)",scheme:"3 × 12 / Arm",load:"8–10 kg",q:"konzentrations curls technik",note:"Ellbogen am Oberschenkel abstützen, isoliert."},
- {id:"reversecurl",cat:"Ziehen",mg:"Bizeps",equip:"Kettlebell",name:"Reverse Curls (KB)",musc:"Unterarm, Brachialis, Bizeps",scheme:"3 × 12",load:"8 kg",q:"reverse curls technik",note:"Obergriff, für Unterarm und Brachialis."},
- {id:"trxbiceps",cat:"Ziehen",mg:"Bizeps",equip:"TRX",name:"TRX Bizeps-Curl",musc:"Bizeps",scheme:"3 × 12",load:"Körpergew.",q:"trx bizeps curl technik",note:"Handflächen nach oben, Ellbogen hoch fixieren."},
- {id:"cablecrunch",cat:"Core",mg:"Bauch/Rumpf",equip:"Seilzug",name:"Kabel-Crunch",musc:"Gerade Bauchmuskeln",scheme:"3 × 15",load:"20–30 kg",q:"kabel crunch technik",note:"Kniend, Wirbel für Wirbel einrollen, aus dem Bauch."},
- {id:"kbwindmill",cat:"Core",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"Kettlebell Windmill",musc:"Schräge Bauchmuskeln, Schulter, Hüfte",scheme:"3 × 6 / Seite",load:"8 kg",q:"kettlebell windmill technik",note:"KB über Kopf, kontrolliert zur Seite absenken, Blick zur KB."},
- {id:"turkishget",cat:"Core",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"Türkisch Aufstehen (Get-up)",musc:"Ganzer Rumpf, Schulter, Hüfte",scheme:"3 × 3 / Seite",load:"8–10 kg",q:"turkish get up technik",note:"Langsam Schritt für Schritt aufstehen und zurück – Stabilität."},
- {id:"vups",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"V-Ups",musc:"Gerade Bauchmuskeln",scheme:"3 × 12",load:"Körpergew.",q:"v-ups übung technik",note:"Arme und Beine gleichzeitig zum V heben."},
- {id:"legraisefloor",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Beinheben liegend",musc:"Untere/gerade Bauchmuskeln",scheme:"3 × 15",load:"Körpergew.",q:"beinheben liegend technik",note:"Unterer Rücken bleibt am Boden, Beine langsam senken."},
- {id:"flutter",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Flutter Kicks",musc:"Untere Bauchmuskeln, Hüftbeuger",scheme:"3 × 30 Sek.",load:"Körpergew.",q:"flutter kicks technik",note:"Kleine, schnelle Beinbewegungen, Rücken stabil."},
- {id:"trxbodysaw",cat:"Core",mg:"Bauch/Rumpf",equip:"TRX",name:"TRX Body Saw",musc:"Gerade & tiefe Rumpfmuskulatur",scheme:"3 × 10",load:"Körpergew.",q:"trx body saw technik",note:"Im Unterarmstütz vor/zurück wiegen, Rumpf fest."},
- {id:"trxpike",cat:"Core",mg:"Bauch/Rumpf",equip:"TRX",name:"TRX Pike",musc:"Gerade Bauchmuskeln, Schulter",scheme:"3 × 10",load:"Körpergew.",q:"trx pike technik",note:"Füße in den Schlaufen, Hüfte hoch, Beine gestreckt."},
- {id:"copenhagen",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Copenhagen Plank",musc:"Schräge Bauchmuskeln, Adduktoren",scheme:"3 × 20 Sek. / Seite",load:"Körpergew.",q:"copenhagen plank technik",note:"Oberes Bein auf Bank, seitlich halten. Leiste/Adduktoren stabil."},
- {id:"backext",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Rückenstrecker (Hyperextension)",musc:"Unterer Rücken, Gesäß, hintere Oberschenkel",scheme:"3 × 12",load:"Körpergew.",q:"hyperextension rückenstrecker technik",note:"Über Bank/Rack, kontrolliert heben – nicht überstrecken."},
- {id:"superman",cat:"Core",mg:"Bauch/Rumpf",equip:"Körpergewicht",name:"Superman",musc:"Unterer Rücken, Gesäß",scheme:"3 × 12",load:"Körpergew.",q:"superman übung rücken",note:"Bauchlage, Arme und Beine heben, kurz halten."},
- {id:"kbsnatch",cat:"Kondition",mg:"Ganzkörper",equip:"Kettlebell",name:"Kettlebell Snatch",musc:"Ganzkörper, Hüfte, Schulter",scheme:"4 × 8 / Seite",load:"8–10 kg",q:"kettlebell snatch technik",note:"Explosiv aus der Hüfte über Kopf. Technik zuerst leicht üben."},
- {id:"kbcleanonly",cat:"Kondition",mg:"Ganzkörper",equip:"Kettlebell",name:"Kettlebell Clean",musc:"Hüfte, Gesäß, oberer Rücken",scheme:"3 × 10 / Seite",load:"10 kg",q:"kettlebell clean technik",note:"KB weich zur Schulter racken, kein Aufschlagen aufs Handgelenk."},
- {id:"burpee",cat:"Kondition",mg:"Ganzkörper",equip:"Körpergewicht",name:"Burpees",musc:"Ganzkörper, Kondition",scheme:"4 × 10",load:"Körpergew.",q:"burpees technik",note:"Zügiges Tempo. Wegen Sprung nur wenn Knie/Achilles schmerzfrei."},
- {id:"jumpingjacks",cat:"Kondition",mg:"Ganzkörper",equip:"Körpergewicht",name:"Hampelmänner",musc:"Ganzkörper, Kondition",scheme:"4 × 45 Sek.",load:"Körpergew.",q:"hampelmänner jumping jacks",note:"Gleichmäßiges Tempo, weich landen."},
- {id:"highknees",cat:"Kondition",mg:"Ganzkörper",equip:"Körpergewicht",name:"Hohe Knie",musc:"Hüftbeuger, Wade, Kondition",scheme:"4 × 30 Sek.",load:"Körpergew.",q:"hohe knie lauf technik",note:"Auf dem Vorfuß, Knie zügig hoch."},
- {id:"stepcardio",cat:"Kondition",mg:"Ganzkörper",equip:"Step",name:"Step-Board Cardio",musc:"Beine, Kondition",scheme:"5 × 60 Sek.",load:"Körpergew.",q:"step aerobic grundschritt",note:"Zügiges Rauf-Runter, Tempo halten – gelenkschonendes Cardio."},
+ {id:"sw",cat:"Kondition",mg:"Ges\u00e4\u00df",equip:"Kettlebell",name:"Kettlebell Swing",musc:"Ges\u00e4\u00df, hintere Oberschenkel, Rumpf",scheme:"4 \u00d7 12\u201315",load:"10 kg",q:"kettlebell swing technik",note:"H\u00fcftdominant, explosive Streckung."},
+ {id:"clp",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"Kettlebell",name:"KB Clean & Press",musc:"Ganzk\u00f6rper (Beine, Schulter, Rumpf)",scheme:"3 \u00d7 8 / Seite",load:"8\u201310 kg",q:"kettlebell clean and press technik",note:"Sauber zur Schulter, dann dr\u00fccken."},
+ {id:"thr",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"Kettlebell",name:"Thrusters (KB)",musc:"Ganzk\u00f6rper (Beine + Schultern)",scheme:"3 \u00d7 10",load:"2\u00d7 8\u201310 kg",q:"kettlebell thruster technik",note:"Kniebeuge in den Druck \u00fcbergehen."},
+ {id:"fc",cat:"Kondition",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"Farmer's Carry",musc:"Rumpf, Griff, Trapez, Haltung",scheme:"3 \u00d7 40 m",load:"2\u00d7 10 kg",q:"farmers carry \u00fcbung",note:"Aufrecht, Schultern hinten."},
+ {id:"mc",cat:"Kondition",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Mountain Climbers",musc:"Rumpf, H\u00fcftbeuger, Kondition",scheme:"3 \u00d7 40 Sek.",load:"KG",q:"mountain climbers technik",note:"H\u00fcfte tief, gleichm\u00e4\u00dfiges Tempo."},
+ {id:"rudi",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"Ruderger\u00e4t",name:"Ruderger\u00e4t \u2013 Intervalle",musc:"Ganzk\u00f6rper-Ausdauer",scheme:"6 \u00d7 30 Sek.",load:"\u2014",q:"ruderergometer intervall",note:"30 Sek. z\u00fcgig / 30 Sek. locker."},
+ {id:"ruds",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"Ruderger\u00e4t",name:"Ruderger\u00e4t \u2013 Dauer (steady)",musc:"Ganzk\u00f6rper-Ausdauer, Fettverbrennung",scheme:"1 \u00d7 15\u201320 Min.",load:"\u2014",q:"ruderergometer technik ausdauer",note:"Gleichm\u00e4\u00dfiges Tempo, saubere Zugtechnik."},
+ {id:"lauf",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"K\u00f6rpergewicht",name:"Laufen / Joggen",musc:"Ganzk\u00f6rper-Ausdauer, Beine",scheme:"1 \u00d7 20\u201330 Min.",load:"\u2014",q:"laufen joggen technik anf\u00e4nger",note:"Lockeres Tempo. Wegen Achilles/Knie auf weichem Untergrund starten und Umfang langsam steigern."},
+ {id:"laufint",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"K\u00f6rpergewicht",name:"Lauf-Intervalle",musc:"Ganzk\u00f6rper-Ausdauer, Beine",scheme:"6 \u00d7 1 Min.",load:"\u2014",q:"lauf intervalle training",note:"1 Min. z\u00fcgig / 1\u20132 Min. locker. Erst aufnehmen, wenn Dauerl\u00e4ufe schmerzfrei sind."},
+ {id:"backsq",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Langhantel",name:"Kniebeuge (hinten, Langhantel)",musc:"Quadrizeps, Ges\u00e4\u00df, Rumpf",scheme:"4 \u00d7 6\u20138",load:"50\u201370 kg",q:"kniebeuge langhantel technik",note:"Stange am oberen R\u00fccken, Tiefe schmerzfrei, Knie in Zehenrichtung."},
+ {id:"boxsq",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Langhantel",name:"Box Squat",musc:"Quadrizeps, Ges\u00e4\u00df",scheme:"4 \u00d7 5",load:"45\u201365 kg",q:"box squat technik",note:"Auf Box absetzen, kurz halten, explosiv hoch \u2013 knieschonend."},
+ {id:"pausesq",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Langhantel",name:"Pausen-Kniebeuge",musc:"Quadrizeps, Ges\u00e4\u00df",scheme:"4 \u00d7 4",load:"45\u201360 kg",q:"pause squat technik",note:"2 Sek. in der Tiefe halten, dann hoch."},
+ {id:"frontlunge",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Ausfallschritt vorw\u00e4rts (KB)",musc:"Quadrizeps, Ges\u00e4\u00df",scheme:"3 \u00d7 10 / Bein",load:"8\u201310 kg",q:"ausfallschritt vorw\u00e4rts technik",note:"Kontrolliert nach vorn, Knie \u00fcber Mittelfu\u00df."},
+ {id:"walklunge",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"Kettlebell",name:"Gehende Ausfallschritte (KB)",musc:"Quadrizeps, Ges\u00e4\u00df",scheme:"3 \u00d7 12 / Bein",load:"2\u00d7 8\u201310 kg",q:"gehende ausfallschritte technik",note:"Flie\u00dfend gehen, Oberk\u00f6rper aufrecht."},
+ {id:"curtsy",cat:"Beine/Knie",mg:"Ges\u00e4\u00df",equip:"Kettlebell",name:"Curtsy Lunge",musc:"Ges\u00e4\u00df (medius), Quadrizeps",scheme:"3 \u00d7 10 / Bein",load:"KG / 8 kg",q:"curtsy lunge technik",note:"Hinteres Bein diagonal kreuzen, H\u00fcfte stabil."},
+ {id:"pistoltrx",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"TRX",name:"Pistol Squat (TRX-assistiert)",musc:"Quadrizeps, Ges\u00e4\u00df (einbeinig)",scheme:"3 \u00d7 6 / Bein",load:"K\u00f6rpergew.",q:"trx pistol squat technik",note:"An den B\u00e4ndern abst\u00fctzen, einbeinig tief, kontrolliert."},
+ {id:"kbdl",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Kettlebell",name:"Kettlebell-Kreuzheben",musc:"Hintere Oberschenkel, Ges\u00e4\u00df",scheme:"3 \u00d7 10",load:"10 kg",q:"kettlebell kreuzheben technik",note:"KB zwischen den F\u00fc\u00dfen, H\u00fcfte nach hinten, R\u00fccken gerade."},
+ {id:"singledl",cat:"Beine/Knie",mg:"Beine (hinten)",equip:"Kettlebell",name:"Einbeiniges Kreuzheben (KB)",musc:"Hintere Oberschenkel, Ges\u00e4\u00df, Balance",scheme:"3 \u00d7 8 / Bein",load:"8\u201310 kg",q:"einbeiniges kreuzheben kettlebell",note:"Standbein leicht gebeugt, H\u00fcfte kippt, R\u00fccken neutral."},
+ {id:"hipthrust1",cat:"Beine/Knie",mg:"Ges\u00e4\u00df",equip:"Kettlebell",name:"Einbeiniger Hip Thrust",musc:"Ges\u00e4\u00df, hintere Oberschenkel",scheme:"3 \u00d7 10 / Bein",load:"KG / 8 kg",q:"einbeiniger hip thrust technik",note:"Schulter auf Bank, oben Ges\u00e4\u00df fest anspannen."},
+ {id:"gluteb",cat:"Beine/Knie",mg:"Ges\u00e4\u00df",equip:"Kettlebell",name:"Glute Bridge (KB)",musc:"Ges\u00e4\u00df, hintere Oberschenkel",scheme:"3 \u00d7 15",load:"10 kg",q:"glute bridge kettlebell technik",note:"Am Boden, KB auf der H\u00fcfte, oben kurz halten."},
+ {id:"cablepull",cat:"Beine/Knie",mg:"Ges\u00e4\u00df",equip:"Seilzug",name:"Cable Pull-Through",musc:"Ges\u00e4\u00df, hintere Oberschenkel",scheme:"3 \u00d7 12",load:"20\u201330 kg",q:"cable pull through technik",note:"Seil zwischen den Beinen, H\u00fcftstreckung, R\u00fccken gerade."},
+ {id:"sissy",cat:"Beine/Knie",mg:"Beine (vorne)",equip:"K\u00f6rpergewicht",name:"Sissy Squat",musc:"Quadrizeps (unterer Anteil)",scheme:"3 \u00d7 10",load:"K\u00f6rpergew.",q:"sissy squat technik",note:"Knie nach vorn, zur\u00fccklehnen, Fersen ggf. erh\u00f6ht. Nur schmerzfrei."},
+ {id:"calfrack",cat:"Wade",mg:"Wade",equip:"Langhantel",name:"Wadenheben schwer (Rack, Langhantel)",musc:"Wade \u2013 Gastrocnemius",scheme:"4 \u00d7 10\u201312",load:"40\u201360 kg",q:"wadenheben langhantel stehend",note:"Stange am R\u00fccken, Fu\u00dfballen auf Step, volle Bewegung, 3 Sek. runter."},
+ {id:"jumprope",cat:"Wade",mg:"Wade",equip:"Springseil",name:"Seilspringen",musc:"Wade, Sprunggelenk, Kondition",scheme:"5 \u00d7 60 Sek.",load:"\u2014",q:"seilspringen technik anf\u00e4nger",note:"Leise, kleine Spr\u00fcnge, weich landen. Reaktiv f\u00fcr die Wade."},
+ {id:"anklehops",cat:"Wade",mg:"Wade",equip:"K\u00f6rpergewicht",name:"Ankle Hops / Fu\u00dfgelenk-Spr\u00fcnge",musc:"Wade reaktiv, Achillessehne",scheme:"3 \u00d7 20",load:"K\u00f6rpergew.",q:"ankle hops \u00fcbung",note:"Nur aus dem Sprunggelenk, Knie fast gestreckt. Nur schmerzfrei."},
+ {id:"bandsquat",cat:"Reha (Band)",mg:"Ges\u00e4\u00df",equip:"Band",name:"Band-Kniebeuge (Aktivierung)",musc:"Ges\u00e4\u00df, H\u00fcftabduktoren, Quadrizeps",scheme:"3 \u00d7 15",load:"Mini-Band",q:"banded squat aktivierung",note:"Band \u00fcber den Knien, Knie aktiv nach au\u00dfen dr\u00fccken."},
+ {id:"glutebridgeband",cat:"Reha (Band)",mg:"Ges\u00e4\u00df",equip:"Band",name:"Glute Bridge mit Mini-Band",musc:"Ges\u00e4\u00df (medius/maximus)",scheme:"3 \u00d7 15",load:"Mini-Band",q:"glute bridge mini band",note:"Oben Knie gegen das Band nach au\u00dfen dr\u00fccken."},
+ {id:"singlelegbalance",cat:"Reha (Band)",mg:"Wade",equip:"K\u00f6rpergewicht",name:"Einbeinstand (Balance)",musc:"Sprunggelenk-Stabilit\u00e4t, Propriozeption",scheme:"3 \u00d7 30 Sek. / Bein",load:"K\u00f6rpergew.",q:"einbeinstand balance \u00fcbung",note:"Auf einem Bein stehen, ggf. Augen zu \u2013 Knie/Sprunggelenk-Reha."},
+ {id:"ankleabc",cat:"Reha (Band)",mg:"Wade",equip:"K\u00f6rpergewicht",name:"Sprunggelenk-ABC",musc:"Sprunggelenk-Mobilit\u00e4t",scheme:"2 \u00d7 / Fu\u00df",load:"K\u00f6rpergew.",q:"sprunggelenk mobilisation abc",note:"Mit den Zehen das Alphabet in die Luft schreiben."},
+ {id:"benchclose",cat:"Dr\u00fccken",mg:"Trizeps",equip:"Langhantel",name:"Enges Bankdr\u00fccken",musc:"Trizeps, Brust",scheme:"3 \u00d7 8\u201310",load:"30\u201340 kg",q:"enges bankdr\u00fccken technik",note:"Griff schulterbreit, Ellbogen eng am K\u00f6rper."},
+ {id:"floorpresslh",cat:"Dr\u00fccken",mg:"Brust",equip:"Langhantel",name:"Floor Press (Langhantel)",musc:"Brust, Trizeps",scheme:"3 \u00d7 8",load:"35\u201345 kg",q:"floor press langhantel technik",note:"Am Boden, Ellbogen kurz ablegen \u2013 schulterschonend."},
+ {id:"pushup",cat:"Dr\u00fccken",mg:"Brust",equip:"K\u00f6rpergewicht",name:"Liegest\u00fctze",musc:"Brust, Trizeps, vordere Schulter",scheme:"3 \u00d7 max",load:"K\u00f6rpergew.",q:"liegest\u00fctze technik",note:"K\u00f6rper in einer Linie, Rumpf fest."},
+ {id:"pushupdecline",cat:"Dr\u00fccken",mg:"Brust",equip:"Step",name:"Liegest\u00fctze erh\u00f6ht (F\u00fc\u00dfe auf Step)",musc:"Obere Brust, Schulter, Trizeps",scheme:"3 \u00d7 12",load:"K\u00f6rpergew.",q:"decline push up technik",note:"F\u00fc\u00dfe erh\u00f6ht \u2013 mehr Fokus obere Brust."},
+ {id:"diamondpush",cat:"Dr\u00fccken",mg:"Trizeps",equip:"K\u00f6rpergewicht",name:"Diamant-Liegest\u00fctze",musc:"Trizeps, Brust",scheme:"3 \u00d7 10",load:"K\u00f6rpergew.",q:"diamant liegest\u00fctze technik",note:"H\u00e4nde unter der Brust zum Dreieck."},
+ {id:"pikepush",cat:"Dr\u00fccken",mg:"Schultern",equip:"K\u00f6rpergewicht",name:"Pike Push-ups",musc:"Schultern, Trizeps",scheme:"3 \u00d7 8\u201310",load:"K\u00f6rpergew.",q:"pike push ups technik",note:"H\u00fcfte hoch (V), Kopf Richtung Boden senken."},
+ {id:"kbfloorpress",cat:"Dr\u00fccken",mg:"Brust",equip:"Kettlebell",name:"Kettlebell Floor Press",musc:"Brust, Trizeps",scheme:"3 \u00d7 10",load:"2\u00d7 8\u201310 kg",q:"kettlebell floor press",note:"Am Boden, Ellbogen kurz ablegen."},
+ {id:"kbpushpress",cat:"Dr\u00fccken",mg:"Schultern",equip:"Kettlebell",name:"Kettlebell Push Press",musc:"Schultern, Trizeps, Beine",scheme:"3 \u00d7 8 / Seite",load:"10 kg",q:"kettlebell push press technik",note:"Leichter Impuls aus den Knien, dann \u00fcber Kopf."},
+ {id:"cablefly",cat:"Dr\u00fccken",mg:"Brust",equip:"Seilzug",name:"Kabel-Fly",musc:"Brust",scheme:"3 \u00d7 12\u201315",load:"10\u201315 kg",q:"cable fly technik",note:"Leicht gebeugte Arme, Brust bewusst zusammenf\u00fchren."},
+ {id:"frontraise",cat:"Dr\u00fccken",mg:"Schultern",equip:"Kettlebell",name:"Frontheben (KB)",musc:"Vordere Schulter",scheme:"3 \u00d7 12",load:"6\u20138 kg",q:"frontheben technik",note:"Kontrolliert bis Schulterh\u00f6he, kein Schwung."},
+ {id:"pendlay",cat:"Ziehen",mg:"R\u00fccken",equip:"Langhantel",name:"Pendlay Row",musc:"Latissimus, oberer R\u00fccken, hintere Schulter",scheme:"4 \u00d7 6\u20138",load:"35\u201345 kg",q:"pendlay row technik",note:"R\u00fccken parallel, Stange vom Boden explosiv zum Bauch."},
+ {id:"kbrow",cat:"Ziehen",mg:"R\u00fccken",equip:"Kettlebell",name:"Kettlebell-Rudern einarmig",musc:"Latissimus, oberer R\u00fccken, Bizeps",scheme:"3 \u00d7 10 / Seite",load:"10 kg",q:"kettlebell rudern einarmig",note:"Eine Hand auf der Bank, KB zur H\u00fcfte ziehen."},
+ {id:"chinup",cat:"Ziehen",mg:"R\u00fccken",equip:"Klimmzugstange",name:"Klimmz\u00fcge Untergriff (Chin-ups)",musc:"Latissimus, Bizeps",scheme:"3 \u00d7 max",load:"K\u00f6rpergew.",q:"chin ups untergriff technik",note:"Untergriff, Brust zur Stange, kontrolliert ab."},
+ {id:"pullneg",cat:"Ziehen",mg:"R\u00fccken",equip:"Klimmzugstange",name:"Negative Klimmz\u00fcge",musc:"Latissimus, Bizeps",scheme:"3 \u00d7 5",load:"K\u00f6rpergew.",q:"negative klimmz\u00fcge technik",note:"Oben starten, 3\u20135 Sek. langsam ablassen \u2013 Aufbau zum Klimmzug."},
+ {id:"invrow",cat:"Ziehen",mg:"R\u00fccken",equip:"Langhantel",name:"Invertiertes Rudern (Rack)",musc:"Oberer R\u00fccken, Latissimus, Bizeps",scheme:"3 \u00d7 10\u201312",load:"K\u00f6rpergew.",q:"invertiertes rudern rack technik",note:"Stange im Rack tief, K\u00f6rper gerade, Brust zur Stange."},
+ {id:"reardeltcable",cat:"Ziehen",mg:"Schultern",equip:"Seilzug",name:"Reverse Fly am Seilzug",musc:"Hintere Schulter, oberer R\u00fccken",scheme:"3 \u00d7 15",load:"10 kg",q:"reverse fly kabel technik",note:"\u00dcber Kreuz, Arme leicht gebeugt \u00f6ffnen."},
+ {id:"bicepscable",cat:"Ziehen",mg:"Bizeps",equip:"Seilzug",name:"Bizeps-Curls am Seilzug",musc:"Bizeps",scheme:"3 \u00d7 12",load:"15\u201320 kg",q:"bizeps curls kabel technik",note:"Ellbogen fixiert, konstante Spannung."},
+ {id:"concentration",cat:"Ziehen",mg:"Bizeps",equip:"Kettlebell",name:"Konzentrations-Curls (KB)",musc:"Bizeps (Peak)",scheme:"3 \u00d7 12 / Arm",load:"8\u201310 kg",q:"konzentrations curls technik",note:"Ellbogen am Oberschenkel abst\u00fctzen, isoliert."},
+ {id:"reversecurl",cat:"Ziehen",mg:"Bizeps",equip:"Kettlebell",name:"Reverse Curls (KB)",musc:"Unterarm, Brachialis, Bizeps",scheme:"3 \u00d7 12",load:"8 kg",q:"reverse curls technik",note:"Obergriff, f\u00fcr Unterarm und Brachialis."},
+ {id:"trxbiceps",cat:"Ziehen",mg:"Bizeps",equip:"TRX",name:"TRX Bizeps-Curl",musc:"Bizeps",scheme:"3 \u00d7 12",load:"K\u00f6rpergew.",q:"trx bizeps curl technik",note:"Handfl\u00e4chen nach oben, Ellbogen hoch fixieren."},
+ {id:"cablecrunch",cat:"Core",mg:"Bauch/Rumpf",equip:"Seilzug",name:"Kabel-Crunch",musc:"Gerade Bauchmuskeln",scheme:"3 \u00d7 15",load:"20\u201330 kg",q:"kabel crunch technik",note:"Kniend, Wirbel f\u00fcr Wirbel einrollen, aus dem Bauch."},
+ {id:"kbwindmill",cat:"Core",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"Kettlebell Windmill",musc:"Schr\u00e4ge Bauchmuskeln, Schulter, H\u00fcfte",scheme:"3 \u00d7 6 / Seite",load:"8 kg",q:"kettlebell windmill technik",note:"KB \u00fcber Kopf, kontrolliert zur Seite absenken, Blick zur KB."},
+ {id:"turkishget",cat:"Core",mg:"Bauch/Rumpf",equip:"Kettlebell",name:"T\u00fcrkisch Aufstehen (Get-up)",musc:"Ganzer Rumpf, Schulter, H\u00fcfte",scheme:"3 \u00d7 3 / Seite",load:"8\u201310 kg",q:"turkish get up technik",note:"Langsam Schritt f\u00fcr Schritt aufstehen und zur\u00fcck \u2013 Stabilit\u00e4t."},
+ {id:"vups",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"V-Ups",musc:"Gerade Bauchmuskeln",scheme:"3 \u00d7 12",load:"K\u00f6rpergew.",q:"v-ups \u00fcbung technik",note:"Arme und Beine gleichzeitig zum V heben."},
+ {id:"legraisefloor",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Beinheben liegend",musc:"Untere/gerade Bauchmuskeln",scheme:"3 \u00d7 15",load:"K\u00f6rpergew.",q:"beinheben liegend technik",note:"Unterer R\u00fccken bleibt am Boden, Beine langsam senken."},
+ {id:"flutter",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Flutter Kicks",musc:"Untere Bauchmuskeln, H\u00fcftbeuger",scheme:"3 \u00d7 30 Sek.",load:"K\u00f6rpergew.",q:"flutter kicks technik",note:"Kleine, schnelle Beinbewegungen, R\u00fccken stabil."},
+ {id:"trxbodysaw",cat:"Core",mg:"Bauch/Rumpf",equip:"TRX",name:"TRX Body Saw",musc:"Gerade & tiefe Rumpfmuskulatur",scheme:"3 \u00d7 10",load:"K\u00f6rpergew.",q:"trx body saw technik",note:"Im Unterarmst\u00fctz vor/zur\u00fcck wiegen, Rumpf fest."},
+ {id:"trxpike",cat:"Core",mg:"Bauch/Rumpf",equip:"TRX",name:"TRX Pike",musc:"Gerade Bauchmuskeln, Schulter",scheme:"3 \u00d7 10",load:"K\u00f6rpergew.",q:"trx pike technik",note:"F\u00fc\u00dfe in den Schlaufen, H\u00fcfte hoch, Beine gestreckt."},
+ {id:"copenhagen",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Copenhagen Plank",musc:"Schr\u00e4ge Bauchmuskeln, Adduktoren",scheme:"3 \u00d7 20 Sek. / Seite",load:"K\u00f6rpergew.",q:"copenhagen plank technik",note:"Oberes Bein auf Bank, seitlich halten. Leiste/Adduktoren stabil."},
+ {id:"backext",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"R\u00fcckenstrecker (Hyperextension)",musc:"Unterer R\u00fccken, Ges\u00e4\u00df, hintere Oberschenkel",scheme:"3 \u00d7 12",load:"K\u00f6rpergew.",q:"hyperextension r\u00fcckenstrecker technik",note:"\u00dcber Bank/Rack, kontrolliert heben \u2013 nicht \u00fcberstrecken."},
+ {id:"superman",cat:"Core",mg:"Bauch/Rumpf",equip:"K\u00f6rpergewicht",name:"Superman",musc:"Unterer R\u00fccken, Ges\u00e4\u00df",scheme:"3 \u00d7 12",load:"K\u00f6rpergew.",q:"superman \u00fcbung r\u00fccken",note:"Bauchlage, Arme und Beine heben, kurz halten."},
+ {id:"kbsnatch",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"Kettlebell",name:"Kettlebell Snatch",musc:"Ganzk\u00f6rper, H\u00fcfte, Schulter",scheme:"4 \u00d7 8 / Seite",load:"8\u201310 kg",q:"kettlebell snatch technik",note:"Explosiv aus der H\u00fcfte \u00fcber Kopf. Technik zuerst leicht \u00fcben."},
+ {id:"kbcleanonly",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"Kettlebell",name:"Kettlebell Clean",musc:"H\u00fcfte, Ges\u00e4\u00df, oberer R\u00fccken",scheme:"3 \u00d7 10 / Seite",load:"10 kg",q:"kettlebell clean technik",note:"KB weich zur Schulter racken, kein Aufschlagen aufs Handgelenk."},
+ {id:"burpee",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"K\u00f6rpergewicht",name:"Burpees",musc:"Ganzk\u00f6rper, Kondition",scheme:"4 \u00d7 10",load:"K\u00f6rpergew.",q:"burpees technik",note:"Z\u00fcgiges Tempo. Wegen Sprung nur wenn Knie/Achilles schmerzfrei."},
+ {id:"jumpingjacks",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"K\u00f6rpergewicht",name:"Hampelm\u00e4nner",musc:"Ganzk\u00f6rper, Kondition",scheme:"4 \u00d7 45 Sek.",load:"K\u00f6rpergew.",q:"hampelm\u00e4nner jumping jacks",note:"Gleichm\u00e4\u00dfiges Tempo, weich landen."},
+ {id:"highknees",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"K\u00f6rpergewicht",name:"Hohe Knie",musc:"H\u00fcftbeuger, Wade, Kondition",scheme:"4 \u00d7 30 Sek.",load:"K\u00f6rpergew.",q:"hohe knie lauf technik",note:"Auf dem Vorfu\u00df, Knie z\u00fcgig hoch."},
+ {id:"stepcardio",cat:"Kondition",mg:"Ganzk\u00f6rper",equip:"Step",name:"Step-Board Cardio",musc:"Beine, Kondition",scheme:"5 \u00d7 60 Sek.",load:"K\u00f6rpergew.",q:"step aerobic grundschritt",note:"Z\u00fcgiges Rauf-Runter, Tempo halten \u2013 gelenkschonendes Cardio."},
 ];
 const exById=id=>EX.find(e=>e.id===id);
-const CATS=["Beine/Knie","Wade","Reha (Band)","Drücken","Ziehen","Core","Kondition"];
+const CATS=["Beine/Knie","Wade","Reha (Band)","Dr\u00fccken","Ziehen","Core","Kondition"];
 
 /* ---------- Start-Setups ---------- */
 function seedSetups(){
   const mk=(name,ids)=>({id:uid(),name,items:ids.map(id=>{const e=exById(id);return{iid:uid(),exId:id,scheme:e.scheme,load:e.load};})});
   return [
-    mk("Tag A — Knie/Quad + Drücken",["fk","sb","bss","trxr","wst","pp","rudi"]),
-    mk("Tag B — Hinge/Hamstrings + Ziehen",["rdl","sd","rl","lz","wsi","tke","db"]),
-    mk("Tag C — Unilateral + Wade + Kondition",["kh","su","sw","trxp","kr","web","khz","fc"]),
+    mk("Tag A \u2014 Knie/Quad + Dr\u00fccken",["fk","sb","bss","trxr","wst","pp","rudi"]),
+    mk("Tag B \u2014 Hinge/Hamstrings + Ziehen",["rdl","sd","rl","lz","wsi","tke","db"]),
+    mk("Tag C \u2014 Unilateral + Wade + Kondition",["kh","su","sw","trxp","kr","web","khz","fc"]),
   ];
 }
 
@@ -441,6 +441,24 @@ if(!store.read("tb_cardioSeeded",false)){
   const items=ids.map(id=>{const e=exById(id);return e?{iid:uid(),exId:id,scheme:e.scheme,load:e.load}:null;}).filter(Boolean);
   setups.push({id:uid(),name:"Cardio & Reha (Ausgleichstag)",items});
   saveSetups();store.write("tb_cardioSeeded",true);
+}
+if(!store.read("tb_gkSeeded",false)){
+  const gk=(name,ids)=>{const items=ids.map(id=>{const e=exById(id);return e?{iid:uid(),exId:id,scheme:e.scheme,load:e.load}:null;}).filter(Boolean);setups.push({id:uid(),name,items});};
+  gk("Ganzk\u00f6rper A (45\u201350 Min.)",["fk","rdl","sb","trxr","sd","pp","wst"]);
+  gk("Ganzk\u00f6rper B (45\u201350 Min.)",["bss","ht","flach","lz","arn","hlr","wsi"]);
+  gk("Ganzk\u00f6rper C \u2013 Kettlebell (45\u201350 Min.)",["gob","sw","trxp","kr","clp","rt","web"]);
+  saveSetups();store.write("tb_gkSeeded",true);
+}
+if(!store.read("tb_gkRow",false)){
+  setups.forEach(s=>{
+    if(/^Ganzk\u00f6rper/.test(s.name)){
+      const first=s.items&&s.items[0];
+      if(!first || (first.exId!=="ruds" && first.exId!=="rudi")){
+        s.items.unshift({iid:uid(),exId:"ruds",scheme:"5\u20138 Min. locker",load:"Aufw\u00e4rmen"});
+      }
+    }
+  });
+  saveSetups();store.write("tb_gkRow",true);
 }
 let history=store.read("tb_history",{});
 let body=store.read("tb_body",[]);
@@ -462,7 +480,7 @@ function moveType(e){const n=(e.name||"").toLowerCase(),c=e.cat||"";
   if(c==="Reha (Band)")return "band";
   if(c==="Core")return "core";
   if(c==="Kondition"){if(/ruder/.test(n))return "rowerg";if(/farmer|carry|tragen/.test(n))return "carry";if(/snatch|clean|swing|thruster/.test(n))return "hinge";return "cardio";}
-  if(c==="Drücken"){if(/schulter|overhead|über kopf|pike|arnold|push press|frontheben|seitheben|landmine/.test(n))return "pressOH";return "pressH";}
+  if(c==="Dr\u00fccken"){if(/schulter|overhead|\u00fcber kopf|pike|arnold|push press|frontheben|seitheben|landmine/.test(n))return "pressOH";return "pressH";}
   if(c==="Ziehen"){if(/klimmzug|chin|negative|latzug|pull/.test(n))return "pullup";if(/curl|bizeps|hammer|konzentr/.test(n))return "curl";if(/shrug/.test(n))return "carry";return "row";}
   if(c==="Beine/Knie"){if(/kreuzheben|rdl|good morning|hip thrust|glute|pull-through|pull through|deadlift/.test(n))return "hinge";if(/ausfallschritt|lunge|step-up|step up|curtsy|bulgarian|split/.test(n))return "lunge";if(/wadenheben/.test(n))return "calf";return "squat";}
   return "core";}
@@ -495,13 +513,13 @@ function equipIcon(eq){const col=(THEMES[theme]||THEMES.teal).acid;const w=`stro
    "TRX":`<circle cx="12" cy="4.5" r="1.5" ${w}/><path d="M12 6 L8 13 M12 6 L16 13" ${w}/><circle cx="8" cy="15" r="1.6" ${w}/><circle cx="16" cy="15" r="1.6" ${w}/>`,
    "Seilzug":`<circle cx="12" cy="6" r="2.5" ${w}/><path d="M12 8.5 L12 14" ${w}/><path d="M9 14 L15 14 L14 18 L10 18 Z" ${w}/>`,
    "Band":`<path d="M5 9 Q12 3 19 9" ${w}/><path d="M5 9 Q12 15 19 9" ${w}/><path d="M5 10 L5 17 M19 10 L19 17" ${w}/>`,
-   "Körpergewicht":`<circle cx="12" cy="6" r="2.5" ${w}/><path d="M12 9 L12 15 M12 11 L7 13 M12 11 L17 13 M12 15 L9 20 M12 15 L15 20" ${w}/>`,
+   "K\u00f6rpergewicht":`<circle cx="12" cy="6" r="2.5" ${w}/><path d="M12 9 L12 15 M12 11 L7 13 M12 11 L17 13 M12 15 L9 20 M12 15 L15 20" ${w}/>`,
    "Klimmzugstange":`<line x1="4" y1="6" x2="20" y2="6" ${w}/><path d="M9 6 L9 10 M15 6 L15 10" ${w}/><circle cx="12" cy="13" r="2" ${w}/><path d="M12 15 L12 20" ${w}/>`,
-   "Rudergerät":`<line x1="4" y1="16" x2="20" y2="16" ${w}/><circle cx="8" cy="13" r="2.4" ${w}/><path d="M10 13 L15 11" ${w}/>`,
+   "Ruderger\u00e4t":`<line x1="4" y1="16" x2="20" y2="16" ${w}/><circle cx="8" cy="13" r="2.4" ${w}/><path d="M10 13 L15 11" ${w}/>`,
    "Step":`<path d="M4 18 L10 18 L10 14 L16 14 L16 10 L20 10" ${w}/>`,
    "Springseil":`<path d="M6 4 Q2 12 6 20 M18 4 Q22 12 18 20" ${w}/><path d="M6 20 Q12 22 18 20" ${w}/>`,
   };
-  return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${I[eq]||I["Körpergewicht"]}</svg>`;}
+  return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${I[eq]||I["K\u00f6rpergewicht"]}</svg>`;}
 let foods=store.read("tb_foods",null)||[];
 if(!store.read("tb_foodsSeed3",false)){const have=new Set(foods.map(f=>(f.name||"").toLowerCase()));seedFoods().forEach(f=>{if(!have.has(f.name.toLowerCase()))foods.push(f);});store.write("tb_foods",foods);store.write("tb_foodsSeed3",true);}
 let meals=store.read("tb_meals",[]);
@@ -509,15 +527,15 @@ let nutriGoal=store.read("tb_nutriGoal",{kcal:null,prot:null});
 let nutriCfg=store.read("tb_nutriCfg",{age:40,height:174,neat:1.3,goalWeight:76.5});
 let trainKcal=store.read("tb_trainKcal",{});
 let foodDay=(new Date()).toISOString().slice(0,10);
-let foodMeal="Frühstück";
-const MEALS=["Frühstück","Mittag","Abend","Snack"];
+let foodMeal="Fr\u00fchst\u00fcck";
+const MEALS=["Fr\u00fchst\u00fcck","Mittag","Abend","Snack"];
 function saveFoods(){store.write("tb_foods",foods);}
 function saveMeals(){store.write("tb_meals",meals);}
 function saveNutri(){store.write("tb_nutriGoal",nutriGoal);}
 function saveCfg(){store.write("tb_nutriCfg",nutriCfg);}
 function saveTrain(){store.write("tb_trainKcal",trainKcal);}
 function seedFoods(){
-  const raw=[["Milchprodukte & Eier","Skyr (natur)",63.0,11.0],["Milchprodukte & Eier","Magerquark",67.0,12.0],["Milchprodukte & Eier","Quark 20% Fett",105.0,12.0],["Milchprodukte & Eier","Hüttenkäse / körniger Frischkäse",98.0,12.5],["Milchprodukte & Eier","Griechischer Joghurt 2%",73.0,8.0],["Milchprodukte & Eier","Naturjoghurt 3,5%",61.0,3.5],["Milchprodukte & Eier","Buttermilch",37.0,3.5],["Milchprodukte & Eier","Milch 1,5%",47.0,3.4],["Milchprodukte & Eier","Mozzarella light",190.0,20.0],["Milchprodukte & Eier","Mozzarella",250.0,18.0],["Milchprodukte & Eier","Feta",264.0,14.0],["Milchprodukte & Eier","Gouda / Käse",356.0,25.0],["Milchprodukte & Eier","Parmesan",402.0,36.0],["Milchprodukte & Eier","Frischkäse (Doppelrahm)",340.0,6.0],["Milchprodukte & Eier","Crème légère",185.0,3.0],["Milchprodukte & Eier","Ei (ganz)",155.0,13.0],["Milchprodukte & Eier","Eiklar / Eiweiß",52.0,11.0],["Milchprodukte & Eier","Proteinpudding (fertig)",75.0,6.5],["Milchprodukte & Eier","Whey-Proteinpulver",380.0,80.0],["Fleisch & Geflügel","Hähnchenbrust (gegart)",165.0,30.0],["Fleisch & Geflügel","Hähnchenbrust (roh)",120.0,23.0],["Fleisch & Geflügel","Putenbrust (gegart)",110.0,24.0],["Fleisch & Geflügel","Rinderfilet mager (gegart)",158.0,26.0],["Fleisch & Geflügel","Rinderhack mager (gegart)",200.0,26.0],["Fleisch & Geflügel","Schweinefilet (gegart)",165.0,30.0],["Fleisch & Geflügel","Kochschinken",110.0,18.0],["Fleisch & Geflügel","Putenaufschnitt",105.0,18.0],["Fleisch & Geflügel","Serrano-/Parmaschinken",240.0,30.0],["Fleisch & Geflügel","Pfeffersalami",380.0,20.0],["Fisch & Meeresfrüchte","Lachs (gegart)",200.0,22.0],["Fisch & Meeresfrüchte","Räucherlachs",142.0,18.0],["Fisch & Meeresfrüchte","Thunfisch (Dose, Wasser)",116.0,26.0],["Fisch & Meeresfrüchte","Thunfisch in Öl (abgetropft)",190.0,25.0],["Fisch & Meeresfrüchte","Kabeljau / Dorsch (gegart)",82.0,18.0],["Fisch & Meeresfrüchte","Seelachs (gegart)",92.0,19.0],["Fisch & Meeresfrüchte","Forelle (gegart)",148.0,21.0],["Fisch & Meeresfrüchte","Makrele (geräuchert)",305.0,21.0],["Fisch & Meeresfrüchte","Garnelen (gegart)",99.0,21.0],["Hülsenfrüchte & veg. Proteine","Tofu (fest)",145.0,15.0],["Hülsenfrüchte & veg. Proteine","Tempeh",190.0,19.0],["Hülsenfrüchte & veg. Proteine","Seitan",145.0,25.0],["Hülsenfrüchte & veg. Proteine","Edamame (gegart)",122.0,11.0],["Hülsenfrüchte & veg. Proteine","Linsen (gekocht)",116.0,9.0],["Hülsenfrüchte & veg. Proteine","Kichererbsen (gekocht)",164.0,9.0],["Hülsenfrüchte & veg. Proteine","Kidneybohnen (gekocht)",127.0,8.7],["Hülsenfrüchte & veg. Proteine","Schwarze Bohnen (gekocht)",132.0,8.9],["Hülsenfrüchte & veg. Proteine","Erbsen (gekocht)",84.0,5.4],["Getreide & Beilagen","Reis (gekocht)",130.0,2.7],["Getreide & Beilagen","Vollkornreis (gekocht)",111.0,2.6],["Getreide & Beilagen","Kartoffeln (gekocht)",87.0,2.0],["Getreide & Beilagen","Süßkartoffel (gekocht)",90.0,2.0],["Getreide & Beilagen","Vollkornnudeln (gekocht)",124.0,5.0],["Getreide & Beilagen","Quinoa (gekocht)",120.0,4.4],["Getreide & Beilagen","Quinoa (roh)",368.0,14.0],["Getreide & Beilagen","Bulgur (gekocht)",83.0,3.0],["Getreide & Beilagen","Couscous (gekocht)",112.0,3.8],["Getreide & Beilagen","Haferflocken",370.0,13.0],["Getreide & Beilagen","Hafercrunch (Knusper)",450.0,9.0],["Getreide & Beilagen","Granola",470.0,10.0],["Getreide & Beilagen","Vollkornbrot",210.0,8.0],["Getreide & Beilagen","Baguette / Weißbrot",270.0,9.0],["Getreide & Beilagen","Brötchen (Weizen)",280.0,9.0],["Getreide & Beilagen","Kartoffelbrötchen (Büsch)",213.0,6.6],["Getreide & Beilagen","Dinkelbrötchen (Büsch)",254.0,9.5],["Getreide & Beilagen","Lasagneblätter (trocken)",360.0,12.0],["Getreide & Beilagen","Paleo Müsli",489.0,17.0],["Getreide & Beilagen","Gnocchi",150.0,3.5],["Getreide & Beilagen","Knäckebrot (Roggen)",330.0,10.0],["Gemüse","Brokkoli (gegart)",35.0,2.4],["Gemüse","Spinat (gegart)",23.0,3.0],["Gemüse","Paprika",31.0,1.0],["Gemüse","Tomaten",18.0,0.9],["Gemüse","Staudensellerie",16.0,0.7],["Gemüse","Möhren",41.0,0.9],["Gemüse","Lauch",28.0,1.6],["Gemüse","Zwiebeln",40.0,1.1],["Gemüse","Zucchini",19.0,1.6],["Gemüse","Champignons",22.0,3.0],["Gemüse","Gurke",12.0,0.6],["Gemüse","Gemüse (gemischt)",30.0,2.0],["Gemüse","Salat (Blattgrün)",18.0,1.4],["Gemüse","Mais (Dose, abgetropft)",76.0,2.7],["Obst","Beeren (gemischt)",45.0,1.0],["Obst","Blaubeeren",42.0,0.7],["Obst","Banane",90.0,1.1],["Obst","Apfel",54.0,0.3],["Obst","Orange",47.0,1.0],["Obst","Kiwi",61.0,1.1],["Obst","Ananas",55.0,0.5],["Obst","Weintrauben",69.0,0.7],["Obst","Nektarine",44.0,1.1],["Obst","Wassermelone",30.0,0.6],["Obst","Honigmelone",54.0,0.8],["Obst","Cantaloupe / Zuckermelone",34.0,0.8],["Obst","Grapefruit",42.0,0.8],["Fette","Olivenöl",884.0,0.0],["Fette","Butter",741.0,0.7],["Fette","Avocado",160.0,2.0],["Nüsse & Samen","Mandeln",580.0,21.0],["Nüsse & Samen","Walnüsse",654.0,15.0],["Nüsse & Samen","Sonnenblumenkerne",585.0,21.0],["Nüsse & Samen","Erdnussbutter",588.0,25.0],["Nüsse & Samen","Chiasamen",486.0,17.0],["Nüsse & Samen","Leinsamen (geschrotet)",534.0,18.0],["Getränke","Kaffee mit Milch",12.0,0.6],["Getränke","Weißwein",82.0,0.1],["Getränke","Roséwein",80.0,0.1],["Getränke","Bier (Pils)",43.0,0.5],["Getränke","Bitburger Pils",41.0,0.4],["Sonstiges","Honig",304.0,0.3],["Sonstiges","Haribo Bunte Schnecken",352.0,1.0],["Sonstiges","Lasagne (hausgemacht)",147.0,7.0],["Sonstiges","Salat (Kichererbsen/Kidneybohnen)",86.0,4.3],["Sonstiges","Hähnchen-Quinoa-Pfanne",94.0,10.0],["Sonstiges","Chili con Carne",167.0,11.1],["Sonstiges","Gnocchi in Spinat-Sahne-Sauce mit Möhren",103.0,2.8],["Sonstiges","Zartbitterschokolade 85%",600.0,10.0],["Rezepte","Lasagne (hausgemacht)",147.0,7.0],["Rezepte","Kichererbsen-Kidneybohnen-Salat",86.0,4.3],["Rezepte","Hähnchen-Quinoa-Pfanne",94.0,10.0],["Rezepte","Chili con Carne",167.0,11.1],["Rezepte","Hähnchenbrust mit Ofengemüse und Tzatziki",73.0,5.9],["Rezepte","Gnocchi in Spinat-Sahne-Sauce mit karamellisierten Möhren",103.0,2.8]];
+  const raw=[["Milchprodukte & Eier","Skyr (natur)",63.0,11.0],["Milchprodukte & Eier","Magerquark",67.0,12.0],["Milchprodukte & Eier","Quark 20% Fett",105.0,12.0],["Milchprodukte & Eier","H\u00fcttenk\u00e4se / k\u00f6rniger Frischk\u00e4se",98.0,12.5],["Milchprodukte & Eier","Griechischer Joghurt 2%",73.0,8.0],["Milchprodukte & Eier","Naturjoghurt 3,5%",61.0,3.5],["Milchprodukte & Eier","Buttermilch",37.0,3.5],["Milchprodukte & Eier","Milch 1,5%",47.0,3.4],["Milchprodukte & Eier","Mozzarella light",190.0,20.0],["Milchprodukte & Eier","Mozzarella",250.0,18.0],["Milchprodukte & Eier","Feta",264.0,14.0],["Milchprodukte & Eier","Gouda / K\u00e4se",356.0,25.0],["Milchprodukte & Eier","Parmesan",402.0,36.0],["Milchprodukte & Eier","Frischk\u00e4se (Doppelrahm)",340.0,6.0],["Milchprodukte & Eier","Cr\u00e8me l\u00e9g\u00e8re",185.0,3.0],["Milchprodukte & Eier","Ei (ganz)",155.0,13.0],["Milchprodukte & Eier","Eiklar / Eiwei\u00df",52.0,11.0],["Milchprodukte & Eier","Proteinpudding (fertig)",75.0,6.5],["Milchprodukte & Eier","Whey-Proteinpulver",380.0,80.0],["Fleisch & Gefl\u00fcgel","H\u00e4hnchenbrust (gegart)",165.0,30.0],["Fleisch & Gefl\u00fcgel","H\u00e4hnchenbrust (roh)",120.0,23.0],["Fleisch & Gefl\u00fcgel","Putenbrust (gegart)",110.0,24.0],["Fleisch & Gefl\u00fcgel","Rinderfilet mager (gegart)",158.0,26.0],["Fleisch & Gefl\u00fcgel","Rinderhack mager (gegart)",200.0,26.0],["Fleisch & Gefl\u00fcgel","Schweinefilet (gegart)",165.0,30.0],["Fleisch & Gefl\u00fcgel","Kochschinken",110.0,18.0],["Fleisch & Gefl\u00fcgel","Putenaufschnitt",105.0,18.0],["Fleisch & Gefl\u00fcgel","Serrano-/Parmaschinken",240.0,30.0],["Fleisch & Gefl\u00fcgel","Pfeffersalami",380.0,20.0],["Fisch & Meeresfr\u00fcchte","Lachs (gegart)",200.0,22.0],["Fisch & Meeresfr\u00fcchte","R\u00e4ucherlachs",142.0,18.0],["Fisch & Meeresfr\u00fcchte","Thunfisch (Dose, Wasser)",116.0,26.0],["Fisch & Meeresfr\u00fcchte","Thunfisch in \u00d6l (abgetropft)",190.0,25.0],["Fisch & Meeresfr\u00fcchte","Kabeljau / Dorsch (gegart)",82.0,18.0],["Fisch & Meeresfr\u00fcchte","Seelachs (gegart)",92.0,19.0],["Fisch & Meeresfr\u00fcchte","Forelle (gegart)",148.0,21.0],["Fisch & Meeresfr\u00fcchte","Makrele (ger\u00e4uchert)",305.0,21.0],["Fisch & Meeresfr\u00fcchte","Garnelen (gegart)",99.0,21.0],["H\u00fclsenfr\u00fcchte & veg. Proteine","Tofu (fest)",145.0,15.0],["H\u00fclsenfr\u00fcchte & veg. Proteine","Tempeh",190.0,19.0],["H\u00fclsenfr\u00fcchte & veg. Proteine","Seitan",145.0,25.0],["H\u00fclsenfr\u00fcchte & veg. Proteine","Edamame (gegart)",122.0,11.0],["H\u00fclsenfr\u00fcchte & veg. Proteine","Linsen (gekocht)",116.0,9.0],["H\u00fclsenfr\u00fcchte & veg. Proteine","Kichererbsen (gekocht)",164.0,9.0],["H\u00fclsenfr\u00fcchte & veg. Proteine","Kidneybohnen (gekocht)",127.0,8.7],["H\u00fclsenfr\u00fcchte & veg. Proteine","Schwarze Bohnen (gekocht)",132.0,8.9],["H\u00fclsenfr\u00fcchte & veg. Proteine","Erbsen (gekocht)",84.0,5.4],["Getreide & Beilagen","Reis (gekocht)",130.0,2.7],["Getreide & Beilagen","Vollkornreis (gekocht)",111.0,2.6],["Getreide & Beilagen","Kartoffeln (gekocht)",87.0,2.0],["Getreide & Beilagen","S\u00fc\u00dfkartoffel (gekocht)",90.0,2.0],["Getreide & Beilagen","Vollkornnudeln (gekocht)",124.0,5.0],["Getreide & Beilagen","Quinoa (gekocht)",120.0,4.4],["Getreide & Beilagen","Quinoa (roh)",368.0,14.0],["Getreide & Beilagen","Bulgur (gekocht)",83.0,3.0],["Getreide & Beilagen","Couscous (gekocht)",112.0,3.8],["Getreide & Beilagen","Haferflocken",370.0,13.0],["Getreide & Beilagen","Hafercrunch (Knusper)",450.0,9.0],["Getreide & Beilagen","Granola",470.0,10.0],["Getreide & Beilagen","Vollkornbrot",210.0,8.0],["Getreide & Beilagen","Baguette / Wei\u00dfbrot",270.0,9.0],["Getreide & Beilagen","Br\u00f6tchen (Weizen)",280.0,9.0],["Getreide & Beilagen","Kartoffelbr\u00f6tchen (B\u00fcsch)",213.0,6.6],["Getreide & Beilagen","Dinkelbr\u00f6tchen (B\u00fcsch)",254.0,9.5],["Getreide & Beilagen","Lasagnebl\u00e4tter (trocken)",360.0,12.0],["Getreide & Beilagen","Paleo M\u00fcsli",489.0,17.0],["Getreide & Beilagen","Gnocchi",150.0,3.5],["Getreide & Beilagen","Kn\u00e4ckebrot (Roggen)",330.0,10.0],["Gem\u00fcse","Brokkoli (gegart)",35.0,2.4],["Gem\u00fcse","Spinat (gegart)",23.0,3.0],["Gem\u00fcse","Paprika",31.0,1.0],["Gem\u00fcse","Tomaten",18.0,0.9],["Gem\u00fcse","Staudensellerie",16.0,0.7],["Gem\u00fcse","M\u00f6hren",41.0,0.9],["Gem\u00fcse","Lauch",28.0,1.6],["Gem\u00fcse","Zwiebeln",40.0,1.1],["Gem\u00fcse","Zucchini",19.0,1.6],["Gem\u00fcse","Champignons",22.0,3.0],["Gem\u00fcse","Gurke",12.0,0.6],["Gem\u00fcse","Gem\u00fcse (gemischt)",30.0,2.0],["Gem\u00fcse","Salat (Blattgr\u00fcn)",18.0,1.4],["Gem\u00fcse","Mais (Dose, abgetropft)",76.0,2.7],["Obst","Beeren (gemischt)",45.0,1.0],["Obst","Blaubeeren",42.0,0.7],["Obst","Banane",90.0,1.1],["Obst","Apfel",54.0,0.3],["Obst","Orange",47.0,1.0],["Obst","Kiwi",61.0,1.1],["Obst","Ananas",55.0,0.5],["Obst","Weintrauben",69.0,0.7],["Obst","Nektarine",44.0,1.1],["Obst","Wassermelone",30.0,0.6],["Obst","Honigmelone",54.0,0.8],["Obst","Cantaloupe / Zuckermelone",34.0,0.8],["Obst","Grapefruit",42.0,0.8],["Fette","Oliven\u00f6l",884.0,0.0],["Fette","Butter",741.0,0.7],["Fette","Avocado",160.0,2.0],["N\u00fcsse & Samen","Mandeln",580.0,21.0],["N\u00fcsse & Samen","Waln\u00fcsse",654.0,15.0],["N\u00fcsse & Samen","Sonnenblumenkerne",585.0,21.0],["N\u00fcsse & Samen","Erdnussbutter",588.0,25.0],["N\u00fcsse & Samen","Chiasamen",486.0,17.0],["N\u00fcsse & Samen","Leinsamen (geschrotet)",534.0,18.0],["Getr\u00e4nke","Kaffee mit Milch",12.0,0.6],["Getr\u00e4nke","Wei\u00dfwein",82.0,0.1],["Getr\u00e4nke","Ros\u00e9wein",80.0,0.1],["Getr\u00e4nke","Bier (Pils)",43.0,0.5],["Getr\u00e4nke","Bitburger Pils",41.0,0.4],["Sonstiges","Honig",304.0,0.3],["Sonstiges","Haribo Bunte Schnecken",352.0,1.0],["Sonstiges","Lasagne (hausgemacht)",147.0,7.0],["Sonstiges","Salat (Kichererbsen/Kidneybohnen)",86.0,4.3],["Sonstiges","H\u00e4hnchen-Quinoa-Pfanne",94.0,10.0],["Sonstiges","Chili con Carne",167.0,11.1],["Sonstiges","Gnocchi in Spinat-Sahne-Sauce mit M\u00f6hren",103.0,2.8],["Sonstiges","Zartbitterschokolade 85%",600.0,10.0],["Rezepte","Lasagne (hausgemacht)",147.0,7.0],["Rezepte","Kichererbsen-Kidneybohnen-Salat",86.0,4.3],["Rezepte","H\u00e4hnchen-Quinoa-Pfanne",94.0,10.0],["Rezepte","Chili con Carne",167.0,11.1],["Rezepte","H\u00e4hnchenbrust mit Ofengem\u00fcse und Tzatziki",73.0,5.9],["Rezepte","Gnocchi in Spinat-Sahne-Sauce mit karamellisierten M\u00f6hren",103.0,2.8]];
   return raw.map(r=>({id:uid(),cat:r[0],name:r[1],kcal:r[2],prot:r[3]}));
 }
 let sess={rpe:null,ach:"kein",knee:"kein",note:""};
@@ -531,22 +549,22 @@ function curSetup(){return setups.find(s=>s.id===state.curId);}
 function summarize(entry){
   const sets=entry.sets;const ws=sets.map(s=>s.w);
   const same=ws.every(w=>w===ws[0]);
-  if(same&&ws[0]!=null)return `${fmt(ws[0])} kg · ${sets.map(s=>s.r).join("/")}`;
-  return sets.map(s=>(s.w!=null?`${fmt(s.w)}×`:"")+s.r).join(", ");
+  if(same&&ws[0]!=null)return `${fmt(ws[0])} kg \u00b7 ${sets.map(s=>s.r).join("/")}`;
+  return sets.map(s=>(s.w!=null?`${fmt(s.w)}\u00d7`:"")+s.r).join(", ");
 }
 function suggest(exId,scheme,load){
   const h=history[exId];const top=repTop(scheme);
-  if(!h||!h.length)return{w:"",cls:"start",line:`Richtwert für den Start: ${load}`};
+  if(!h||!h.length)return{w:"",cls:"start",line:`Richtwert f\u00fcr den Start: ${load}`};
   const last=h[h.length-1];
   const ws=last.sets.map(s=>s.w).filter(x=>typeof x==="number"&&!isNaN(x));
   const lastW=ws.length?Math.max(...ws):null;
   const allTop=last.sets.length>0&&last.sets.every(s=>s.r>=top);
   let w="",tip;
   if(lastW!=null){
-    if(allTop){const step=lastW<10?1:2.5;w=round5(lastW+step);tip=`alle Sätze am oberen Ende → heute ${fmt(w)} kg versuchen`;}
+    if(allTop){const step=lastW<10?1:2.5;w=round5(lastW+step);tip=`alle S\u00e4tze am oberen Ende \u2192 heute ${fmt(w)} kg versuchen`;}
     else{w=lastW;tip=`Gewicht halten, mehr Wiederholungen anstreben`;}
   }else{tip=allTop?"schwerere Variante / Zusatzgewicht":"Wiederholungen steigern";}
-  return{w,cls:"",line:`Letztes Mal (${dDot(last.d)}): ${summarize(last)} · Ziel: ${tip}`};
+  return{w,cls:"",line:`Letztes Mal (${dDot(last.d)}): ${summarize(last)} \u00b7 Ziel: ${tip}`};
 }
 function pushHistory(exId,sets){(history[exId]||(history[exId]=[])).push({d:todayISO(),sets});}
 
@@ -572,47 +590,47 @@ function renderList(){
   if(!setups.length)h+=`<div class="empty"><b>Noch keine Setups</b>Erstelle dein erstes Trainings-Setup.</div>`;
   setups.forEach(s=>{h+=`<div class="card setup-card"><div class="setup-top" data-open="${s.id}">
     <div class="badge">${s.items.length}</div>
-    <div class="setup-meta"><h3>${esc(s.name)}</h3><p>${s.items.length} Übungen · tippen zum Bearbeiten</p></div>
-    <div class="chev">›</div></div></div>`;});
-  h+=`<button class="btn acid block" id="newSetup" style="margin-top:14px">＋ Neues Setup</button>
-    <p class="hint">Tipp: Datei auf dem Homescreen ablegen — läuft offline. Setups & Verlauf bleiben auf diesem Gerät.</p>`;
+    <div class="setup-meta"><h3>${esc(s.name)}</h3><p>${s.items.length} \u00dcbungen \u00b7 tippen zum Bearbeiten</p></div>
+    <div class="chev">\u203a</div></div></div>`;});
+  h+=`<button class="btn acid block" id="newSetup" style="margin-top:14px">\uff0b Neues Setup</button>
+    <p class="hint">Tipp: Datei auf dem Homescreen ablegen \u2014 l\u00e4uft offline. Setups & Verlauf bleiben auf diesem Ger\u00e4t.</p>`;
   app.innerHTML=h;
   document.getElementById("newSetup").onclick=()=>{const s={id:uid(),name:"Neues Setup",items:[]};setups.push(s);saveSetups();state.view="edit";state.curId=s.id;render();};
   document.querySelectorAll("[data-open]").forEach(el=>el.onclick=()=>{state.view="edit";state.curId=el.dataset.open;render();});
 }
 function renderEditor(){
   const s=curSetup();if(!s){state.view="list";return render();}
-  let h=`<button class="back" id="back">‹ Zurück</button>
+  let h=`<button class="back" id="back">\u2039 Zur\u00fcck</button>
     <div class="titleline"><input id="nm" value="${esc(s.name)}"></div>`;
-  if(!s.items.length)h+=`<div class="empty"><b>Leeres Setup</b>Füge unten Übungen hinzu.</div>`;
+  if(!s.items.length)h+=`<div class="empty"><b>Leeres Setup</b>F\u00fcge unten \u00dcbungen hinzu.</div>`;
   else{
     s.items.forEach((it,i)=>{const e=exById(it.exId)||{};const m=musFor(it.exId);
       h+=`<div class="setup-item">
         <div class="si-head">
           <div class="si-thumb"><div class="mvic">${moveIcon(moveType(e))}</div><div class="mfig">${bodyDiagram(m.p,m.s)}</div></div>
-          <div class="si-title"><div class="exname">${esc(e.name||"?")}</div><div class="equip"><span class="eqic">${equipIcon(e.equip||"Körpergewicht")}</span>${esc(e.equip||e.cat||"")}</div></div>
+          <div class="si-title"><div class="exname">${esc(e.name||"?")}</div><div class="equip"><span class="eqic">${equipIcon(e.equip||"K\u00f6rpergewicht")}</span>${esc(e.equip||e.cat||"")}</div></div>
           <div class="si-ord">
-            <button data-mv="${it.iid}|-1" ${i===0?"disabled style=opacity:.3":""}>▲</button>
-            <button data-mv="${it.iid}|1" ${i===s.items.length-1?"disabled style=opacity:.3":""}>▼</button></div>
+            <button data-mv="${it.iid}|-1" ${i===0?"disabled style=opacity:.3":""}>\u25b2</button>
+            <button data-mv="${it.iid}|1" ${i===s.items.length-1?"disabled style=opacity:.3":""}>\u25bc</button></div>
         </div>
         <div class="ex-fields">
-          <div class="field w-scheme"><label>Sätze × Wdh.</label><input data-f="scheme|${it.iid}" value="${esc(it.scheme)}"></div>
+          <div class="field w-scheme"><label>S\u00e4tze \u00d7 Wdh.</label><input data-f="scheme|${it.iid}" value="${esc(it.scheme)}"></div>
           <div class="field w-load"><label>Start-Gewicht</label><input data-f="load|${it.iid}" value="${esc(it.load)}"></div>
         </div>
         <div class="si-actions">
-          <a class="vid" href="${videoUrl(e)}" target="_blank" rel="noopener">▶ Video</a>
-          <button class="hist" data-hist="${it.exId}">📈 Verlauf</button>
-          <button class="hist" data-mus="${it.exId}">🧍 Muskeln</button>
-          <button class="x" data-del="${it.iid}" title="Entfernen">🗑</button>
+          <a class="vid" href="${videoUrl(e)}" target="_blank" rel="noopener">\u25b6 Video</a>
+          <button class="hist" data-hist="${it.exId}">\ud83d\udcc8 Verlauf</button>
+          <button class="hist" data-mus="${it.exId}">\ud83e\uddcd Muskeln</button>
+          <button class="x" data-del="${it.iid}" title="Entfernen">\ud83d\uddd1</button>
         </div>
       </div>`;});
   }
-  h+=`<div class="additem card" style="margin-top:12px;border-radius:14px"><button class="btn acid" id="addEx" style="flex:1">＋ Übung hinzufügen</button></div>
-    <div class="foot-actions"><button class="btn block acid" id="train" ${!s.items.length?"disabled style=opacity:.4":""}>▶ Training starten</button></div>
+  h+=`<div class="additem card" style="margin-top:12px;border-radius:14px"><button class="btn acid" id="addEx" style="flex:1">\uff0b \u00dcbung hinzuf\u00fcgen</button></div>
+    <div class="foot-actions"><button class="btn block acid" id="train" ${!s.items.length?"disabled style=opacity:.4":""}>\u25b6 Training starten</button></div>
     <div class="foot-actions">
-      <button class="btn ghost sm" id="printS">🖨 Drucken</button>
-      <button class="btn ghost sm" id="dupS">⧉ Duplizieren</button>
-      <button class="btn danger sm" id="delS">Löschen</button></div>`;
+      <button class="btn ghost sm" id="printS">\ud83d\udda8 Drucken</button>
+      <button class="btn ghost sm" id="dupS">\u29c9 Duplizieren</button>
+      <button class="btn danger sm" id="delS">L\u00f6schen</button></div>`;
   app.innerHTML=h;
   document.getElementById("back").onclick=()=>{state.view="list";render();};
   const nm=document.getElementById("nm");nm.oninput=()=>{s.name=nm.value||"Setup";saveSetups();};
@@ -625,29 +643,29 @@ function renderEditor(){
   document.getElementById("train").onclick=()=>{if(s.items.length){state.view="train";render();}};
   document.getElementById("printS").onclick=()=>window.print();
   document.getElementById("dupS").onclick=()=>{const c=JSON.parse(JSON.stringify(s));c.id=uid();c.name=s.name+" (Kopie)";c.items.forEach(it=>it.iid=uid());setups.push(c);saveSetups();state.curId=c.id;renderEditor();};
-  document.getElementById("delS").onclick=()=>{if(confirm("Dieses Setup wirklich löschen?")){setups=setups.filter(x=>x.id!==s.id);saveSetups();state.view="list";render();}};
+  document.getElementById("delS").onclick=()=>{if(confirm("Dieses Setup wirklich l\u00f6schen?")){setups=setups.filter(x=>x.id!==s.id);saveSetups();state.view="list";render();}};
 }
 function renderTrain(){
   const s=curSetup();if(!s){state.view="list";return render();}
   sess={rpe:null,ach:"kein",knee:"kein",note:""};
-  let h=`<button class="back" id="back">‹ Bearbeiten</button>
+  let h=`<button class="back" id="back">\u2039 Bearbeiten</button>
     <div class="titleline" style="margin-bottom:8px"><span style="font-family:Anton;font-size:24px;text-transform:uppercase">${esc(s.name)}</span></div>
     <div class="card">`;
   s.items.forEach(it=>{const e=exById(it.exId)||{};const n=setCount(it.scheme);const sg=suggest(it.exId,it.scheme,it.load);const top=repTop(it.scheme);
     h+=`<div class="ex" style="align-items:stretch"><div class="ex-body">
       <div class="ex-name">${esc(e.name||"?")}
-        <a class="vid" href="${videoUrl(e)}" target="_blank" rel="noopener">▶ Video</a>
-        <button class="hist" data-hist="${it.exId}">📈</button>
-        <button class="hist" data-mus="${it.exId}">🧍</button></div>
+        <a class="vid" href="${videoUrl(e)}" target="_blank" rel="noopener">\u25b6 Video</a>
+        <button class="hist" data-hist="${it.exId}">\ud83d\udcc8</button>
+        <button class="hist" data-mus="${it.exId}">\ud83e\uddcd</button></div>
       <div class="ex-musc"><b>Ziel:</b> ${esc(e.musc||"")}</div>
       <div style="color:var(--mut);font-size:13px;font-weight:600;margin-top:5px">${esc(it.scheme)}</div>
       <div class="sugg ${sg.cls}">${esc(sg.line)}</div>`;
     for(let k=0;k<n;k++){h+=`<div class="logset"><span class="snum">${k+1}</span>
       <input data-lw="${it.iid}|${k}" inputmode="decimal" placeholder="kg" value="${sg.w!==""?fmt(sg.w):""}">
-      <span class="mul">×</span>
+      <span class="mul">\u00d7</span>
       <input data-lr="${it.iid}|${k}" inputmode="numeric" placeholder="${top}">
       <span class="unit">Wdh.</span>
-      <button class="setrest" data-rest title="Pause starten">⏱</button></div>`;}
+      <button class="setrest" data-rest title="Pause starten">\u23f1</button></div>`;}
     h+=`</div></div>`;});
   h+=`</div>`;
   h+=`<div class="card" style="margin-top:12px"><div style="padding:14px 16px">
@@ -660,13 +678,13 @@ function renderTrain(){
         <div class="pain">${["kein","leicht","stark"].map(v=>`<button data-pv="knee|${v}" class="${v==="kein"?"on":""}">${v}</button>`).join("")}</div></div>
       <div class="mfield"><label>Notiz (optional)</label><input id="sNote" placeholder="z. B. Knie zwickte bei Lunges" style="width:100%;font-family:inherit"></div>
     </div></div>
-    <div class="foot-actions"><button class="btn block acid" id="finish">✓ Training speichern</button></div>
-    <p class="hint">Gewicht & Wiederholungen eintragen. RPE und Schmerz-Check landen im Tab „Analyse“, damit du Belastung und Erholung im Blick hast.</p>
+    <div class="foot-actions"><button class="btn block acid" id="finish">\u2713 Training speichern</button></div>
+    <p class="hint">Gewicht & Wiederholungen eintragen. RPE und Schmerz-Check landen im Tab \u201eAnalyse\u201c, damit du Belastung und Erholung im Blick hast.</p>
     <div class="restbar" id="restBar">
-      <button class="rb-adj" id="rbMinus">−15</button>
+      <button class="rb-adj" id="rbMinus">\u221215</button>
       <button class="rb-main" id="rbStart"><span id="restTime">${fmtClock(restTimer.dur)}</span></button>
       <button class="rb-adj" id="rbPlus">+15</button>
-      <button class="rb-stop" id="rbStop" title="Stopp">■</button></div>`;
+      <button class="rb-stop" id="rbStop" title="Stopp">\u25a0</button></div>`;
   app.innerHTML=h;
   const leave=()=>stopRest(false);
   document.getElementById("back").onclick=()=>{leave();state.view="edit";render();};
@@ -691,7 +709,7 @@ function renderTrain(){
       if(sets.length){pushHistory(it.exId,sets);logged++;}});
     sessions.push({id:uid(),d:todayISO(),setup:s.name,rpe:sess.rpe,ach:sess.ach,knee:sess.knee,note:sess.note});
     saveHistory();saveSessions();leave();
-    toast(logged?`Gespeichert · ${logged} Übung${logged!==1?"en":""}`:"Befinden gespeichert");
+    toast(logged?`Gespeichert \u00b7 ${logged} \u00dcbung${logged!==1?"en":""}`:"Befinden gespeichert");
     state.view="edit";render();
   };
 }
@@ -700,7 +718,7 @@ function ensureAudio(){try{if(!audioCtx)audioCtx=new (window.AudioContext||windo
 function beep(){try{if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.type="sine";o.frequency.value=880;const t=audioCtx.currentTime;g.gain.setValueAtTime(0.001,t);g.gain.exponentialRampToValueAtTime(0.3,t+0.02);g.gain.exponentialRampToValueAtTime(0.001,t+0.5);o.start(t);o.stop(t+0.55);}catch(e){}}
 function updateTimerBar(){const t=document.getElementById("restTime");if(!t)return;t.textContent=fmtClock(restTimer.running?restTimer.left:restTimer.dur);const bar=document.getElementById("restBar");if(bar)bar.classList.toggle("running",restTimer.running);}
 function startRest(sec){ensureAudio();if(sec)restTimer.dur=sec;restTimer.left=restTimer.dur;restTimer.running=true;clearInterval(restTimer.id);restTimer.id=setInterval(()=>{restTimer.left--;if(restTimer.left<=0)stopRest(true);updateTimerBar();},1000);updateTimerBar();}
-function stopRest(done){clearInterval(restTimer.id);restTimer.running=false;restTimer.left=0;if(done){beep();if(navigator.vibrate)navigator.vibrate([180,90,180]);toast("Pause vorbei – weiter geht's");}updateTimerBar();}
+function stopRest(done){clearInterval(restTimer.id);restTimer.running=false;restTimer.left=0;if(done){beep();if(navigator.vibrate)navigator.vibrate([180,90,180]);toast("Pause vorbei \u2013 weiter geht's");}updateTimerBar();}
 function adjustRest(d){restTimer.dur=Math.max(15,restTimer.dur+d);settings.rest=restTimer.dur;store.write("tb_settings",settings);updateTimerBar();}
 function e1rm(w,r){return w*(1+r/30);}
 function weeklyVolume(days){
@@ -711,31 +729,31 @@ function weeklyVolume(days){
 }
 function renderAnalyse(){
   let h=`<h2 class="sec">Wochen-Volumen je Muskelgruppe</h2>`;
-  h+=`<div class="seg"><button id="vd7" class="${volDays===7?"on":""}">7 Tage</button><button id="vd28" class="${volDays===28?"on":""}">28 Tage (Ø/Woche)</button></div>`;
+  h+=`<div class="seg"><button id="vd7" class="${volDays===7?"on":""}">7 Tage</button><button id="vd28" class="${volDays===28?"on":""}">28 Tage (\u00d8/Woche)</button></div>`;
   const counts=weeklyVolume(volDays);const keys=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
-  if(!keys.length)h+=`<div class="empty" style="margin:6px 0"><b>Noch keine Trainings</b>Speichere ein Training – dann erscheint hier dein Satz-Volumen je Muskelgruppe.</div>`;
+  if(!keys.length)h+=`<div class="empty" style="margin:6px 0"><b>Noch keine Trainings</b>Speichere ein Training \u2013 dann erscheint hier dein Satz-Volumen je Muskelgruppe.</div>`;
   else{const max=Math.max(...keys.map(k=>counts[k]));
     h+=`<div class="card">`;
     keys.forEach(k=>{const val=volDays===28?Math.round(counts[k]/4*10)/10:counts[k];const pct=Math.round(counts[k]/max*100);
-      h+=`<div class="volrow"><div class="top"><span>${esc(k)}</span><span class="c">${fmt(val)} Sätze${volDays===28?" /Wo":""}</span></div><div class="volbar"><i style="width:${pct}%"></i></div></div>`;});
-    h+=`</div><p class="hint">Orientierung Muskelaufbau: ca. 10–20 Sätze pro Muskelgruppe und Woche. Wade und Beine darfst du wegen deines Fokus ruhig im oberen Bereich halten.</p>`;}
+      h+=`<div class="volrow"><div class="top"><span>${esc(k)}</span><span class="c">${fmt(val)} S\u00e4tze${volDays===28?" /Wo":""}</span></div><div class="volbar"><i style="width:${pct}%"></i></div></div>`;});
+    h+=`</div><p class="hint">Orientierung Muskelaufbau: ca. 10\u201320 S\u00e4tze pro Muskelgruppe und Woche. Wade und Beine darfst du wegen deines Fokus ruhig im oberen Bereich halten.</p>`;}
   h+=`<h2 class="sec" style="margin-top:24px">Befinden &amp; Schmerz-Check</h2>`;
   const recent=sessions.slice().reverse().slice(0,12);
-  if(!recent.length)h+=`<div class="empty"><b>Noch keine Einträge</b>Nach dem Speichern eines Trainings erscheint hier dein Befinden.</div>`;
+  if(!recent.length)h+=`<div class="empty"><b>Noch keine Eintr\u00e4ge</b>Nach dem Speichern eines Trainings erscheint hier dein Befinden.</div>`;
   else{
     if(sessions.slice(-4).some(x=>x.ach==="stark"||x.knee==="stark"))
-      h+=`<div class="sugg" style="margin:0 0 10px;color:var(--warn);border-color:#3a2a22;background:rgba(255,122,89,.08)">Mehrfach deutliche Schmerzen gemeldet. Belastung an der betroffenen Stelle reduzieren und im Zweifel mit dem Physio rücksprechen.</div>`;
-    const flag=lvl=>lvl==="stark"?'<span style="color:var(--warn)">●</span>':lvl==="leicht"?'<span style="color:#e0b54a">●</span>':'<span style="color:var(--mut)">○</span>';
+      h+=`<div class="sugg" style="margin:0 0 10px;color:var(--warn);border-color:#3a2a22;background:rgba(255,122,89,.08)">Mehrfach deutliche Schmerzen gemeldet. Belastung an der betroffenen Stelle reduzieren und im Zweifel mit dem Physio r\u00fccksprechen.</div>`;
+    const flag=lvl=>lvl==="stark"?'<span style="color:var(--warn)">\u25cf</span>':lvl==="leicht"?'<span style="color:#e0b54a">\u25cf</span>':'<span style="color:var(--mut)">\u25cb</span>';
     h+=`<div class="card">`;
-    recent.forEach(x=>{h+=`<div class="brow"><span class="d">${dDot(x.d)}</span><span class="vals">${x.rpe?("RPE "+x.rpe):"–"} · Achilles ${flag(x.ach)} · Knie ${flag(x.knee)}${x.note?(" · "+esc(x.note)):""}</span></div>`;});
-    h+=`</div><p class="hint">● rot = starker Schmerz, ● gelb = leicht, ○ = kein. Tendenz im Auge behalten – lieber eine Einheit lockerer als eine Verletzung.</p>`;
+    recent.forEach(x=>{h+=`<div class="brow"><span class="d">${dDot(x.d)}</span><span class="vals">${x.rpe?("RPE "+x.rpe):"\u2013"} \u00b7 Achilles ${flag(x.ach)} \u00b7 Knie ${flag(x.knee)}${x.note?(" \u00b7 "+esc(x.note)):""}</span></div>`;});
+    h+=`</div><p class="hint">\u25cf rot = starker Schmerz, \u25cf gelb = leicht, \u25cb = kein. Tendenz im Auge behalten \u2013 lieber eine Einheit lockerer als eine Verletzung.</p>`;
   }
-  h+=`<h2 class="sec" style="margin-top:24px">Bestwerte je Übung</h2>`;
+  h+=`<h2 class="sec" style="margin-top:24px">Bestwerte je \u00dcbung</h2>`;
   const bb=bestBoard();
   if(!bb.length)h+=`<div class="empty"><b>Noch keine Trainings</b>Speichere Trainings, dann erscheinen hier deine Bestwerte.</div>`;
   else{h+=`<div class="card">`;
-    bb.forEach(r=>{h+=`<div class="brow"><span class="vals" style="flex:1">${esc(r.name)}${r.plateau?' <span style="color:#e0b54a;font-size:11px">⚠ Plateau</span>':''}</span><span style="font-family:'Spline Sans Mono';font-size:12.5px;color:var(--acid)">${r.weighted?fmt(r.bestW)+' kg · ~'+r.best1+' 1RM':'–'}</span></div>`;});
-    h+=`</div><p class="hint">„Plateau" = in den letzten 3 Einheiten kein Zuwachs beim geschätzten 1RM. Dann hilft ein Deload (1 Woche ~10% leichter) oder eine Übungsvariante.</p>`;}
+    bb.forEach(r=>{h+=`<div class="brow"><span class="vals" style="flex:1">${esc(r.name)}${r.plateau?' <span style="color:#e0b54a;font-size:11px">\u26a0 Plateau</span>':''}</span><span style="font-family:'Spline Sans Mono';font-size:12.5px;color:var(--acid)">${r.weighted?fmt(r.bestW)+' kg \u00b7 ~'+r.best1+' 1RM':'\u2013'}</span></div>`;});
+    h+=`</div><p class="hint">\u201ePlateau" = in den letzten 3 Einheiten kein Zuwachs beim gesch\u00e4tzten 1RM. Dann hilft ein Deload (1 Woche ~10% leichter) oder eine \u00dcbungsvariante.</p>`;}
   app.innerHTML=h;
   const b7=document.getElementById("vd7");if(b7)b7.onclick=()=>{volDays=7;renderAnalyse();};
   const b28=document.getElementById("vd28");if(b28)b28.onclick=()=>{volDays=28;renderAnalyse();};
@@ -747,21 +765,21 @@ function bindThemeButtons(){document.querySelectorAll("[data-theme]").forEach(b=
 function renderBody(){
   const sorted=body.slice().sort((a,b)=>a.d.localeCompare(b.d));
   const last=sorted[sorted.length-1], first=sorted[0];
-  let h=`<h2 class="sec">Körperdaten</h2>`;
+  let h=`<h2 class="sec">K\u00f6rperdaten</h2>`;
   h+=`<div class="card" style="margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px"><b style="font-size:13px">Akzentfarbe</b><div class="seg">${["teal","blau"].map(v=>`<button class="${theme===v?"on":""}" data-theme="${v}">${v==="teal"?"Teal":"Blau"}</button>`).join("")}</div></div></div>`;
   h+=`<div class="card"><div class="mform">
       <div class="mfield date"><label>Datum</label><input type="date" id="bD" value="${todayISO()}"></div>
       <div class="mfield"><label>Gewicht (kg)</label><input id="bW" inputmode="decimal" placeholder="z. B. 88"></div>
       <div class="mfield"><label>KFA (%)</label><input id="bF" inputmode="decimal" placeholder="optional"></div>
       <div class="mfield"><label>Taille (cm)</label><input id="bT" inputmode="decimal" placeholder="optional"></div>
-    </div><div class="additem"><button class="btn acid" id="bSave" style="flex:1">＋ Messung speichern</button></div></div>`;
+    </div><div class="additem"><button class="btn acid" id="bSave" style="flex:1">\uff0b Messung speichern</button></div></div>`;
   if(last){
     const gW=goal&&goal.weight!=null?goal.weight:null;
     const dStart=(first&&first.weight!=null&&last.weight!=null)?(last.weight-first.weight):null;
     h+=`<div class="card" style="margin-top:12px"><div class="stat">
-        <div class="s"><div class="k">Aktuell</div><div class="v">${last.weight!=null?fmt(round1(last.weight))+' <small>kg</small>':'–'}</div></div>
-        <div class="s"><div class="k">seit Start</div><div class="v ${dStart!=null?(dStart<=0?'down':'up'):''}">${dStart!=null?((dStart>0?'+':'')+fmt(round1(dStart))+' <small>kg</small>'):'–'}</div></div>
-        <div class="s"><div class="k">KFA</div><div class="v">${last.bf!=null?fmt(last.bf)+' <small>%</small>':'–'}</div></div>
+        <div class="s"><div class="k">Aktuell</div><div class="v">${last.weight!=null?fmt(round1(last.weight))+' <small>kg</small>':'\u2013'}</div></div>
+        <div class="s"><div class="k">seit Start</div><div class="v ${dStart!=null?(dStart<=0?'down':'up'):''}">${dStart!=null?((dStart>0?'+':'')+fmt(round1(dStart))+' <small>kg</small>'):'\u2013'}</div></div>
+        <div class="s"><div class="k">KFA</div><div class="v">${last.bf!=null?fmt(last.bf)+' <small>%</small>':'\u2013'}</div></div>
       </div>
       <div class="mform" style="padding-top:0">
         <div class="mfield"><label>Zielgewicht (kg)</label><input id="bGoal" inputmode="decimal" value="${gW!=null?fmt(gW):''}" placeholder="optional"></div>
@@ -770,22 +788,22 @@ function renderBody(){
   }
   const series=sorted.filter(e=>e[bodyMetric]!=null).map(e=>({d:e.d,v:e[bodyMetric]}));
   h+=`<div class="card" style="margin-top:12px">
-      <div class="seg"><button id="segW" class="${bodyMetric==='weight'?'on':''}">Gewicht</button><button id="segF" class="${bodyMetric==='bf'?'on':''}">Körperfett</button></div>
+      <div class="seg"><button id="segW" class="${bodyMetric==='weight'?'on':''}">Gewicht</button><button id="segF" class="${bodyMetric==='bf'?'on':''}">K\u00f6rperfett</button></div>
       <div class="chartwrap">${chartSVG(series)}</div></div>`;
   if(sorted.length){
     h+=`<div class="card" style="margin-top:12px">`;
     sorted.slice().reverse().forEach(e=>{
       const parts=[];if(e.weight!=null)parts.push(fmt(e.weight)+' kg');if(e.bf!=null)parts.push(fmt(e.bf)+' % KFA');if(e.waist!=null)parts.push(fmt(e.waist)+' cm');
-      h+=`<div class="brow"><span class="d">${dFull(e.d)}</span><span class="vals">${parts.join(' · ')||'–'}</span><button class="x" data-bdel="${e.id}">🗑</button></div>`;
+      h+=`<div class="brow"><span class="d">${dFull(e.d)}</span><span class="vals">${parts.join(' \u00b7 ')||'\u2013'}</span><button class="x" data-bdel="${e.id}">\ud83d\uddd1</button></div>`;
     });
     h+=`</div>`;
   }
   h+=`<div class="card" style="margin-top:12px"><div style="padding:14px 16px">
       <div style="font-weight:800;margin-bottom:8px">Datensicherung &amp; Apple Health</div>
-      <div style="color:var(--mut);font-size:12.5px;line-height:1.5;margin-bottom:12px">Sichere alle Daten (Setups, Verlauf, Körperdaten) als JSON oder spiel sie auf einem neuen Gerät wieder ein. Über die iPhone-App „Kurzbefehle“ lässt sich Gewicht/KFA aus Apple Health auslesen und als JSON hier importieren.</div>
-      <div class="foot-actions" style="margin-top:0"><button class="btn sm" id="expBtn">⤓ Export (JSON)</button><button class="btn sm" id="impBtn">⤒ Import</button></div>
+      <div style="color:var(--mut);font-size:12.5px;line-height:1.5;margin-bottom:12px">Sichere alle Daten (Setups, Verlauf, K\u00f6rperdaten) als JSON oder spiel sie auf einem neuen Ger\u00e4t wieder ein. \u00dcber die iPhone-App \u201eKurzbefehle\u201c l\u00e4sst sich Gewicht/KFA aus Apple Health auslesen und als JSON hier importieren.</div>
+      <div class="foot-actions" style="margin-top:0"><button class="btn sm" id="expBtn">\u2913 Export (JSON)</button><button class="btn sm" id="impBtn">\u2912 Import</button></div>
     </div></div>`;
-  h+=`<p class="hint">Körperdaten liegen lokal auf diesem Gerät. Für „definiert“ zählt der Trend mehr als der Tageswert — am besten 1×/Woche morgens wiegen.</p>`;
+  h+=`<p class="hint">K\u00f6rperdaten liegen lokal auf diesem Ger\u00e4t. F\u00fcr \u201edefiniert\u201c z\u00e4hlt der Trend mehr als der Tageswert \u2014 am besten 1\u00d7/Woche morgens wiegen.</p>`;
   app.innerHTML=h;
   document.getElementById("bSave").onclick=()=>{
     const d=document.getElementById("bD").value||todayISO();
@@ -801,7 +819,7 @@ function renderBody(){
   document.getElementById("impBtn").onclick=()=>document.getElementById("importFile").click();
 }
 function chartSVG(points){
-  if(points.length<2)return `<div class="empty" style="border:none;padding:22px">Mindestens 2 Einträge nötig – dann erscheint hier der Verlauf.</div>`;
+  if(points.length<2)return `<div class="empty" style="border:none;padding:22px">Mindestens 2 Eintr\u00e4ge n\u00f6tig \u2013 dann erscheint hier der Verlauf.</div>`;
   const W=600,H=180,pL=42,pR=14,pT=14,pB=26;
   const vals=points.map(p=>p.v);let mn=Math.min(...vals),mx=Math.max(...vals);
   if(mn===mx){mn-=1;mx+=1;}const rg=mx-mn;mn-=rg*0.12;mx+=rg*0.12;
@@ -833,14 +851,14 @@ function exportData(){
 function importData(file){
   const r=new FileReader();
   r.onload=()=>{try{const d=JSON.parse(r.result);
-    if(!confirm("Import überschreibt deine aktuellen Daten auf diesem Gerät. Fortfahren?"))return;
+    if(!confirm("Import \u00fcberschreibt deine aktuellen Daten auf diesem Ger\u00e4t. Fortfahren?"))return;
     if(Array.isArray(d.setups))setups=d.setups;
     if(d.history&&typeof d.history==="object")history=d.history;
     if(Array.isArray(d.body))body=d.body;
     if(d.goal&&typeof d.goal==="object")goal=d.goal;
     saveSetups();saveHistory();saveBody();saveGoal();
     state.tab="body";toast("Daten importiert");render();
-  }catch(e){toast("Import fehlgeschlagen – ungültige Datei");}};
+  }catch(e){toast("Import fehlgeschlagen \u2013 ung\u00fcltige Datei");}};
   r.readAsText(file);
 }
 const MUS={
@@ -884,8 +902,8 @@ const MUS={
  kbsnatch:{p:["glutes","shoulders"],s:["hamstrings","back","abs"]},kbcleanonly:{p:["glutes","back"],s:["hamstrings","shoulders"]},burpee:{p:["quads","chest"],s:["abs","shoulders"]},
  jumpingjacks:{p:["calves","shoulders"],s:["quads"]},highknees:{p:["quads","calves"],s:["abs"]},stepcardio:{p:["quads","calves"],s:["glutes"]},
 };
-const muscleLabel={chest:"Brust",shoulders:"Schultern",biceps:"Bizeps",triceps:"Trizeps",forearms:"Unterarme",abs:"Bauch",obliques:"seitl. Bauch",quads:"vord. Oberschenkel",hamstrings:"hint. Oberschenkel",glutes:"Gesäß",calves:"Wade",tibialis:"Schienbein",back:"Rücken / Lat",traps:"Trapez",lowerback:"unt. Rücken",adductors:"Adduktoren"};
-function musFor(id){const m=MUS[id];if(m)return m;const e=exById(id);const map={"Beine (vorne)":"quads","Beine (hinten)":"hamstrings","Gesäß":"glutes","Wade":"calves","Brust":"chest","Schultern":"shoulders","Rücken":"back","Bizeps":"biceps","Trizeps":"triceps","Bauch/Rumpf":"abs"};const k=e&&map[e.mg];return{p:k?[k]:[],s:[]};}
+const muscleLabel={chest:"Brust",shoulders:"Schultern",biceps:"Bizeps",triceps:"Trizeps",forearms:"Unterarme",abs:"Bauch",obliques:"seitl. Bauch",quads:"vord. Oberschenkel",hamstrings:"hint. Oberschenkel",glutes:"Ges\u00e4\u00df",calves:"Wade",tibialis:"Schienbein",back:"R\u00fccken / Lat",traps:"Trapez",lowerback:"unt. R\u00fccken",adductors:"Adduktoren"};
+function musFor(id){const m=MUS[id];if(m)return m;const e=exById(id);const map={"Beine (vorne)":"quads","Beine (hinten)":"hamstrings","Ges\u00e4\u00df":"glutes","Wade":"calves","Brust":"chest","Schultern":"shoulders","R\u00fccken":"back","Bizeps":"biceps","Trizeps":"triceps","Bauch/Rumpf":"abs"};const k=e&&map[e.mg];return{p:k?[k]:[],s:[]};}
 function themeDefsSVG(){const t=THEMES[theme]||THEMES.teal;return `<svg id="tbdefs" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
  <linearGradient id="tbBd" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e3e7dd"/><stop offset=".5" stop-color="#eef0e9"/><stop offset="1" stop-color="#dbe0d4"/></linearGradient>
  <linearGradient id="tbLit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${t.litA}"/><stop offset=".5" stop-color="${t.litB}"/><stop offset="1" stop-color="${t.litC}"/></linearGradient>
@@ -943,14 +961,14 @@ function bodyDiagram(pa,sa){const p=new Set(pa),s=new Set(sa);
 }
 function openMuscles(exId){
   const e=exById(exId)||{};const m=musFor(exId);const lab=k=>muscleLabel[k]||k;
-  const prim=m.p.map(lab).join(", ")||"–";const sec=m.s.map(lab).join(", ")||"–";
+  const prim=m.p.map(lab).join(", ")||"\u2013";const sec=m.s.map(lab).join(", ")||"\u2013";
   const html=`<div style="padding:14px 16px">
     <div style="max-width:280px;margin:0 auto">${bodyDiagram(m.p,m.s)}</div>
     <div style="margin-top:14px;font-size:13.5px;line-height:1.6">
       <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px"><span style="flex:none;width:14px;height:14px;border-radius:4px;background:#c4f73e;margin-top:3px"></span><span><b>Voll beansprucht:</b> ${esc(prim)}</span></div>
       <div style="display:flex;align-items:flex-start;gap:8px"><span style="flex:none;width:14px;height:14px;border-radius:4px;background:rgba(196,247,62,.32);margin-top:3px"></span><span><b>Teilweise:</b> ${esc(sec)}</span></div>
     </div></div>`;
-  openSheet("Muskeln · "+(e.name||""),html);
+  openSheet("Muskeln \u00b7 "+(e.name||""),html);
 }
 function mealsFor(d){return meals.filter(m=>m.d===d);}
 function dayTotals(d){return mealsFor(d).reduce((a,m)=>({kcal:a.kcal+m.kcal,prot:a.prot+m.prot}),{kcal:0,prot:0});}
@@ -960,7 +978,7 @@ function nutriBar(label,val,goal,unit){
   const pct=goal?Math.min(100,Math.round(val/goal*100)):0;const over=goal&&val>goal;
   return `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:5px"><span>${label}</span><span style="font-family:'Spline Sans Mono';color:${over?'var(--warn)':'var(--acid)'}">${Math.round(val)}${goal?" / "+goal:""} ${unit}</span></div><div class="volbar"><i style="width:${pct}%;${over?'background:var(--warn)':''}"></i></div></div>`;
 }
-const MEAL_ALIAS={"frühstück":"Frühstück","fruehstueck":"Frühstück","frühstuck":"Frühstück","mittag":"Mittag","mittagessen":"Mittag","abend":"Abend","abendessen":"Abend","snack":"Snack","zwischenmahlzeit":"Snack"};
+const MEAL_ALIAS={"fr\u00fchst\u00fcck":"Fr\u00fchst\u00fcck","fruehstueck":"Fr\u00fchst\u00fcck","fr\u00fchstuck":"Fr\u00fchst\u00fcck","mittag":"Mittag","mittagessen":"Mittag","abend":"Abend","abendessen":"Abend","snack":"Snack","zwischenmahlzeit":"Snack"};
 function matchFood(q){
   q=(q||"").trim().toLowerCase();if(!q)return null;
   let best=null,bs=-1;
@@ -971,7 +989,7 @@ function matchFood(q){
   return bs>0?best:null;
 }
 function parseImport(text){
-  const out=[];let meal=foodMeal||"Frühstück";
+  const out=[];let meal=foodMeal||"Fr\u00fchst\u00fcck";
   const segs=(text||"").split(/[\n|;]+/).map(s=>s.trim()).filter(Boolean);
   segs.forEach(seg=>{
     const key=seg.toLowerCase().replace(/[:\s]+$/,"");
@@ -979,9 +997,9 @@ function parseImport(text){
     let s=seg;const parts=key.split(/[:\s]/);
     if(MEAL_ALIAS[parts[0]]){meal=MEAL_ALIAS[parts[0]];s=seg.slice(parts[0].length).replace(/^[:\s]+/,"");}
     if(!s.trim())return;
-    const mm=s.match(/^(.*?)[\s-–,]*([\d]+(?:[.,]\d+)?)\s*g?\.?\s*$/);
+    const mm=s.match(/^(.*?)[\s-\u2013,]*([\d]+(?:[.,]\d+)?)\s*g?\.?\s*$/);
     let name=s.trim(),grams=null;
-    if(mm){name=mm[1].trim().replace(/[-–,\s]+$/,"").trim();grams=parseFloat(mm[2].replace(",","."));}
+    if(mm){name=mm[1].trim().replace(/[-\u2013,\s]+$/,"").trim();grams=parseFloat(mm[2].replace(",","."));}
     if(!name)return;
     const f=matchFood(name);
     out.push({meal,name,grams,food:f,kcal:(f&&grams)?f.kcal*grams/100:null,prot:(f&&grams)?f.prot*grams/100:null});
@@ -993,10 +1011,10 @@ function openImportPreview(items){
   const tk=matched.reduce((a,i)=>a+i.kcal,0),tp=matched.reduce((a,i)=>a+i.prot,0);
   let h=`<div style="padding:12px 16px">`;
   items.forEach(i=>{const ok=i.food&&i.grams;
-    h+=`<div class="brow"><span class="vals" style="flex:1">${ok?"":'<span style="color:var(--warn)">❌ </span>'}${esc(i.food?i.food.name:i.name)}${i.grams?" · "+fmt(Math.round(i.grams))+" g":' <span style="color:var(--warn)">(Menge?)</span>'} <span style="color:var(--mut);font-size:11px">[${esc(i.meal)}]</span></span><span style="font-family:'Spline Sans Mono';font-size:13px;color:${ok?'var(--acid)':'var(--warn)'}">${ok?Math.round(i.kcal)+" kcal":"–"}</span></div>`;});
-  h+=`<div style="margin-top:12px;font-weight:800">Summe: ${Math.round(tk)} kcal · ${Math.round(tp)} g EW</div>`;
+    h+=`<div class="brow"><span class="vals" style="flex:1">${ok?"":'<span style="color:var(--warn)">\u274c </span>'}${esc(i.food?i.food.name:i.name)}${i.grams?" \u00b7 "+fmt(Math.round(i.grams))+" g":' <span style="color:var(--warn)">(Menge?)</span>'} <span style="color:var(--mut);font-size:11px">[${esc(i.meal)}]</span></span><span style="font-family:'Spline Sans Mono';font-size:13px;color:${ok?'var(--acid)':'var(--warn)'}">${ok?Math.round(i.kcal)+" kcal":"\u2013"}</span></div>`;});
+  h+=`<div style="margin-top:12px;font-weight:800">Summe: ${Math.round(tk)} kcal \u00b7 ${Math.round(tp)} g EW</div>`;
   const un=items.filter(i=>!(i.food&&i.grams));
-  if(un.length)h+=`<p class="hint" style="text-align:left">${un.length} Position(en) nicht erkannt – Namen an deine Datenbank anpassen oder Menge ergänzen. Sag mir dein Essen im Chat, dann formuliere ich dir die passende Zeile.</p>`;
+  if(un.length)h+=`<p class="hint" style="text-align:left">${un.length} Position(en) nicht erkannt \u2013 Namen an deine Datenbank anpassen oder Menge erg\u00e4nzen. Sag mir dein Essen im Chat, dann formuliere ich dir die passende Zeile.</p>`;
   h+=`<div class="foot-actions"><button class="btn block acid" id="impDo" ${matched.length?"":"disabled style=opacity:.4"}>${matched.length} Position(en) eintragen</button></div></div>`;
   openSheet("Import-Vorschau",h,()=>{const b=document.getElementById("impDo");if(b)b.onclick=()=>{
     matched.forEach(i=>meals.push({id:uid(),d:foodDay,meal:i.meal,name:i.food.name,grams:i.grams,kcal:i.kcal,prot:i.prot}));
@@ -1004,7 +1022,7 @@ function openImportPreview(items){
 }
 function dateShift(iso,days){const d=new Date(iso+"T00:00:00");d.setDate(d.getDate()+days);return d.toISOString().slice(0,10);}
 function recentFoods(n){const seen=new Map();for(let i=meals.length-1;i>=0;i--){const m=meals[i];if(!seen.has(m.name))seen.set(m.name,m.grams);if(seen.size>=(n||8))break;}return [...seen.entries()].map(([name,grams])=>({name,grams}));}
-function copyDay(from,to){const src=meals.filter(m=>m.d===from);if(!src.length){toast("Keine Einträge am Vortag");return;}src.forEach(m=>meals.push({id:uid(),d:to,meal:m.meal,name:m.name,grams:m.grams,kcal:m.kcal,prot:m.prot}));saveMeals();toast(src.length+" übernommen");renderFood();}
+function copyDay(from,to){const src=meals.filter(m=>m.d===from);if(!src.length){toast("Keine Eintr\u00e4ge am Vortag");return;}src.forEach(m=>meals.push({id:uid(),d:to,meal:m.meal,name:m.name,grams:m.grams,kcal:m.kcal,prot:m.prot}));saveMeals();toast(src.length+" \u00fcbernommen");renderFood();}
 function nutriWeekPoints(days){const base=(new Date()).toISOString().slice(0,10);const pts=[];for(let i=days-1;i>=0;i--){const d=dateShift(base,-i);if(mealsFor(d).length)pts.push({d,v:Math.round(dayTotals(d).kcal)});}return pts;}
 let recipeRows=[],recipeName="",recipeTotal="";
 function openRecipeCalc(){recipeRows=[{foodId:foods[0]?foods[0].id:"",grams:""}];recipeName="";recipeTotal="";ov.classList.add("on");ovTitle.textContent="Rezept-Rechner";renderRecipeCalc();}
@@ -1013,12 +1031,12 @@ function renderRecipeCalc(){
   const catOpts=id=>cats.map(c=>`<optgroup label="${esc(c)}">`+foods.filter(f=>(f.cat||"Sonstiges")===c).sort((a,b)=>a.name.localeCompare(b.name)).map(f=>`<option value="${f.id}" ${f.id===id?"selected":""}>${esc(f.name)}</option>`).join("")+`</optgroup>`).join("");
   let sk=0,sp=0;recipeRows.forEach(r=>{const f=foods.find(x=>x.id===r.foodId);const g=parseNum(r.grams);if(f&&!isNaN(g)){sk+=f.kcal*g/100;sp+=f.prot*g/100;}});
   let h=`<div style="padding:12px 16px">`;
-  recipeRows.forEach((r,i)=>{h+=`<div class="mform" style="padding:0 0 8px"><div class="mfield" style="flex:1;min-width:140px"><label>Zutat</label><select data-ri="${i}">${catOpts(r.foodId)}</select></div><div class="mfield"><label>g</label><input data-rg="${i}" inputmode="numeric" value="${esc(r.grams)}" style="width:78px"></div><div class="mfield" style="justify-content:flex-end"><button class="x" data-rx="${i}">🗑</button></div></div>`;});
-  h+=`<button class="btn sm" id="rcAdd" style="margin-bottom:10px">＋ Zutat</button>
-    <div style="font-weight:700;font-family:'Spline Sans Mono';margin:6px 0">Summe: ${Math.round(sk)} kcal · ${Math.round(sp*10)/10} g EW</div>
+  recipeRows.forEach((r,i)=>{h+=`<div class="mform" style="padding:0 0 8px"><div class="mfield" style="flex:1;min-width:140px"><label>Zutat</label><select data-ri="${i}">${catOpts(r.foodId)}</select></div><div class="mfield"><label>g</label><input data-rg="${i}" inputmode="numeric" value="${esc(r.grams)}" style="width:78px"></div><div class="mfield" style="justify-content:flex-end"><button class="x" data-rx="${i}">\ud83d\uddd1</button></div></div>`;});
+  h+=`<button class="btn sm" id="rcAdd" style="margin-bottom:10px">\uff0b Zutat</button>
+    <div style="font-weight:700;font-family:'Spline Sans Mono';margin:6px 0">Summe: ${Math.round(sk)} kcal \u00b7 ${Math.round(sp*10)/10} g EW</div>
     <div class="mform" style="padding:0"><div class="mfield" style="flex:1"><label>Rezeptname</label><input id="rcName" value="${esc(recipeName||"")}" placeholder="z. B. Mein Curry"></div><div class="mfield"><label>Fertig-Gewicht (g)</label><input id="rcTotal" inputmode="numeric" value="${esc(recipeTotal||"")}" placeholder="1000"></div></div>`;
   const tt=parseNum(recipeTotal);
-  if(!isNaN(tt)&&tt>0)h+=`<div style="color:var(--acid);font-family:'Spline Sans Mono';margin-top:8px">Pro 100 g: ${Math.round(sk/tt*100)} kcal · ${Math.round(sp/tt*100*10)/10} g EW</div>`;
+  if(!isNaN(tt)&&tt>0)h+=`<div style="color:var(--acid);font-family:'Spline Sans Mono';margin-top:8px">Pro 100 g: ${Math.round(sk/tt*100)} kcal \u00b7 ${Math.round(sp/tt*100*10)/10} g EW</div>`;
   h+=`<div class="foot-actions"><button class="btn block acid" id="rcSave">Als Lebensmittel speichern</button></div></div>`;
   sheetBody.innerHTML=h;
   sheetBody.querySelectorAll("[data-ri]").forEach(s=>s.onchange=()=>{recipeRows[+s.dataset.ri].foodId=s.value;renderRecipeCalc();});
@@ -1041,11 +1059,11 @@ function bestBoard(){
 }
 function renderFood(){
   const t=dayTotals(foodDay);const gk=nutriGoal.kcal,gp=nutriGoal.prot;const w=lastWeightVal();const td=tdeeVal();
-  let h=`<h2 class="sec">Ernährung</h2>`;
+  let h=`<h2 class="sec">Ern\u00e4hrung</h2>`;
   h+=`<div class="card"><div class="mform"><div class="mfield date"><label>Tag</label><input type="date" id="fDay" value="${foodDay}"></div></div></div>`;
   h+=`<div class="card" style="margin-top:12px"><div style="padding:14px 16px">
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><b>Tagesbilanz</b><span style="color:var(--mut);font-size:12px">${dDot(foodDay)}</span></div>
-      ${nutriBar("Kalorien",t.kcal,gk,"kcal")}${nutriBar("Eiweiß",t.prot,gp,"g")}`;
+      ${nutriBar("Kalorien",t.kcal,gk,"kcal")}${nutriBar("Eiwei\u00df",t.prot,gp,"g")}`;
   if(td!=null){const def=Math.round(t.kcal-td);
     h+=`<div style="display:flex;gap:10px;margin-top:8px">
       <div class="s" style="flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px"><div style="color:var(--mut);font-size:11px;font-weight:700;text-transform:uppercase">TDEE (Verbrauch)</div><div style="font-family:'Spline Sans Mono';font-weight:600;font-size:18px;margin-top:3px">${td} <small style="color:var(--mut);font-size:12px">kcal</small></div></div>
@@ -1053,59 +1071,59 @@ function renderFood(){
      </div>`;}
   h+=`</div></div>`;
   const wpts=nutriWeekPoints(14);
-  if(wpts.length>=2)h+=`<div class="card" style="margin-top:12px"><div style="padding:12px 16px 0;color:var(--mut);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase">Kalorien – letzte 14 Tage</div><div class="chartwrap">${chartSVG(wpts)}</div></div>`;
+  if(wpts.length>=2)h+=`<div class="card" style="margin-top:12px"><div style="padding:12px 16px 0;color:var(--mut);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase">Kalorien \u2013 letzte 14 Tage</div><div class="chartwrap">${chartSVG(wpts)}</div></div>`;
   // Ziele
   h+=`<div class="card" style="margin-top:12px"><div class="mform">
       <div class="mfield"><label>Ziel kcal</label><input id="gKcal" inputmode="numeric" value="${gk!=null?gk:""}" placeholder="z. B. 2000"></div>
-      <div class="mfield"><label>Ziel Eiweiß (g)</label><input id="gProt" inputmode="numeric" value="${gp!=null?gp:""}" placeholder="z. B. 155"></div>
+      <div class="mfield"><label>Ziel Eiwei\u00df (g)</label><input id="gProt" inputmode="numeric" value="${gp!=null?gp:""}" placeholder="z. B. 155"></div>
       <div class="mfield" style="justify-content:flex-end"><button class="btn sm" id="estGoal">Richtwert setzen</button></div>
     </div></div>`;
   // Steuerung
   h+=`<div class="card" style="margin-top:12px"><div style="padding:12px 16px 2px;font-weight:800">Steuerung (TDEE)</div><div class="mform">
       <div class="mfield"><label>Alter</label><input id="cAge" inputmode="numeric" value="${nutriCfg.age!=null?nutriCfg.age:""}"></div>
-      <div class="mfield"><label>Größe (cm)</label><input id="cH" inputmode="numeric" value="${nutriCfg.height!=null?nutriCfg.height:""}"></div>
+      <div class="mfield"><label>Gr\u00f6\u00dfe (cm)</label><input id="cH" inputmode="numeric" value="${nutriCfg.height!=null?nutriCfg.height:""}"></div>
       <div class="mfield"><label>NEAT-Faktor</label><input id="cN" inputmode="decimal" value="${nutriCfg.neat!=null?nutriCfg.neat:""}"></div>
       <div class="mfield"><label>Zielgewicht</label><input id="cG" inputmode="decimal" value="${nutriCfg.goalWeight!=null?nutriCfg.goalWeight:""}"></div>
       <div class="mfield"><label>Trainings-kcal heute</label><input id="cT" inputmode="numeric" value="${trainKcal[foodDay]!=null?trainKcal[foodDay]:""}" placeholder="0"></div>
     </div>
-    <p class="hint" style="margin:0 16px 12px;text-align:left">NEAT = Alltag ohne Sport: sitzend 1,2 · leicht 1,3 · viel auf den Beinen 1,4. ${w!=null?"Aktuelles Gewicht: "+fmt(w)+" kg"+(nutriCfg.goalWeight!=null?" · noch "+fmt(Math.round((w-nutriCfg.goalWeight)*10)/10)+" kg bis Ziel":""):"Trage im Tab „Körper“ dein Gewicht ein, dann rechnet der TDEE."}</p></div>`;
+    <p class="hint" style="margin:0 16px 12px;text-align:left">NEAT = Alltag ohne Sport: sitzend 1,2 \u00b7 leicht 1,3 \u00b7 viel auf den Beinen 1,4. ${w!=null?"Aktuelles Gewicht: "+fmt(w)+" kg"+(nutriCfg.goalWeight!=null?" \u00b7 noch "+fmt(Math.round((w-nutriCfg.goalWeight)*10)/10)+" kg bis Ziel":""):"Trage im Tab \u201eK\u00f6rper\u201c dein Gewicht ein, dann rechnet der TDEE."}</p></div>`;
   // Eintragen
   const cats=[...new Set(foods.map(f=>f.cat||"Sonstiges"))];
-  const opts=cats.map(c=>`<optgroup label="${esc(c)}">`+foods.filter(f=>(f.cat||"Sonstiges")===c).sort((a,b)=>a.name.localeCompare(b.name)).map(f=>`<option value="${f.id}">${esc(f.name)} · ${f.kcal} kcal</option>`).join("")+`</optgroup>`).join("");
+  const opts=cats.map(c=>`<optgroup label="${esc(c)}">`+foods.filter(f=>(f.cat||"Sonstiges")===c).sort((a,b)=>a.name.localeCompare(b.name)).map(f=>`<option value="${f.id}">${esc(f.name)} \u00b7 ${f.kcal} kcal</option>`).join("")+`</optgroup>`).join("");
   h+=`<div class="card" style="margin-top:12px"><div style="padding:14px 16px 6px;font-weight:800">Essen eintragen</div>
      <div class="mform" style="padding-top:6px">
        <div class="mfield"><label>Mahlzeit</label><select id="fMeal">${MEALS.map(m=>`<option ${m===foodMeal?"selected":""}>${m}</option>`).join("")}</select></div>
        <div class="mfield" style="flex:1;min-width:150px"><label>Lebensmittel</label><select id="fSel">${opts}</select></div>
        <div class="mfield"><label>Menge (g)</label><input id="fGram" inputmode="numeric" placeholder="100"></div>
      </div>
-     <div class="additem"><button class="btn acid" id="fAdd" style="flex:1">＋ Zum Tag hinzufügen</button></div>
-     <div style="padding:0 16px 14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost sm" id="fNew">＋ Eigenes Lebensmittel</button><button class="btn ghost sm" id="rcBtn">🧮 Rezept-Rechner</button></div>
+     <div class="additem"><button class="btn acid" id="fAdd" style="flex:1">\uff0b Zum Tag hinzuf\u00fcgen</button></div>
+     <div style="padding:0 16px 14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost sm" id="fNew">\uff0b Eigenes Lebensmittel</button><button class="btn ghost sm" id="rcBtn">\ud83e\uddee Rezept-Rechner</button></div>
    </div>`;
   const rec=recentFoods(10);
   h+=`<div class="card" style="margin-top:12px"><div style="padding:14px 16px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b>Zuletzt gegessen</b><button class="btn sm" id="copyYest">⧉ Gestern übernehmen</button></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b>Zuletzt gegessen</b><button class="btn sm" id="copyYest">\u29c9 Gestern \u00fcbernehmen</button></div>
       ${rec.length?`<div style="display:flex;flex-wrap:wrap;gap:6px">${rec.map(r=>`<button class="chip" data-quick="${esc(r.name)}">${esc(r.name)}<span style="color:var(--mut)"> ${fmt(Math.round(r.grams))}g</span></button>`).join("")}</div>`:`<div style="color:var(--mut);font-size:12.5px">Noch nichts erfasst.</div>`}
     </div></div>`;
   h+=`<div class="card" style="margin-top:12px"><div style="padding:14px 16px">
       <div style="font-weight:800;margin-bottom:6px">Schnell-Import (Chat)</div>
-      <div style="color:var(--mut);font-size:12.5px;line-height:1.5;margin-bottom:8px">Zeile einfügen, z. B.: <span style="color:var(--ink)">Mittag | Baguette 60 | Ei 120 | Kaffee mit Milch 200</span></div>
+      <div style="color:var(--mut);font-size:12.5px;line-height:1.5;margin-bottom:8px">Zeile einf\u00fcgen, z. B.: <span style="color:var(--ink)">Mittag | Baguette 60 | Ei 120 | Kaffee mit Milch 200</span></div>
       <textarea id="impText" class="libsearch" style="min-height:64px;resize:vertical;font-family:inherit" placeholder="Mahlzeit | Lebensmittel Menge | ..."></textarea>
       <div class="foot-actions" style="margin-top:8px"><button class="btn acid block" id="impBtn">Auswerten</button></div>
     </div></div>`;
-  // Einträge nach Mahlzeit
+  // Eintr\u00e4ge nach Mahlzeit
   const list=mealsFor(foodDay);
   MEALS.forEach(meal=>{const items=list.filter(m=>m.meal===meal);if(!items.length)return;
     const st=items.reduce((a,m)=>({k:a.k+m.kcal,p:a.p+m.prot}),{k:0,p:0});
-    h+=`<div class="catlabel" style="padding-left:2px">${meal} · ${Math.round(st.k)} kcal · ${Math.round(st.p)} g EW</div><div class="card">`;
-    items.forEach(m=>{h+=`<div class="brow"><span class="vals" style="flex:1">${esc(m.name)} · ${fmt(Math.round(m.grams))} g</span><span style="font-family:'Spline Sans Mono';font-size:13px;color:var(--acid)">${Math.round(m.kcal)} kcal</span><button class="x" data-mdel="${m.id}">🗑</button></div>`;});
+    h+=`<div class="catlabel" style="padding-left:2px">${meal} \u00b7 ${Math.round(st.k)} kcal \u00b7 ${Math.round(st.p)} g EW</div><div class="card">`;
+    items.forEach(m=>{h+=`<div class="brow"><span class="vals" style="flex:1">${esc(m.name)} \u00b7 ${fmt(Math.round(m.grams))} g</span><span style="font-family:'Spline Sans Mono';font-size:13px;color:var(--acid)">${Math.round(m.kcal)} kcal</span><button class="x" data-mdel="${m.id}">\ud83d\uddd1</button></div>`;});
     h+=`</div>`;});
-  h+=`<p class="hint">Werte je 100 g aus deiner Lebensmittel-Datenbank (${foods.length} Einträge). Eigene Lebensmittel/Rezepte einfach ergänzen. Alles bleibt lokal und ist im JSON-Export enthalten.</p>`;
+  h+=`<p class="hint">Werte je 100 g aus deiner Lebensmittel-Datenbank (${foods.length} Eintr\u00e4ge). Eigene Lebensmittel/Rezepte einfach erg\u00e4nzen. Alles bleibt lokal und ist im JSON-Export enthalten.</p>`;
   app.innerHTML=h;
   document.getElementById("fDay").onchange=e=>{foodDay=e.target.value||foodDay;renderFood();};
   const gk2=document.getElementById("gKcal"),gp2=document.getElementById("gProt");
   gk2.onchange=()=>{nutriGoal.kcal=num(gk2.value);saveNutri();renderFood();};
   gp2.onchange=()=>{nutriGoal.prot=num(gp2.value);saveNutri();renderFood();};
-  document.getElementById("estGoal").onclick=()=>{const base=td!=null?td:(w!=null?Math.round(w*30):null);if(base==null){toast("Erst Gewicht/Größe/Alter angeben");return;}nutriGoal.kcal=Math.round(base*0.85);nutriGoal.prot=w!=null?Math.round(w*1.8):nutriGoal.prot;saveNutri();renderFood();};
+  document.getElementById("estGoal").onclick=()=>{const base=td!=null?td:(w!=null?Math.round(w*30):null);if(base==null){toast("Erst Gewicht/Gr\u00f6\u00dfe/Alter angeben");return;}nutriGoal.kcal=Math.round(base*0.85);nutriGoal.prot=w!=null?Math.round(w*1.8):nutriGoal.prot;saveNutri();renderFood();};
   const bindCfg=(id,key,int)=>{const el=document.getElementById(id);el.onchange=()=>{const v=num(el.value);nutriCfg[key]=v;saveCfg();renderFood();};};
   bindCfg("cAge","age");bindCfg("cH","height");bindCfg("cN","neat");bindCfg("cG","goalWeight");
   document.getElementById("cT").onchange=e=>{const v=num(e.target.value);if(v==null)delete trainKcal[foodDay];else trainKcal[foodDay]=v;saveTrain();renderFood();};
@@ -1128,7 +1146,7 @@ function openNewFood(){
      <div class="mfield" style="flex:1;min-width:160px"><label>Name</label><input id="nfName" placeholder="z. B. Mein Rezept"></div>
      <div class="mfield"><label>Kategorie</label><select id="nfCat">${cats.map(c=>`<option>${esc(c)}</option>`).join("")}</select></div>
      <div class="mfield"><label>kcal / 100g</label><input id="nfKcal" inputmode="numeric" placeholder="120"></div>
-     <div class="mfield"><label>Eiweiß / 100g</label><input id="nfProt" inputmode="numeric" placeholder="8"></div>
+     <div class="mfield"><label>Eiwei\u00df / 100g</label><input id="nfProt" inputmode="numeric" placeholder="8"></div>
    </div><div class="foot-actions"><button class="btn block acid" id="nfSave">Lebensmittel speichern</button></div></div>`;
   openSheet("Neues Lebensmittel",html,()=>{
     document.getElementById("nfSave").onclick=()=>{
@@ -1141,12 +1159,12 @@ function openNewFood(){
 function renderLibrary(){
   const mgs=[...new Set(EX.map(e=>e.mg))];
   const eqs=[...new Set(EX.map(e=>e.equip))].sort();
-  let h=`<h2 class="sec" id="libHead">Übungsbibliothek</h2>
+  let h=`<h2 class="sec" id="libHead">\u00dcbungsbibliothek</h2>
     <div class="filters">
-      <input id="libSearch" class="libsearch" placeholder="🔍 Suchen (Name oder Muskel)" value="${esc(libSearch)}">
+      <input id="libSearch" class="libsearch" placeholder="\ud83d\udd0d Suchen (Name oder Muskel)" value="${esc(libSearch)}">
       <div class="filterrow">
         <select id="libMg"><option value="">Alle Muskelgruppen</option>${mgs.map(m=>`<option value="${esc(m)}" ${libMg===m?"selected":""}>${esc(m)}</option>`).join("")}</select>
-        <select id="libEq"><option value="">Alle Geräte</option>${eqs.map(m=>`<option value="${esc(m)}" ${libEq===m?"selected":""}>${esc(m)}</option>`).join("")}</select>
+        <select id="libEq"><option value="">Alle Ger\u00e4te</option>${eqs.map(m=>`<option value="${esc(m)}" ${libEq===m?"selected":""}>${esc(m)}</option>`).join("")}</select>
       </div>
     </div>
     <div id="libResults"></div>`;
@@ -1158,16 +1176,16 @@ function renderLibrary(){
   updateLibResults();
 }
 function formatMeta(scheme,load){
-  const parts=String(scheme).split("×");
+  const parts=String(scheme).split("\u00d7");
   let meta;
-  if(parts.length===2){const sets=parts[0].trim();const reps=parts[1].trim();const isTime=/sek|min|\bm\b|schritte|richtung|fuß|max/i.test(reps);meta=`${sets} Sätze · ${reps}${isTime?"":" Wdh."}`;}
+  if(parts.length===2){const sets=parts[0].trim();const reps=parts[1].trim();const isTime=/sek|min|\bm\b|schritte|richtung|fu\u00df|max/i.test(reps);meta=`${sets} S\u00e4tze \u00b7 ${reps}${isTime?"":" Wdh."}`;}
   else meta=scheme;
-  return meta+` · ${load}`;
+  return meta+` \u00b7 ${load}`;
 }
 function updateLibResults(){
   const q=libSearch.trim().toLowerCase();
   const hits=EX.filter(e=>(!q||(e.name+" "+e.musc).toLowerCase().includes(q))&&(!libMg||e.mg===libMg)&&(!libEq||e.equip===libEq));
-  const head=document.getElementById("libHead");if(head)head.textContent=`Übungsbibliothek · ${hits.length}/${EX.length}`;
+  const head=document.getElementById("libHead");if(head)head.textContent=`\u00dcbungsbibliothek \u00b7 ${hits.length}/${EX.length}`;
   let h="";
   if(!hits.length)h=`<div class="empty"><b>Nichts gefunden</b>Andere Suche oder Filter probieren.</div>`;
   else CATS.forEach(cat=>{const list=hits.filter(e=>e.cat===cat);if(!list.length)return;
@@ -1178,10 +1196,10 @@ function updateLibResults(){
         <div class="exname">${esc(e.name)}</div>
         <div class="equip"><span class="eqic">${equipIcon(e.equip)}</span>${esc(e.equip)}</div>
         <div class="meta">${esc(formatMeta(e.scheme,e.load))}</div>
-        <div class="actions"><a class="vid" href="${videoUrl(e)}" target="_blank" rel="noopener">▶ Video</a><button class="hist" data-mus="${e.id}">🧍 Muskeln</button></div>
+        <div class="actions"><a class="vid" href="${videoUrl(e)}" target="_blank" rel="noopener">\u25b6 Video</a><button class="hist" data-mus="${e.id}">\ud83e\uddcd Muskeln</button></div>
       </div></div>`;});
   });
-  h+=`<p class="hint">Grün = voll beansprucht, blass = teilweise. Übungen fügst du im Editor über „＋ Übung hinzufügen“ ein.</p>`;
+  h+=`<p class="hint">Gr\u00fcn = voll beansprucht, blass = teilweise. \u00dcbungen f\u00fcgst du im Editor \u00fcber \u201e\uff0b \u00dcbung hinzuf\u00fcgen\u201c ein.</p>`;
   const box=document.getElementById("libResults");box.innerHTML=h;
   box.querySelectorAll("[data-mus]").forEach(b=>b.onclick=()=>openMuscles(b.dataset.mus));
 }
@@ -1192,15 +1210,15 @@ document.getElementById("ovClose").onclick=()=>ov.classList.remove("on");
 ov.onclick=e=>{if(e.target===ov)ov.classList.remove("on");};
 function openSheet(title,html,mount){ovTitle.textContent=title;sheetBody.innerHTML=html;ov.classList.add("on");if(mount)mount();}
 function openPicker(){
-  const h=`<div style="padding:10px 14px 4px"><input id="pickSearch" class="libsearch" placeholder="🔍 Übung suchen (Name, Muskel, Gerät)"></div><div id="pickResults"></div>`;
-  openSheet("Übung hinzufügen",h,()=>{const si=document.getElementById("pickSearch");si.oninput=()=>updatePick(si.value);updatePick("");});
+  const h=`<div style="padding:10px 14px 4px"><input id="pickSearch" class="libsearch" placeholder="\ud83d\udd0d \u00dcbung suchen (Name, Muskel, Ger\u00e4t)"></div><div id="pickResults"></div>`;
+  openSheet("\u00dcbung hinzuf\u00fcgen",h,()=>{const si=document.getElementById("pickSearch");si.oninput=()=>updatePick(si.value);updatePick("");});
 }
 function updatePick(q){
   q=(q||"").trim().toLowerCase();
   let h="";
   CATS.forEach(cat=>{const list=EX.filter(e=>e.cat===cat&&(!q||(e.name+" "+e.musc+" "+e.equip).toLowerCase().includes(q)));if(!list.length)return;
     h+=`<div class="catlabel">${esc(cat)}</div>`;
-    list.forEach(e=>{h+=`<div class="pick" data-add="${e.id}"><div class="plus">＋</div><div class="info"><b>${esc(e.name)}</b><div class="m">${esc(e.musc)}</div><small>${esc(e.scheme)} · ${esc(e.load)} · ${esc(e.equip)}</small></div></div>`;});});
+    list.forEach(e=>{h+=`<div class="pick" data-add="${e.id}"><div class="plus">\uff0b</div><div class="info"><b>${esc(e.name)}</b><div class="m">${esc(e.musc)}</div><small>${esc(e.scheme)} \u00b7 ${esc(e.load)} \u00b7 ${esc(e.equip)}</small></div></div>`;});});
   const box=document.getElementById("pickResults");box.innerHTML=h||`<div class="empty" style="margin:16px">Nichts gefunden.</div>`;
   box.querySelectorAll("[data-add]").forEach(el=>el.onclick=()=>{const e=exById(el.dataset.add);const s=curSetup();
     s.items.push({iid:uid(),exId:e.id,scheme:e.scheme,load:e.load});saveSetups();ov.classList.remove("on");renderEditor();});
@@ -1209,15 +1227,15 @@ function openHistory(exId){
   const e=exById(exId)||{};
   const asc=(history[exId]||[]).slice().sort((a,b)=>a.d.localeCompare(b.d));
   let html="";
-  if(!asc.length){html=`<div class="empty" style="margin:16px"><b>Noch kein Verlauf</b>Speichere ein Training mit dieser Übung – dann erscheint hier deine Entwicklung.</div>`;}
+  if(!asc.length){html=`<div class="empty" style="margin:16px"><b>Noch kein Verlauf</b>Speichere ein Training mit dieser \u00dcbung \u2013 dann erscheint hier deine Entwicklung.</div>`;}
   else{
     let pts=asc.map(en=>{const w=en.sets.filter(s=>typeof s.w==="number"&&!isNaN(s.w));return w.length?{d:en.d,v:Math.round(Math.max(...w.map(s=>e1rm(s.w,s.r)))*10)/10}:null;}).filter(Boolean);
-    let cap="Geschätztes 1RM (kg)";
+    let cap="Gesch\u00e4tztes 1RM (kg)";
     if(pts.length<2){pts=asc.map(en=>({d:en.d,v:Math.max(...en.sets.map(s=>s.r||0))}));cap="Beste Wiederholungen";}
     html+=`<div style="padding:12px 16px 0;color:var(--mut);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase">${cap}</div><div class="chartwrap">${chartSVG(pts)}</div>`;
     html+=asc.slice().reverse().map(en=>`<div class="hrow"><span class="d">${dFull(en.d)}</span><span class="s">${esc(summarize(en))}</span></div>`).join("");
   }
-  openSheet("Verlauf · "+(e.name||""),html);
+  openSheet("Verlauf \u00b7 "+(e.name||""),html);
 }
 
 /* ---------- Misc ---------- */
